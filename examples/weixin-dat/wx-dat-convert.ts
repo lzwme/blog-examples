@@ -41,8 +41,9 @@ export class WxDatConvert {
     this.logger.info('源文件目录:', srcDir);
     this.logger.info('输出文件目录:', destDir);
 
-    const datList = sync(`**/*${ext}`, { cwd: srcDir, absolute: true });
+    const datList = sync(`**/*${ext}`, { cwd: srcDir, absolute: false });
     return datList.map(filepath => {
+      filepath = resolve(srcDir, filepath);
       const item = {
         src: filepath,
         dest: destDir ? filepath.replace(srcDir, destDir) : filepath,
@@ -57,7 +58,7 @@ export class WxDatConvert {
     const stats = await promises.stat(filepath);
     const result = { src: filepath, dest: destpath.replace(/\.dat$/, '.' + ext), md5: fileMd5, stats, ignored: true };
 
-    if (this.options.ignoreThumb && filepath.includes('_thumb.')) return result;
+    if (this.options.ignoreThumb && filepath.includes('_thumb.') || filepath.includes('Thumb')) return result;
 
     if (!this.cache.filesMd5[fileMd5]) {
       this.cache.filesMd5[fileMd5] = [filepath];
@@ -75,10 +76,14 @@ export class WxDatConvert {
 
     result.dest = resolve(destDir, destName);
 
-    if (!existsSync(destDir)) await promises.mkdir(destDir, { recursive: true });
-    await promises.writeFile(result.dest, converted);
     this.logger.debug('ext:', ext, v);
-    this.logger.info('写入文件：', result.dest);
+    if (!existsSync(destDir)) await promises.mkdir(destDir, { recursive: true });
+    if (existsSync(result.dest)) {
+      this.logger.info('文件已存在：', result.dest);
+    } else {
+      await promises.writeFile(result.dest, converted);
+      this.logger.info('写入文件：', result.dest);
+    }
     result.ignored = false;
     return result;
   }
@@ -88,7 +93,7 @@ export class WxDatConvert {
       dest: './output',
       ext: '.dat',
       ignoreThumb: true,
-      minFileSize: 0,
+      minFileSize: 10 * 1024 * 1024,
       ...options,
     };
 

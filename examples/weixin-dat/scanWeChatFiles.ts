@@ -1,5 +1,6 @@
 import { sync } from 'fast-glob';
 import { existsSync, promises } from 'fs';
+import { homedir } from 'os';
 import { resolve } from 'path';
 
 async function getWeChatFilesFromMac(fileTypes: string[]) {
@@ -39,13 +40,39 @@ async function getWeChatFilesFromMac(fileTypes: string[]) {
   return result;
 }
 
-async function getWeChatFilesFromWin(fileTypes: string[]) {
+async function getWeChatFilesFromWin(fileTypes: string[], baseDir?: string) {
   const result: { userInfo: string[]; files: string[] }[] = [];
-  // todo
+
+  if (!baseDir) {
+    // 尝试查找默认的微信文件所在位置
+    const dirs = [resolve(homedir(), 'WeChat Files'), 'D:\\', 'E:\\', 'F:\\', 'G:\\'].filter(d => existsSync(d));
+    for (const dir of dirs) {
+      const list = sync('**/FileStorage', { cwd: dir, absolute: true, suppressErrors: true, deep: 5, onlyDirectories: true });
+
+      if (list.length) {
+        for (const d of list) {
+          const accInfoFile = resolve(d, '../config/AccInfo.dat');
+          if (existsSync(accInfoFile)) {
+            const userInfo = (await promises.readFile(accInfoFile, 'utf8'))
+              .split('�')
+              .map(d => d.slice(2).trim())
+              .filter(Boolean);
+            const files = sync(`**/*.{${fileTypes.join(',')}}`, {
+              cwd: d,
+              absolute: true,
+            });
+
+            if (userInfo.length || files.length) result.push({ userInfo, files });
+          }
+        }
+      }
+    }
+  }
+
   return result;
 }
 
-export function scanWeChatFiles(fileTypes: string[] = []) {
+export function scanWeChatFiles(fileTypes: string[] = [], baseDir?: string) {
   if (!fileTypes.length) fileTypes = `dat,jpg,png,gif,bmp,pdf,doc,docx,xls,xlsx,ppt,pptx,avi`.split(',');
 
   return process.platform === 'win32' ? getWeChatFilesFromWin(fileTypes) : getWeChatFilesFromMac(fileTypes);
