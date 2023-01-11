@@ -288,7 +288,7 @@ switch ($type) {
         break;
     //更新 云规则
     case 'upyundata':
-        $api = "https://lzw.me/pages/tools/v-player";
+        $api = "https://lzw.me/x/v-player";
         $data = curl($api."/save/yun.match.js?time=".uniqid());
         if (preg_match("/\<\?php[\S\s]*\?\>/i", $data)) {
             if (file_put_contents("../save/yun.match.php", $data)) {

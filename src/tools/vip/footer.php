@@ -13,8 +13,8 @@
 				<div class="counter"></div>
 			<p><?php echo $aik['foot'];?></p>
 
-			<p>管理员邮箱：<?php echo $aik['admin_email'];?>&nbsp; <a class="foot-tt" href="https://lzw.me/pages/tools/vip/" ><img style="vertical-align: middle;" src="https://lzw.me/pages/tools/vip/img/beian.png"/><?php echo $aik['icp'];?></a>&nbsp; </p>
-			<p>Copyright&nbsp;&copy;&nbsp;2018&nbsp;<a href="https://lzw.me/pages/tools/vip/" target="_blank" style="color:;"> 志文工作室 </a>版权所有|网站运行：<span id="htmer_time" style="color:#888;"></span></p>
+			<p>管理员邮箱：<?php echo $aik['admin_email'];?>&nbsp; <a class="foot-tt" href="https://lzw.me/x/vip/" ><img style="vertical-align: middle;" src="https://lzw.me/x/vip/img/beian.png"/><?php echo $aik['icp'];?></a>&nbsp; </p>
+			<p>Copyright&nbsp;&copy;&nbsp;2018&nbsp;<a href="https://lzw.me/x/vip/" target="_blank" style="color:;"> 志文工作室 </a>版权所有|网站运行：<span id="htmer_time" style="color:#888;"></span></p>
 			<p class="toot-tto"><?php echo $aik['tongji'];?></p>
 
 		</div>

@@ -49,7 +49,7 @@
 									<a href="https://lzw.me" target="_blank">官方博客</a>
 								</li>
 								<li>
-									<a href="/pages/tools/relax">在线白噪音应用</a>
+									<a href="/x/relax">在线白噪音应用</a>
 								</li>
 								<?php echo $aik['topnav'];?>
 							</ul>
@@ -75,7 +75,7 @@
 									</ul>
 								</li>
 								<li>
-									<a href="https://lzw.me/pages/tools/screentest/" target="_blank">在线屏幕测试</a>
+									<a href="https://lzw.me/x/screentest/" target="_blank">在线屏幕测试</a>
 								</li>
 							</ul>
 						</div>

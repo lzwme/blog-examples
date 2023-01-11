@@ -1,33 +1,33 @@
 <?php
  $aik = array(
   'sitename' => 'VIP全网解析',
-  'pcdomain' => 'https://lzw.me/pages/tools/vip/',
+  'pcdomain' => 'https://lzw.me/x/vip/',
   'title' => 'VIP视频全网解析',
   'keywords' => '优酷VIP解析,爱奇艺VIP解析,腾讯VIP解析,乐视VIP解析,芒果VIP解析,全网视频解析,VIP在线解析,视频VIP在线解析,VIP视频在线解析',
   'description' => '本站为广大网友提供优酷VIP解析，爱奇艺VIP解析，腾讯VIP解析，乐视VIP解析，芒果VIP解析等解析服务，让你省去购买视频VIP费用，欢迎大家收藏本站，并将它介绍给您的朋友！',
   'weibourl' => 'https://lzw.me',
   'weibo' => '',
   'gonggao' => '若视频播放异常，尝试刷新或更换接口即可解决！',
-  'gonggaourl' => 'https://lzw.me/pages/tools/vip/',
+  'gonggaourl' => 'https://lzw.me/x/vip/',
   'maurl' => 'https://www.iqiyi.com/v_19rrjbdi0s.html',
 
   'topnav' => '',
   'ch1' => '',
   'guanggao' => '',
   'changyan' => '',
-  'homelink' => '<a href="https://lzw.me/pages/tools/vip/" target="_blank"style="color:#888;margin:0 10px;">
+  'homelink' => '<a href="https://lzw.me/x/vip/" target="_blank"style="color:#888;margin:0 10px;">
 			VIP视频在线解析官网
 		</a>|
 
-		<a href="https://lzw.me/pages/tools/vip/" target="_blank"style="color:#888;margin:0 10px;">
+		<a href="https://lzw.me/x/vip/" target="_blank"style="color:#888;margin:0 10px;">
 			VIP影院
 		</a>|
 
-    <a href="https://lzw.me/pages/tools/vip/" target="_blank"style="color:#888;margin:0 10px;">
+    <a href="https://lzw.me/x/vip/" target="_blank"style="color:#888;margin:0 10px;">
 			非常开心
 		</a>|
 
-    <a href="https://lzw.me/pages/tools/vip/" target="_blank"style="color:#888;margin:0 10px;">
+    <a href="https://lzw.me/x/vip/" target="_blank"style="color:#888;margin:0 10px;">
 			假装开心☺
 		</a>|
 

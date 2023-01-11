@@ -1,0 +1,30 @@
+{
+  "name": "relax",
+  "version": "1.0.0",
+  "description": "A white noise application",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amery2010/relax.git"
+  },
+  "keywords": [
+    "white",
+    "noise"
+  ],
+  "author": "Amery",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Amery2010/relax/issues"
+  },
+  "homepage": "https://github.com/Amery2010/relax#readme",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-csscomb": "^3.0.8"
+  }
+}

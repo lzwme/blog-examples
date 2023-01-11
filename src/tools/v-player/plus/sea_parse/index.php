@@ -54,7 +54,7 @@ object-fit:fill;
 
 <script type="text/javascript">
 var url='<?php echo $url ?>'; var cip='null';
-var api="https://lzw.me/pages/tools/v-player/?url=" ;
+var api="https://lzw.me/x/v-player/?url=" ;
 function tipstime(count){
     $('.timemsg').text(count);
     if (count === 20) {

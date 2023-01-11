@@ -2,7 +2,7 @@
 
 vip 视频解析，支持主流视频网站，仅学习使用
 
-点击链接查看：[https://lzw.me/pages/tools/vip/](https://lzw.me/pages/tools/vip/)
+点击链接查看：[https://lzw.me/x/vip/](https://lzw.me/x/vip/)
 
 github地址：[https://github.com/lzwme/blog-examples](https://github.com/lzwme/blog-examples)
 

@@ -5,7 +5,7 @@
 //微信令牌，请与微信公众号后台同步
 define("TOKEN", "weixin");
 //解析地址
-define("API", "https://lzw.me/pages/tools/v-player/");
+define("API", "https://lzw.me/x/v-player/");
 //显示数量
 define("NUM", "5");
 //公众号名称
