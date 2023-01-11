@@ -5,26 +5,35 @@
   <meta charset="UTF-8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-  <title>今天吃啥呀？- 大雄搜集站</title>
-  <meta name="keywords" content="今天吃啥呀" />
-  <meta name="description" content="【今天吃啥呀】是大雄搜集站旗下用餐推荐小站，再也不用为今天吃什么发愁了。" />
+  <title>今天吃啥呀？- 志文工作室</title>
+  <meta name="keywords" content="今天吃啥呀,中午吃什么" />
+  <meta name="description" content="今天吃啥呀？再也不用为今天吃什么发愁了" />
   <link rel="stylesheet" type="text/css" href="eat-min.css">
 </head>
 
 <body>
   <div class="logo"><img src="logo.png" /></div>
+
   <div id="wrapper">
     <h1 style="color:#FF9733" id="what"></h1>
-    </h1>
     <input type="button" value="开始" id="start" />
+    <p><span id="cfg" title="编辑候选菜单"><i class="fa fa-pencil"></i>&nbsp;自定义</span>
+      <a href="javascript:location.reload();" id="cx" style="display: none"><i class="fa fa-undo"></i>&nbsp;重选</a></p>
   </div>
-  <textarea rows="9" cols="53" id="list" style="display:none">
-	馄饨 拉面 烩面 热干面 刀削面 油泼面 炸酱面 炒面 重庆小面 米线 酸辣粉 土豆粉 螺狮粉 凉皮儿
-	麻辣烫肉夹馍 羊肉汤 炒饭 盖浇饭 卤肉饭 烤肉饭 黄焖鸡米饭 驴肉火烧 川菜 麻辣香锅 火锅 酸菜鱼 烤串 披萨
-	烤鸭 汉堡 炸鸡 寿司 蟹黄包 粽子 煎饼果子 生煎 炒年糕 盖浇饭 砂锅 大排档 米线 满汉全席 西餐 麻辣烫 自助餐
-	炒面 快餐 水果 西北风 馄饨 火锅 烧烤 泡面 速冻水饺 日本料理 涮羊肉 味千拉面 肯德基 面包 扬州炒饭 自助餐
-	茶餐厅 海底捞 咖啡 比萨 麦当劳 兰州拉面 沙县小吃 烤鱼 海鲜 铁板烧 韩国料理 粥 快餐 东南亚菜 甜点 农家菜
-	川菜 粤菜 湘菜 本帮菜 竹笋烤肉 牛蛙 水煮肉片 水煮鱼片</textarea>
+
+  <div id="popbox-wrapper" style="display: none;">
+    <div id="popbox">
+      <h3>自定义临时菜单<br><small style="display:block;color: #666; font-size: 12px; font-weight: 100;margin-top: 3px;">- 菜名间要以空格区分 -</small></h3>
+      <textarea type="hidden" id="list" name="list" placeholder="在此输入菜单，各菜名间以空格分隔...">馄饨 拉面 烩面 热干面 刀削面 油泼面 炸酱面 炒面 重庆小面 米线 酸辣粉 土豆粉 螺狮粉 凉皮儿
+麻辣烫肉夹馍 羊肉汤 炒饭 盖浇饭 卤肉饭 烤肉饭 黄焖鸡米饭 驴肉火烧 川菜 麻辣香锅 火锅 酸菜鱼 烤串 披萨
+烤鸭 汉堡 炸鸡 寿司 蟹黄包 粽子 煎饼果子 生煎 炒年糕 盖浇饭 砂锅 大排档 米线 满汉全席 西餐 麻辣烫 自助餐
+炒面 快餐 水果 西北风 馄饨 火锅 烧烤 泡面 速冻水饺 日本料理 涮羊肉 味千拉面 肯德基 面包 扬州炒饭 自助餐
+茶餐厅 海底捞 咖啡 比萨 麦当劳 兰州拉面 沙县小吃 烤鱼 海鲜 铁板烧 韩国料理 粥 快餐 东南亚菜 甜点 农家菜
+川菜 粤菜 湘菜 本帮菜 竹笋烤肉 牛蛙 水煮肉片 水煮鱼片 鸭血粉丝汤 西北风</textarea>
+      <input type="button" value="确定" id="ok">
+    </div>
+  </div>
+
   <footer>
     <div class="copyright">
       <p>
@@ -37,14 +46,27 @@
   <script type='text/javascript' src='https://lzw.me/pages/_lib/jquery.min.js'></script>
   <script>
     $(function () {
-      var run = 0;
-      var timer;
-
-      $('#currentYear').text(new Date().getFullYear());
+      var run = 0,
+        btn = $("#start"),
+        popup = $("#popbox-wrapper"),
+        li = $("#list"),
+        times = 0,
+        timer;
 
       $("#start").click(function () {
-        var list = $("#list").val().replace(/ +/g, " ").replace(/^ | $/g, "").split(" ");
+        var list = $("#list").val().replace(/\n/g, ' ').replace(/ +/g, " ").trim().split(" ");
+        if (list.length == 1 && list[0] != "") return alert("耍我是吧，一个有什么好选的！");
+        if (list.length == 1) return alert("菜单中啥也没有，吃西北风去吧？");
+
         if (!run) {
+          $("#cfg").add(btn).one("click", function () {
+            $(".tip").animate({
+              left: "+=10px",
+              opacity: 0
+            }, function () {
+              $(this).remove();
+            });
+          });
           $(this).val("停止");
           timer = setInterval(function () {
             var r = Math.ceil(Math.random() * list.length),
@@ -72,20 +94,28 @@
         };
       });
 
-      document.onkeydown = function enter(e) {
-        var e = e || event;
-        if (e.keyCode == 13) $("#start").trigger("click");
-      };
-    });
+      $("#cfg").click(function () {
+        run ? alert("还在选呢！") : popup.fadeIn(function () {
+          var t = li.val();
+          li.focus().val("").val(t);
+        });
+      });
 
-    $i = 0;
-    $('#start').click(function () {
-      $i++;
-      if ($i >= 10) {
-        $('#start').hide();
-        $('#what').html('这么挑？饿着吧！');
-      }
-    })
+      $("#ok").click(function () {
+        popup.fadeOut();
+      });
+
+      $i = 0;
+      $('#start').click(function () {
+        $i++;
+        if ($i >= 12) {
+          $('#start').hide();
+          $('#what').html('这么挑？饿着吧！');
+          $('#cfg').hide();
+          $('#cx').show();
+        };
+      })
+    });
 
     document.oncontextmenu = function (event) {
       if (window.event) {
@@ -100,6 +130,27 @@
         return false;
       }
     }
+
+    var h = $(window).height();
+    $(window).resize(function () {
+      if ($(window).height() < h) {
+        $('.copyright').css("display", "none");
+      } else {
+        $('.copyright').css("display", "block");
+      }
+    });
+
+    $('#currentYear').text(new Date().getFullYear());
+  </script>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1c720b7315e37bbf488afd28e60002bf";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
   </script>
 </body>
 
