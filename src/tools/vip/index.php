@@ -40,7 +40,9 @@
 			        <span class="icon-bar"></span>
 			      </button>
 							<!--logo图标-->
-							<a class="navbar-brand logo" href="#"></a>
+							<a class="navbar-brand logo" href="#">
+								<span>VIP视频解析</span>
+							</a>
 						</div>
 						<!-- pc导航样式 -->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

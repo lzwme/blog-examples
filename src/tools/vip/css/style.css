@@ -97,14 +97,23 @@ header .navbar-toggle {
 /*../img/jingling.png*/
 .logo {
 	display: inline-block;
-	width: 150px;
-	height: 42px;
-	float: left;
-	background-position: -183px 0;
-	background-image: url(../img/newlogo.png );
-	background-repeat: no-repeat;
+    width: 36px;
+    height: 42px;
+    float: left;
+    background-position: -183px 0;
+    background-image: url(../img/newlogo.png);
+    background-repeat: no-repeat;
+    position: relative;
+    margin-right: 130px !important;
 }
 
+.logo span {
+	position: absolute;
+    left: 44px;
+    width: 120px;
+	top: 10px;
+    color: #fff;
+}
 
 /*video-box样式*/ /*../img/mbj.jpg*/
 
@@ -355,6 +364,10 @@ div.url-box .btn-play:hover {
 	}
 	.logo {
 		background-position: 0px 0;
+	}
+	.logo span {
+		top: initial;
+		color: #222;
 	}
 	header .navbar-nav>li>a {
 		line-height: 40px;

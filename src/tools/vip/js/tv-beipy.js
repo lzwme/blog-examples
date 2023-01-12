@@ -10,6 +10,7 @@
     },
     urls: [
       ['https://jx.yparse.com/index.php?url='],
+      ['https://jx.xmflv.com/?url='],
       ['https://okjx.cc/?url='],
       ['https://www.jiexila.com/?url='],
       ['https://www.nxflv.com/?url='],
@@ -22,6 +23,12 @@
       ['https://www.ckmov.vip/api.php?url='],
       ['https://www.h8jx.com/jiexi.php?url='],
       ['https://vip.laobandq.com/jiexi.php?url='],
+      ['https://jx.jsonplayer.com/player/?url='],
+      ['http://vip.26db.cn/c/?url='],
+      ['https://www.8090g.cn/?url='],
+      ['https://jx.m3u8.tv/jiexi/?url='],
+      ['https://www.pangujiexi.cc/jiexi.php?url='],
+      ['https://jx.playerjy.com/?url='],
     ],
     play: function () {
       var rul = VIP.el.urlInput.value; //获取input链接

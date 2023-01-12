@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网易云音乐热评墙 - 志文工作室</title>
+    <meta name="description" content="网易云热评墙，热评音乐在线随心听! " />
+    <meta name="keywords" content="云音乐,网易云音乐评论" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="main.css" />
+    <script src="//lzw.me/pages/_lib/jquery3/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <header id="header">
+            <div class="logo">
+                <img src="" class="logo" id="img">
+            </div>
+            <div class="content">
+                <div class="inner">
+                    <h1 id="title"></h1>
+                    <p id="yh"></p>
+                    <p id="pl"></p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="javascript:;" onClick="bf()" id="bf">播放</a></li>
+                    <li><a href="javascript:;" onClick="Nextone()">下一首</a></li>
+                    <li><a href="javascript:;" onClick="copyUrl2()">复制热评</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section style="margin: 10px auto;">
+            <audio src="" id="mp3" autoplay>
+                您的浏览器不支持 audio 元素。
+            </audio>
+        </section>
+        <footer id="footer">
+            <p class="copyright ">
+                <a target="_blank" href="https://lzw.me/links">
+                    <span class="cp">Copyright © 志文工作室; 2008-<span id="currentYear"></span>, All Rights Reserved.</span>
+                </a>
+            </p>
+        </footer>
+        <!--底部-->
+    </div>
+    <div id="bg"></div>
+</body>
+<script>
+    (function () {
+        var _hmt = _hmt || [];
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?1c720b7315e37bbf488afd28e60002bf";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function () {
+        var aud = document.getElementById("mp3");
+        aud.onended = function () {
+            Nextone();
+        };
+
+        Nextone();
+        $('#currentYear').text(new Date().getFullYear());
+    });
+    function bf() {
+        var audio = document.getElementById('mp3');
+        if (audio !== null) {
+            if (audio.paused) {
+                audio.play();
+                $("#bf").html("暂停");
+            } else {
+                audio.pause();
+                $("#bf").html("播放");
+            }
+        }
+    }
+    function Nextone() {
+        $.getJSON("https://api.uomg.com/api/comments.163?format=json", function (json) {
+            Object.entries(json.data).forEach(d => {
+                json[d[0]] = String(d[1]).replace(/^http:/, 'https:');
+            });
+
+            $("#title").html(json.data.name + "(" + json.data.artistsname + ")");
+            $("#mp3").attr("src", json.data.url);
+            $("#mp3").attr('controls', 'controls');
+            $("#img").attr("src", json.data.picurl);
+            $("#img2").attr("src", json.data.avatarurl);
+            $("#yh").html("来自网易云用户@" + json.data.nickname + "的评论：");
+            $("#pl").html(json.data.content);
+        });
+    }
+    function copyUrl2() {
+        var Url2 = document.getElementById("pl").innerText;
+        var oInput = document.createElement('input');
+        oInput.value = Url2;
+        document.body.appendChild(oInput);
+        oInput.select(); // 选择对象
+        document.execCommand("Copy");  // 执行浏览器复制命令
+        oInput.style.display = 'none';
+        alert("复制成功")
+    }
+</script>
+</html>
