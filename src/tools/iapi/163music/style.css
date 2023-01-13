@@ -1,0 +1,112 @@
+body {
+  width: 100%;
+  height: 100%;
+  /* background: url(./api.php?n=10) no-repeat; */
+  -moz-background-size: cover;
+  /*背景图片拉伸以铺满全屏*/
+  -ms-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 150px;
+}
+
+.useage {
+  background: rgba(200, 200, 200, .8);
+  padding: 15px;
+  width: 80%;
+  min-height: 60vh;
+  margin: auto;
+  margin-top: 10%;
+}
+
+.demo input {
+  width: 50vw;
+}
+
+.demo>div {
+  margin: 10px auto;
+}
+
+pre {
+  background: #ccc;
+  border-radius: 5px;
+  padding: 1em;
+  margin: 15px;
+  max-height: 300px;
+  overflow: auto;
+}
+
+#url {
+  word-break: break-all;
+  padding: 15px 0;
+}
+
+#lrc {
+  background: #607d8b;
+  max-height: 300px;
+  overflow: auto;
+  color: #fff;
+  display: none;
+}
+
+#toplistContain {
+  position: fixed;
+  bottom: 0;
+  left: calc(5vw - 15px);
+  width: 90vw;
+  background: #fff;
+  padding: 36px 15px 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: none;
+}
+
+#toplistContain .toplist-info {
+  max-height: 80vh;
+  overflow: auto;
+  padding: 0;
+}
+
+#toplistContain .toplist-info li {
+  font-size: 14px;
+  margin: 5px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+#toplistContain span.idx {
+  padding-right: 5px;
+  color: #4caf50;
+}
+
+#toplistContain .title {
+  min-width: 70%;
+}
+
+#toplistContain .author {
+  font-size: 12px;
+  color: #888;
+}
+
+#toplistContain .play {
+  margin-left: 15px;
+  padding: 2px 8px;
+  background: #607d8b;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+#toplistContain .expand {
+  cursor: pointer;
+  padding: 8px;
+  text-align: center;
+  background: #39f;
+  color: #fff;
+  border-radius: 18px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+}

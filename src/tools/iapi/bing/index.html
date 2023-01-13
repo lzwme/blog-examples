@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>必应每日壁纸API - 志文工作室</title>
+  <style>
+    body {
+      width: 100%;
+      height: 100%;
+      /* background: url(./api.php) no-repeat; */
+      -moz-background-size: cover;
+      /*背景图片拉伸以铺满全屏*/
+      -ms-background-size: cover;
+      -webkit-background-size: cover;
+      background-size: cover;
+    }
+
+    .useage {
+      background: rgba(200, 200, 200, .8);
+      padding: 15px;
+      width: 80%;
+      margin: auto;
+      margin-top: 10%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="useage">
+    <h1>必应每日壁纸API - 用法</h1>
+
+    <pre>
+      // 返回第一张图片，并重定向到图片地址
+      https://lzw.me/x/iapi/bing/api.php
+
+      // `json`: 指定返回为 json 信息
+      https://lzw.me/x/iapi/bing/api.php?json=1
+
+      // `n` 指定返回数量。默认是 1，最多返回 8 条。若大于 1，返回图片从结果列表中随机取
+      https://lzw.me/x/iapi/bing/api.php?n=8
+      https://lzw.me/x/iapi/bing/api.php?json=1&n=8
+
+      // `idx` 请求图片截止天数(-1 明天，0 今天，1 昨天，2 前天， 最多为 7，即 8 天前)。默认是 0
+      https://lzw.me/x/iapi/bing/api.php?json=1&n=8&idx=1
+    </pre>
+  </div>
+  <script>
+    const bg = '//lzw.me/x/iapi/bing/api.php?n=10&idx=' + Math.ceil(Math.random() * 7);
+    document.body.setAttribute('style', `background-image: url(${bg}); background-repeat: no-repeat`);
+  </script>
+</body>
+
+</html>

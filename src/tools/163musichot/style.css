@@ -1715,3 +1715,91 @@ body.is-article-visible #footer {
 body.is-loading #footer {
     opacity: 0;
 }
+
+#pl {
+    cursor: pointer;
+}
+
+#toplistContain {
+  position: fixed;
+  bottom: 0;
+  left: calc(5vw - 15px);
+  width: 90vw;
+  background: #394a52;
+  padding: 50px 15px 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: none;
+  z-index: 100;
+  color: #fff;
+}
+
+#toplistContain .toplist-info {
+  max-height: 80vh;
+  overflow: auto;
+  padding: 0;
+  margin: 0;
+}
+
+#toplistContain .toplist-info li {
+  font-size: 14px;
+  margin: 5px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+#toplistContain span.idx {
+  padding-right: 5px;
+  color: #4caf50;
+}
+
+#toplistContain .title {
+  min-width: 70%;
+}
+
+#toplistContain .author {
+  font-size: 12px;
+  color: #aaa;
+}
+
+#toplistContain .play {
+  margin-left: 5px;
+  margin-right: 8px;
+  padding: 2px 8px;
+  background: #607d8b;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+#toplistContain .play:hover {
+  background: #3f9;
+}
+
+#toplistContain .expand {
+  cursor: pointer;
+  padding: 8px;
+  text-align: center;
+  background: #39f;
+  color: #fff;
+  border-radius: 18px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,.2);
+  border-radius: 6px;
+}
+
+::--webkit-scrollbar-track {
+  background-color: #eee;
+  border-radius: 6px;
+}

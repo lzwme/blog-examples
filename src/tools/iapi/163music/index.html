@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网易云音乐 Mp3 获取与下载 API - 志文工作室</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="useage">
+    <h1>网易云音乐 Mp3 获取与下载 API</h1>
+
+    <h2>DEMO</h2>
+    <div class="demo">
+      <div class="get-music">
+        <input type="text" id="ids" placeholder="输入云音乐播放页地址，或音乐id" value="https://music.163.com/#/song?id=2013097125">
+        <button id="queryBtn">获取歌曲</button>
+      </div>
+      <div class="get-music">
+        <input type="text" id="toplist" placeholder="输入云音乐榜单地址或 id" value="https://music.163.com/#/discover/toplist?id=3778678">
+        <button id="toplistQueryBtn">获取榜单</button>
+      </div>
+
+      <div id="audio"></div>
+      <div id="url"></div>
+      <pre id="lrc"></pre>
+      <div id="toplistContain"></div>
+    </div>
+
+    <h2>API 用法示例</h2>
+
+    <pre>
+  // ---- 歌曲 mp3 地址、歌词信息接口 USEAGE ----
+
+  // 传入网易云音乐 id，返回包含高清 mp3 的 json 信息
+  https://lzw.me/x/iapi/163music/api.php?id=2013097125
+
+  // `br=128000` 音质类型。可选值： 128000、192000、320000(默认)
+  https://lzw.me/x/iapi/163music/api.php?id=2013097125&br=128000
+
+  // `type=all`: 返回其 mp3、lyric、detail 信息
+  https://lzw.me/x/iapi/163music/api.php?type=all&id=2013097125
+
+  // `type=lyric`: 返回歌词信息
+  https://lzw.me/x/iapi/163music/api.php?type=all&id=2013097125
+
+  // `type=detail`: 返回歌曲详情
+  https://lzw.me/x/iapi/163music/api.php?type=all&id=2013097125
+
+
+  // ---- 榜单接口 USEAGE ----
+
+  // 获取随机热榜歌曲与热评（默认）：
+  https://lzw.me/x/iapi/163music/hot.php
+
+  // 获取随机热榜歌曲与热评（包含多条热评）：
+  https://lzw.me/x/iapi/163music/hot.php?hotcomments=1
+
+  // 获取热榜列表：
+  https://lzw.me/x/iapi/163music/hot.php?type=playlist
+
+  // 获取指定歌曲评论：
+  https://lzw.me/x/iapi/163music/hot.php?type=comment&id=123456
+
+  // 获取任意 id 的榜单：
+  https://lzw.me/x/iapi/163music/api.php?type=toplist&id=19723756[&interval=3600]
+  https://lzw.me/x/iapi/163music/hot.php?type=toplist&id=19723756[&interval=3600]
+</pre>
+
+  </div>
+  <script>
+    const bg = '//lzw.me/x/iapi/bing/api.php?n=10&idx=' + Math.ceil(Math.random() * 7);
+    document.body.setAttribute('style', `background-image: url(${bg}); background-repeat: no-repeat`);
+
+    let url = '';
+    const el = {
+      ids: document.getElementById('ids'),
+      toplist: document.getElementById('toplist'),
+      url: document.getElementById('url'),
+      queryBtn: document.getElementById('queryBtn'),
+      toplistQueryBtn: document.getElementById('toplistQueryBtn'),
+      toplistContain: document.getElementById('toplistContain'),
+      download: document.getElementById('downloadBtn'),
+      audio: document.getElementById('audio'),
+      lrc: document.getElementById('lrc'),
+    };
+
+    const playMp3 = (ids) => {
+      fetch(`./api.php?type=all&url=${encodeURIComponent(ids)}`).then(d => d.json()).then(d => {
+        const mp3 = d.mp3;
+        if (!mp3 || !mp3.url) return alert('获取歌曲信息失败！');
+        url = mp3.url;
+        el.audio.innerHTML = `<audio controls autoplay><source src="${url}" type="audio/mpeg"></audio>`;
+        el.url.innerHTML = `<h2 class="title">${d.detail.name}</h2><a download href="${url}" target="_blank">${url}</a>`;
+        el.lrc.style.display = 'block';
+        el.lrc.innerText = d.lyric.lrc.lyric;
+      });
+    }
+
+    el.queryBtn.addEventListener('click', () => {
+      const ids = el.ids.value.trim();
+      if (!ids || ids.length < 5) {
+        return alert('请输入云音乐播放地址或id');
+      }
+      playMp3(ids);
+
+    }, false);
+
+    el.toplistQueryBtn.addEventListener('click', () => {
+      let id = /\d{5,}/.exec(el.toplist.value);
+      if (id) id = id[0];
+      if (!id || id.length < 5) {
+        return alert('请输入云音乐播放地址或id');
+      }
+
+      fetch(`./hot.php?type=toplist&id=${id}`).then(d => d.json()).then(d => {
+        console.log('榜单信息', d);
+        if (d.code !== 200) return alert(d.errmsg || '获取失败！');
+
+        let htmllist = [];
+        d.result.tracks.forEach((n, idx) => {
+          htmllist.push(`<li>`,
+            `<span class="left">`,
+              `<span class="idx">${idx}</span>`,
+              d.ablum ? `<img src="${d.ablum.picUrl}">` : '',
+              `<span class="tilte">${n.name} - <span class="author">${n.artists ? n.artists.map(m => m.name).join(',') : ''}</span></span>`,
+            `</span>`,
+            `<span class="play" data-id="${n.id}">播放</span>`,
+            `</li>`);
+        });
+
+        el.toplistContain.style.display = 'block';
+        el.toplistContain.innerHTML = `<div class="expand on">收起/展开</div><ul class="toplist-info">${htmllist.join('')}</ul>`;
+      });
+    }, false);
+
+    el.toplistContain.addEventListener('click', (ev) => {
+      console.log(ev, ev.target);
+      const list = el.toplistContain.querySelector('ul');
+      const id = ev.target.getAttribute('data-id');
+      if (id) {
+        playMp3(id);
+      } else {
+        if (ev.target.classList.value.includes('on')) {
+          list.style.maxHeight = '50px';
+          ev.target.classList.replace('on', 'off');
+        } else if (ev.target.classList.value.includes('off')) {
+          list.style.maxHeight = '80vh';
+          ev.target.classList.replace('off', 'on');
+        }
+      }
+    }, false);
+  </script>
+</body>
+
+</html>
