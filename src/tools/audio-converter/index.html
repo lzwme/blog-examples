@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="full-screen" content="yes">
+    <meta name="browsermode" content="application">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="author" content="lzw.me">
+
+    <title>音乐文件免费在线转换工具 - 支持 mp3、ogg、aac、wav 等各种格式互相转换</title>
+    <meta name="keywords" content="ogg转mp3,mp3转ogg" />
+    <meta name="description" content="一个音乐文件在线转换工具，支持当前浏览器支持播放的所有音乐格式之间互相转换" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>音频文件在线转换工具</h1>
+        <div class="audio-type">
+            <span class="title">源文件格式</span>
+            <span class="source audio-type">mp3</span>
+        </div>
+        <div class="audio-type">
+            <span class="title">目标文件格式</span>
+            <select id="atTarget">
+                <option value="mp3" selected>mp3</option>
+                <option value="ogg">ogg</option>
+                <option value="aac">aac</option>
+            </select>
+        </div>
+    
+        <div class="select-file">
+            <input id="inputFile" type="file" accept=".mp3, .wav, .aac, .ogg" class="input-file">
+        </div>
+    
+        <div class="download">
+            <button disabled="disabled" id="download">转换并下载</button>
+        </div>
+    </div>
+</body>
+<script src="../lib/utils/h5-common.js"></script>
+<script src="main.js"></script>
+</html>

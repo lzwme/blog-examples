@@ -7,9 +7,9 @@ function allowCROS($origin = '')
         if (isset($_SERVER['HTTP_ORIGIN'])) {
             $origin = $_SERVER['HTTP_ORIGIN'];
         } else if (isset($_SERVER['HTTP_REFERER'])) {
-            preg_match('/https?:\/\/[a-z0-1\.\-]/i', $_SERVER['HTTP_REFERER'], $match);
+            preg_match('/https?:\/\/[a-z0-1\.\-]+/i', $_SERVER['HTTP_REFERER'], $match);
             if ($match) {
-                $origin = $match;
+                $origin = $match[0];
             }
         }
     }
@@ -17,6 +17,16 @@ function allowCROS($origin = '')
     header("Access-Control-Allow-Origin:" . $origin);
     header('cache-control: no-cache');
     header('Content-Type:application/json; charset=utf-8');
+}
+
+function tryGetReqParam($keys, $default) {
+    $keysList = is_string($keys) ? array([$keys]) : $keys;
+
+    foreach ($keysList as $key => $value) {
+        if (isset($_REQUEST[$value])) return $_REQUEST[$value];
+    }
+
+    return $default;
 }
 
 /**
@@ -91,7 +101,7 @@ function get_hot_playlist($times = 0)
 
     if ($rel['code'] != 200) {
         if ($times < 3) {
-            sleep(0.2);
+            usleep(200);
             return get_hot_playlist($times + 1);
         }
 
@@ -142,6 +152,13 @@ function get_music_detail($ids, $toJson = false)
 function get_mv_detail($id, $toJson = false)
 {
     $url = "https://music.163.com/api/mv/detail?id={$id}&type=mp4";
+    $rel = file_get_contents($url);
+    return $toJson ? json_decode($rel, true) : $rel;
+}
+
+function music_search($keyword, $offset = 0, $toJson = false) 
+{
+    $url = "https://music.163.com/api/search/get/web?csrf_token=hlpretag=&hlposttag=&s={$keyword}&type=1&offset={$offset}&total=true&limit=2";
     $rel = file_get_contents($url);
     return $toJson ? json_decode($rel, true) : $rel;
 }

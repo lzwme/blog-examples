@@ -16,13 +16,9 @@
 		<script type="text/javascript" src="js/bootstrap.js"></script>
 
 		<link rel="stylesheet" href="css/style.css" />
-		<!--浏览器标签ico-->
 		<link rel="shortcut icon" href="img/favicon.ico" />
-		<!--书签标签-->
 		<link rel="bookmark" href="img/tvico.png" />
-		<!--苹果桌面标题-->
 		<meta name="apple-mobile-web-app-title" content="VIP视频解析">
-		<!--苹果桌面图标-->
 		<link rel="apple-touch-icon-precomposed" sizes="180x180" href="img/tvlogo.png">
 	</head>
 
@@ -47,38 +43,53 @@
 						<!-- pc导航样式 -->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
-								<li>
+								<!-- <li>
 									<a href="https://lzw.me" target="_blank">官方博客</a>
-								</li>
-								<li>
-									<a href="/x/relax">在线白噪音应用</a>
-								</li>
+								</li> -->
 								<?php echo $aik['topnav'];?>
 							</ul>
 							<!--导航 右侧-->
 							<ul class="nav navbar-nav navbar-right">
 
 								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="badge" style="background: red;">1</span>  旗下网站 <span class="caret"></span></a>
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="badge" style="background: red;">1</span>好玩<span class="caret"></span></a>
 									<ul class="dropdown-menu">
 										<li>
 											<a href="https://lzw.me" target="_blank" title="志文工作室">官方博客</a>
 										</li>
 										<li>
+											<a href="/x/relax" target="_blank">白噪音促眠</a>
+										</li>
+										<li>
 											<a href="https://lzw.me/pages/djt" target="_blank" title="毒鸡汤">毒鸡汤</a>
+										</li>
+										<li>
+											<a href="https://lzw.me/v" target="_blank" title="小姐姐福利短视频在线看">福利短视频</a>
+										</li>
+										<li>
+											<a href="https://lzw.me/pages/games" target="_blank" title="解压小游戏">解压H5小游戏</a>
 										</li>
 										<li role="separator" class="divider"></li>
 										<li>
-											<a href="https://lzw.me/v" target="_blank" title="小姐姐福利短视频在线看">短视频</a>
+											<a href="https://lzw.me/x/screentest/" target="_blank">在线屏幕测试</a>
 										</li>
 										<li>
-											<a href="http://lzw.me/pages/m3u8/" target="_blank" title="m3u8视频流在线解析转换mp4格式下载">m3u8在线下载</a>
+											<a href="http://lzw.me/x/m3u8-player/" target="_blank" title="">M3U8视频在线播放器</a>
+										</li>
+										<li>
+											<a href="http://lzw.me/pages/m3u8-download/" target="_blank" title="">M3U8下载工具网页版</a>
+										</li>
+										<li>
+											<a href="http://lzw.me/pages/m3u8/" target="_blank" title="m3u8视频流在线解析转换mp4格式下载">m3u8在线播放与下载</a>
+										</li>
+										<li>
+											<a href="https://lzw.me/x/random-password/" target="_blank" title="随机生成高安全强度的密码工具">随机密码生成器</a>
 										</li>
 									</ul>
 								</li>
-								<li>
-									<a href="https://lzw.me/x/screentest/" target="_blank">在线屏幕测试</a>
-								</li>
+								<!-- <li>
+									<a href="https://lzw.me/" target="_blank">博客</a>
+								</li> -->
 							</ul>
 						</div>
 					</div>
@@ -94,7 +105,7 @@
 				</div>
 
 				<iframe id="palybox"
-          src="https://jx.yparse.com/index.php?url=<?php echo $aik['maurl'];?>"
+          src="https://lzw.me/x/lib/frame-placeholder/?vedio=1"
           allowtransparency="true"
           allowfullscreen="true"
           frameborder="0" scrolling="no"></iframe>
@@ -348,6 +359,12 @@
 
 		<?php  include 'footer.php';?>
 
+		<script src="../lib/utils/h5-common.js"></script>
+		<script>
+			document.querySelector('.dropdown-menu').innerHTML = h5Utils.config.h5List.map(d => {
+				return `<li><a href="${d[0]}" target="_blank" title="${d[2]}">${d[1]}</a></li>`;
+			}).join('');
+		</script>
 		<script type="text/javascript" src="js/tv-beipy.js" /></script>
 	</body>
 

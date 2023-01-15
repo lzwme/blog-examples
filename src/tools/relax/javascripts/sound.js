@@ -1,5 +1,4 @@
-(function (window, document, undefined) {
-  'use strict';
+(function (window, document) {
   var tool = {
     toArray: function (target) {
       return window.Array.prototype.slice.call(target);
@@ -30,26 +29,12 @@
       this.event();
     },
     isMobile: function () {
-      return /(iPhone|iPad|iPod|Android|SymbianOS)/i.test(
-        window.navigator.userAgent
-      );
+      return /(iPhone|iPad|iPod|Android|SymbianOS)/i.test(window.navigator.userAgent);
     },
     event: function () {
-      this.slider.addEventListener(
-        this.eventType.start,
-        this.start.bind(this),
-        false
-      );
-      this.slider.parentElement.addEventListener(
-        this.eventType.move,
-        this.move.bind(this),
-        false
-      );
-      this.slider.addEventListener(
-        this.eventType.end,
-        this.end.bind(this),
-        false
-      );
+      this.slider.addEventListener(this.eventType.start, this.start.bind(this), false);
+      this.slider.parentElement.addEventListener(this.eventType.move, this.move.bind(this), false);
+      this.slider.addEventListener(this.eventType.end, this.end.bind(this), false);
       this.slider.parentElement.addEventListener(
         'click',
         function (ev) {
@@ -187,7 +172,7 @@
     'click',
     function (ev) {
       ev.stopPropagation();
-      window.location = 'https://toolwa.com/';
+      window.location = 'https://lzw.me/links';
     },
     false
   );
@@ -260,10 +245,7 @@
         function () {
           time--;
           if (time > 0) {
-            this.render(
-              this._format(window.parseInt(time / 60)),
-              this._format(time % 60)
-            );
+            this.render(this._format(window.parseInt(time / 60)), this._format(time % 60));
           } else {
             this.destroy();
             callback();

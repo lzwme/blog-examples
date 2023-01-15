@@ -1,6 +1,6 @@
 import { ALL_FILE_TYPE } from './constants';
 
-export function getDatType(content: Buffer, filepath: string) {
+export function getDatType(content: Buffer, filepath = '') {
   const [c1, c2, c3] = content;
   const v: number[] = [0, 0, 0];
 
@@ -14,4 +14,10 @@ export function getDatType(content: Buffer, filepath: string) {
 
   const errmsg = `不支持的文件类型：${filepath}`;
   throw new Error(errmsg);
+}
+
+export function datConvert(content: Buffer, desc = '') {
+  const { ext, v } = getDatType(content, desc);
+  const converted = desc.endsWith(ext) ? content : content.map(d => d ^ v[0]);
+  return converted;
 }

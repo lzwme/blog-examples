@@ -61,6 +61,8 @@ pre {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   display: none;
+  z-index: 100;
+  color: #fff;
 }
 
 #toplistContain .toplist-info {
@@ -109,4 +111,19 @@ pre {
   top: 5px;
   left: 5px;
   right: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .2);
+  border-radius: 6px;
+}
+
+::--webkit-scrollbar-track {
+  background-color: #eee;
+  border-radius: 6px;
 }

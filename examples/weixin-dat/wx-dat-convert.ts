@@ -3,7 +3,7 @@ import { basename, dirname, resolve } from 'path';
 import { existsSync, promises } from 'fs';
 import { concurrency, dateFormat, getLogger, md5 } from '@lzwme/fe-utils';
 import { scanWeChatFiles } from './scanWeChatFiles';
-import { getDatType } from './utils';
+import { datConvert, getDatType } from './utils';
 
 interface WDCOptions {
   /** 自动检测 */
@@ -70,7 +70,7 @@ export class WxDatConvert {
       }
     }
 
-    const converted = filepath.endsWith(ext) ? content : content.map(d => d ^ v[0]);
+    const converted = datConvert(content, filepath);
     const destDir = dirname(result.dest);
     const destName = `${dateFormat('yyyy-MM-dd_hhmmss', result.stats.atime)}_${basename(result.dest)}`;
 

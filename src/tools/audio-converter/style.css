@@ -1,0 +1,64 @@
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    margin: 15px auto;
+    width: 90vw;
+    max-width: 600px;
+    min-height: 60vh;
+    background-color: rgba(200, 200, 200, .8);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.audio-type {
+    min-height: 30px;
+    text-transform: uppercase;
+}
+
+span.title {
+    display: inline-block;
+    min-width: 120px;
+}
+
+.input-file {
+    border-collapse: initial;
+    border-spacing: 0 15px;
+    background: #1565c0;
+    padding: 10px;
+    margin: 10px auto;
+    color: #cfd8dc;
+    border-radius: 5px;
+}
+
+select#atTarget {
+    width: 100px;
+    border-radius: 5px;
+    height: 100%;
+    text-transform: uppercase;
+}
+
+button#download {
+    background: #39f;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 8px;
+    width: 180px;
+    color: #fff;
+    margin-left: 30px;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+button#download:disabled {
+    background: #888;
+}
+
+button#download:hover {
+    transform: scale(1.2);
+}

@@ -1169,6 +1169,7 @@ button {
     -webkit-transform: scale(1.0);
     -ms-transform: scale(1.0);
     transform: scale(1.0);
+    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     position: fixed;
     top: 0;
@@ -1721,17 +1722,18 @@ body.is-loading #footer {
 }
 
 #toplistContain {
-  position: fixed;
-  bottom: 0;
-  left: calc(5vw - 15px);
-  width: 90vw;
-  background: #394a52;
-  padding: 50px 15px 0;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  display: none;
-  z-index: 100;
-  color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 2vw;
+    right: 0;
+    width: 96vw;
+    background: #394a52;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    display: none;
+    z-index: 100;
+    color: #fff;
+    padding-top: 50px;
 }
 
 #toplistContain .toplist-info {
@@ -1802,4 +1804,22 @@ body.is-loading #footer {
 ::--webkit-scrollbar-track {
   background-color: #eee;
   border-radius: 6px;
+}
+
+.play-rotate {
+    animation: rotate 6s linear infinite;
+}
+
+.pause {
+    animation-play-state: paused;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateZ(360deg);
+    }
 }

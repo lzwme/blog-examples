@@ -6,9 +6,9 @@ include_once './api-inc.php';
 
 allowCROS();
 
-$id = $_REQUEST['id'];
-$type = $_REQUEST['type'] ?: $_REQUEST['t'] ?: 'mp3';
-$br = $_REQUEST['br'] ?: 320000; // 128000、192000、32000
+$id = tryGetReqParam('id');
+$type = tryGetReqParam(array(['type', 't'], 'mp3'));
+$br = tryGetReqParam('br', 320000); // 128000、192000、32000
 
 if (!$id) {
     $url = isset($_REQUEST['url']) ? urldecode($_REQUEST['url']) : 'https://music.163.com/#/song?id=2013097125';
@@ -23,7 +23,7 @@ switch ($type) {
         $result = json_encode(get_hot_playlist(), true);
         break;
     case 'toplist':
-        $result = get_toplist_from_html($id, false, $_REQUEST['interval'] ?: 3600);
+        $result = get_toplist_from_html($id, false, tryGetReqParam('interval', 3600));
         break;
     case 'mp3':
     case 'song':
@@ -38,6 +38,14 @@ switch ($type) {
         break;
     case 'mv':
         $result = get_mv_detail($id, false);
+        break;
+    case 'comment':
+        $result = get_music_comments($id, false);
+        break;
+    case 'search':
+        $keyword = tryGetReqParam(array(['q', 's', 'keyword', '']), '');
+        $offset = tryGetReqParam('offset', 0);
+        music_search($keyword, $offset);
         break;
     case 'all':
         $result = array(

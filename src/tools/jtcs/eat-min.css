@@ -3,7 +3,7 @@ body{
   position:relative;overflow:hidden;margin:0;padding:0;width:100%;height:100%;
   background-color: #eee;
   background-image: url(bg.jpg);
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   font-family:"Microsoft YaHei"}a{text-decoration:none
 }
 .logo{margin:0 auto;margin-top:10px;width:200px;height:40px;background-color:#e9e9e9}

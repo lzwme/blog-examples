@@ -1,10 +1,18 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="full-screen" content="yes">
+  <meta name="browsermode" content="application">
+  <meta name="x5-fullscreen" content="true">
+  <meta name="x5-page-mode" content="app">
   <title>今天吃啥呀？- 志文工作室</title>
   <meta name="keywords" content="今天吃啥呀,中午吃什么" />
   <meta name="description" content="今天吃啥呀？再也不用为今天吃什么发愁了" />
@@ -140,17 +148,10 @@
       }
     });
 
-    $('#currentYear').text(new Date().getFullYear());
   </script>
-
+  <script src="../lib/utils/h5-common.js"></script>
   <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?1c720b7315e37bbf488afd28e60002bf";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
+      h5CommInit(['bdtj', 'bg', 'disableScale']);
   </script>
 </body>
 

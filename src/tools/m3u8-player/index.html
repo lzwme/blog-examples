@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="full-screen" content="yes">
+    <meta name="browsermode" content="application">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+
+    <!-- <meta property="og:image" content="favicon.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="favicon.png">
+    <link rel="shortcut icon" sizes="114x114" href="favicon.png"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../lib/public.css?v="> -->
+
+    <title>M3U8在线播放器 - 志文工作室</title>
+    <meta name="keywords" content="M3U8在线破解,M3U8在线播放,M3U8播放器,M3U8直播源在线播放,M3U8在线测试">
+    <meta name="description" content="M3U8在线播放器">
+    <meta name="referrer" content="never">
+    <link rel="stylesheet" type="text/css" href="https://npm.elemecdn.com/amazeui@2.7.2/dist/css/amazeui.flat.min.css">
+
+    <style>
+        .input-div {
+            width: 100%;
+            padding: 0 0 20px 0;
+            z-index: 0;
+        }
+
+        .input-div textarea {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: none;
+            color: #333;
+            border: 1px solid #cccccc;
+        }
+
+        .s-input {
+            border-right: 0;
+            border-radius: 0;
+        }
+
+        .am-topbar-inverse {
+            background-color: #6e0ed2;
+            border-color: #6e0ed2;
+        }
+
+        .am-btn-default:focus,
+        .am-btn-default:hover,
+        .am-dropdown.am-active .am-btn-default.am-dropdown-toggle {
+            border-color: #0e90d2;
+            background-color: #eee;
+        }
+
+        input[type=file] {
+            font-size: 14px;
+        }
+
+        .start {
+            float: right;
+            margin-top: -38px
+        }
+
+        #player {
+            margin-bottom: .3em;
+            max-height: 80vh;
+            width: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <header class="am-topbar am-topbar-inverse">
+        <div class="am-container">
+            <p class="am-topbar-brand"><a href="./" class="am-topbar-logo">M3U8</a></p>
+            <a class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+                data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航</span> <span
+                    class="am-icon-bars"></span></a>
+            <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+                <ul class="am-nav am-nav-pills am-topbar-nav">
+                    <li><a href="/links" target="_blank">好玩</a></li>
+                    <li><a href="https://lzw.me/x/m3u8-downloader" target="_blank">M3U8在线下载工具</a></li>
+                </ul>
+                <div class="am-topbar-right">
+                    <a class="am-hide am-btn am-btn-primary am-topbar-btn am-btn-sm"
+                        data-am-modal="{target: '#fenxiang'}">分享</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="am-container">
+        <div class="logo">m3u8视频在线播放器</div>
+        <div class="am-u-lg-6 input-div">
+            <form method="post" id="str-post" class="am-input-group am-input-group-primary">
+                <input type="text" name="url" placeholder="请输入m3u8播放地址" autocomplete="off"
+                    class="am-form-field s-input">
+                <span class="am-input-group-btn">
+                    <button class="am-btn am-btn-primary play" type="button"><span class="am-icon-play"></span></button>
+                    <button class="am-btn am-btn-success rotate" type="button"><span
+                            class="am-icon-rotate"></span>旋转</button>
+                </span>
+            </form>
+        </div>
+        <div class="am-u-lg-6 input-div">
+            <textarea name="m3u8Content" id="m3u8Content" cols="30" rows="3"
+                placeholder="可直接输入 m3u8 文件内容，基于该内容播放"></textarea>
+        </div>
+        
+        <div class="am-u-lg-6 input-div">
+            <div class="am-input-group am-input-group-primary">
+                <span class="am-input-group-btn">
+                    <button class="am-btn am-btn-primary play" type="button">选择本地文件播放</button>
+                </span>
+                <input class="am-form-field" type="file" name="vedioSelect" id="vedioSelect" title="选择本地文件播放">
+            </div>
+        </div>
+        
+        <video id="player" controls=""></video>
+        
+        <div class="am-text-right">
+            <a class="am-hide am-btn am-btn-primary am-round" data-am-modal="{target: '#fenxiang'}"><i
+                    class="am-icon-share-alt"></i> 分享</a>
+        </div>
+        <div class="am-alert am-alert-secondary">
+            <p>嵌入网站:
+            <pre>&lt;iframe src="https://lzw.me/x/m3u8-player/?url=https://****.com/****/index.m3u8"&gt;&lt;/iframe&gt;</pre>
+            </p>
+            <p>
+                M3U8 是一种视频播放标准，准确来说是一种索引文件，使用 M3U8 文件实际上是通过它来解析对应的放在服务器上的视频网络地址。
+                视频网站可以根据用户的网络带宽情况，自动为客户端匹配一个合适的码率文件进行播放，从而保证视频的流畅度。
+            </p>
+            <p>
+                M3U8 文件是指 UTF-8 编码格式的 M3U 文件(M3U 使用 Latin-1 字符集编码)。M3U
+                文件是一个记录索引的纯文本文件，打开它时播放软件并不是播放它，而是根据它的索引找到对应的音视频文件的网络地址进行在线播放。
+            </p>
+            <p> M3U8 的设计初衷是为了播放音频文件，比如MP3，但是越来越多的软件现在用来播放视频文件列表，M3U8也可以指定在线流媒体音频源。很多播放器和软件都支持M3U8文件格式。
+            </p>
+            <p>
+                M3U8 视频内容可以设置基于 AES 加密。本站播放器支持对常见加密方式的 M3U8 文件视频进行解密和播放。
+            </p>
+            <p>
+                当前页面仅提供在线播放服务。如果您需要下载视频文件到本地，可以尝试使用本站的另外一款工具：
+                <a href="https://lzw.me/x/m3u8-downloader" target="_blank">M3U8视频在线下载工具</a>
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="copyright am-container">
+            <p>
+                资源来源于网络，如有侵权，请联系本人予以删除！<br>
+                <a href="https://lzw.me" target="_blank">
+                    <span class="cp">Copyright © 志文工作室; 2008-<span id="currentYear">2023</span>, All Rights
+                        Reserved.</span>
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- <script src="https://unpkg.zhimg.com/jquery@3.3.1/dist/jquery.min.js"></script> -->
+    <script src="https://npm.elemecdn.com/jquery@3/dist/jquery.min.js"></script>
+    <script src="https://npm.elemecdn.com/amazeui@2.7.2/dist/js/amazeui.min.js"></script>
+    <script src="https://npm.elemecdn.com/hls.js/dist/hls.min.js"></script>
+    <script src="../lib/utils/h5-common.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

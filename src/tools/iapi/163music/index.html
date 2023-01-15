@@ -35,11 +35,11 @@
     <pre>
   // ---- 歌曲 mp3 地址、歌词信息接口 USEAGE ----
 
-  // 传入网易云音乐 id，返回包含高清 mp3 的 json 信息
-  https://lzw.me/x/iapi/163music/api.php?id=2013097125
+  // `type=mp3`：传入网易云音乐 id，返回包含高清 mp3 的 json 信息
+  https://lzw.me/x/iapi/163music/api.php?type=mp3&id=2013097125
 
-  // `br=128000` 音质类型。可选值： 128000、192000、320000(默认)
-  https://lzw.me/x/iapi/163music/api.php?id=2013097125&br=128000
+  // `type=mp3`、`br=128000`： 音质速率，需歌曲支持，否则返回默认速率。可选值： 128000、192000、320000(默认)...
+  https://lzw.me/x/iapi/163music/api.php?type=mp3&id=2013097125&br=128000
 
   // `type=all`: 返回其 mp3、lyric、detail 信息
   https://lzw.me/x/iapi/163music/api.php?type=all&id=2013097125
@@ -50,8 +50,20 @@
   // `type=detail`: 返回歌曲详情
   https://lzw.me/x/iapi/163music/api.php?type=all&id=2013097125
 
+  // `type=mv`：返回歌曲 mv 信息
+  https://lzw.me/x/iapi/163music/api.php?type=mv&id=14480854
 
-  // ---- 榜单接口 USEAGE ----
+  // `type=comment`：获取指定歌曲评论
+  https://lzw.me/x/iapi/163music/api.php?type=comment&id=123456
+
+  // `type=toplist`：获取指定 id 的榜单
+  https://lzw.me/x/iapi/163music/api.php?type=toplist&id=19723756[&interval=3600]
+
+  // `type=search`：按关键字搜索歌曲
+  https://lzw.me/x/iapi/163music/api.php?type=search&q=孤勇者
+
+
+  // ---- 热歌榜单接口 USEAGE ----
 
   // 获取随机热榜歌曲与热评（默认）：
   https://lzw.me/x/iapi/163music/hot.php
@@ -61,9 +73,6 @@
 
   // 获取热榜列表：
   https://lzw.me/x/iapi/163music/hot.php?type=playlist
-
-  // 获取指定歌曲评论：
-  https://lzw.me/x/iapi/163music/hot.php?type=comment&id=123456
 
   // 获取任意 id 的榜单：
   https://lzw.me/x/iapi/163music/api.php?type=toplist&id=19723756[&interval=3600]

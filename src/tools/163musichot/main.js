@@ -1,22 +1,18 @@
-(function () {
-  var _hmt = _hmt || [];
-  var hm = document.createElement('script');
-  hm.src = 'https://hm.baidu.com/hm.js?1c720b7315e37bbf488afd28e60002bf';
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(hm, s);
-})();
+h5CommInit();
 
 const el = {
   mp3: $('#mp3'),
   pl: $('#pl'),
   yh: $('#yh'),
+  bf: $('#bf'),
+  img: $('#img'),
   toplistContain: document.getElementById('toplistContain'),
 };
 var hotList;
 var dataJson;
 
 $(function () {
-  var aud = document.getElementById('mp3');
+  var aud = el.mp3[0];
   aud.onended = function () {
     Nextone();
   };
@@ -60,21 +56,23 @@ $(function () {
   );
 
   Nextone();
-  $('#currentYear').text(new Date().getFullYear());
 });
 
 function bf() {
-  var audio = document.getElementById('mp3');
+  var audio = el.mp3[0];
   if (audio !== null) {
     if (audio.paused) {
       audio.play();
-      $('#bf').html('暂停');
+      el.bf.html('暂停');
+      el.img.addClass('play-rotate').removeClass('pause');
     } else {
       audio.pause();
-      $('#bf').html('播放');
+      el.bf.html('播放');
+      el.img.removeClass('play-rotate').addClass('pause');
     }
   }
 }
+
 async function Nextone(json) {
   if (!json || !json.data) {
     if (hotList) {
@@ -95,7 +93,7 @@ async function Nextone(json) {
   $('#title').html(json.data.name + '(' + json.data.artistsname + ')');
   el.mp3.attr('src', json.data.url);
   el.mp3.attr('controls', 'controls');
-  $('#img').attr('src', json.data.picurl);
+  el.img.attr('src', json.data.picurl);
   // $("#img2").attr("src", json.data.avatarurl);
   el.yh.html('来自网易云用户「@' + json.data.nickname + '」的评论：');
   el.pl.html(json.data.content);
