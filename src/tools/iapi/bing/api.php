@@ -15,12 +15,8 @@ if ($_REQUEST['json']) {
 } else {
     $src = $json['images'][0]['url'];
 
-    if ($n > 1) {
-        $idx = random_int(0, $n);
-        if ($json['images'][$idx]) {
-            $src = $json['images'][$idx]['url'];
-        }
-
+    if (count($json['images']) > 1) {
+        $src = $json['images'][array_rand($json['images'], 1)]['url'];
     }
 
     $imgurl = 'https://cn.bing.com' . $src;

@@ -1,6 +1,6 @@
 # Examples for lzw.me
 
-主要发布博文中涉及的项目示例等资源。
+主要发布博文中涉及的工具子项目、博文示例等资源。
 
 - [博客地址：志文工作室](https://lzw.me)
 
@@ -28,6 +28,12 @@
 - [福利短视频](https://lzw.me/v)
 - [毒鸡汤](https://lzw.me/pages/djt)
 - [H5小游戏集合](https://lzw.me/pages/games)
+- more...
+
+## [API 类]('./src/tools/iapi')
+
+- [bing每日一图](https://lzw.me/x/iapi/bing/)
+- [网易云音乐简易API](https://lzw.me/x/iapi/163music/)
 - more...
 
 ## 声明

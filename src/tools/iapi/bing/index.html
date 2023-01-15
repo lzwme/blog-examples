@@ -23,13 +23,15 @@
       width: 80%;
       margin: auto;
       margin-top: 10%;
+      border-radius: 8px;
+      overflow: auto;
     }
   </style>
 </head>
 
 <body>
   <div class="useage">
-    <h1>必应每日壁纸API - 用法</h1>
+    <h1>必应每日壁纸API - 用法示例</h1>
 
     <pre>
       // 返回第一张图片，并重定向到图片地址
@@ -48,8 +50,9 @@
   </div>
   <script>
     const bg = '//lzw.me/x/iapi/bing/api.php?n=10&idx=' + Math.ceil(Math.random() * 7);
-    document.body.setAttribute('style', `background-image: url(${bg}); background-repeat: no-repeat`);
+    document.body.setAttribute('style', `background-image: url(${bg}); background-repeat: repeat-y`);
   </script>
+  <script src="../../lib/utils/h5-common.js"></script>
 </body>
 
 </html>
