@@ -19,11 +19,10 @@ function allowCROS($origin = '')
     header('Content-Type:application/json; charset=utf-8');
 }
 
-function tryGetReqParam($keys, $default) {
-    $keysList = is_string($keys) ? array([$keys]) : $keys;
-
+function tryGetReqParam($keys, $default = null) {
+    $keysList = is_string($keys) ? array($keys) : $keys;
     foreach ($keysList as $key => $value) {
-        if (isset($_REQUEST[$value])) return $_REQUEST[$value];
+        if ($value && isset($_REQUEST[(string)$value])) return $_REQUEST[$value];
     }
 
     return $default;
@@ -156,7 +155,7 @@ function get_mv_detail($id, $toJson = false)
     return $toJson ? json_decode($rel, true) : $rel;
 }
 
-function music_search($keyword, $offset = 0, $toJson = false) 
+function music_search($keyword, $offset = 0, $toJson = false)
 {
     $url = "https://music.163.com/api/search/get/web?csrf_token=hlpretag=&hlposttag=&s={$keyword}&type=1&offset={$offset}&total=true&limit=2";
     $rel = file_get_contents($url);

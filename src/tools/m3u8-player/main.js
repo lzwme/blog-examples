@@ -103,3 +103,16 @@ $('#vedioSelect').on('change', ev => {
   }
   video.onload = () => window.URL.revokeObjectURL(url);
 });
+
+document.body.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const fileList = e.dataTransfer.files;
+  const file = fileList[0];
+  if (file.name.endsWith('.m3u8')) {
+    file.text().then(m3u8Str => {
+      $('#m3u8Content').val(m3u8Str);
+      $('#str-post button.play').click();
+    });
+  }
+  return false;
+}, false);

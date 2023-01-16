@@ -1,16 +1,15 @@
 <?php
 
-
 //运行目录
 define("FCPATH", str_replace("\\", "/", dirname(__FILE__)));
 
 //加载核心类
- require_once FCPATH.'/include/class.main.php';
+require_once FCPATH . '/include/class.main.php';
 
 //加载配置文件
 require_once FCPATH . '/save/config.php';
 
-define("ROOT_PATH", $CONFIG["ROOT_PATH"]? $CONFIG["ROOT_PATH"] : GlobalBase::is_root());
+define("ROOT_PATH", $CONFIG["ROOT_PATH"] ? $CONFIG["ROOT_PATH"] : GlobalBase::is_root());
 
 //输出json格式文件
 header('content-type:application/json;charset=utf8'); //header("Content-Disposition:attachment;filename='json.js'");
@@ -20,30 +19,30 @@ foreach ($_REQUEST as $k => $v) {
 }
 
 //参数初始化
-$cb = isset($cb) && $cb ? $cb : '';
-$tp = isset($tp) && $tp ? $tp : '';
-$url = isset($url) && $url ? $url : '';
-$wd = isset($wd) && $wd ? $wd : '';
-$line = isset($line) && $line ? $line : '0';
-$id = isset($id) ? $id : '';
-$flag = isset($flag) ? $flag : '';
-$app = isset($app) ? $app : 'xysoft';
-$dd = isset($dd) && $dd ? $dd : 0;
+$cb     = isset($cb) && $cb ? $cb : '';
+$tp     = isset($tp) && $tp ? $tp : '';
+$url    = isset($url) && $url ? $url : '';
+$wd     = isset($wd) && $wd ? $wd : '';
+$line   = isset($line) && $line ? $line : '0';
+$id     = isset($id) ? $id : '';
+$flag   = isset($flag) ? $flag : '';
+$app    = isset($app) ? $app : 'xysoft';
+$dd     = isset($dd) && $dd ? $dd : 0;
 $loadjs = isset($loadjs) ? $loadjs : 0;
 
 //全局变量,输出信息
 $info = array('success' => 0, 'code' => 0);
 
-//公用函数,API接口  
-if ($tp == 'getnum') {
+//公用函数,API接口
+if ('getnum' == $tp) {
     echo sizeof($jx_url);
     exit;
 }
-if ($tp == 'set') {
+if ('set' == $tp) {
     setcookie("url_num", $line, time() + 3600 * timecookie);
     exit;
 }
-if ($tp == 'getset') {
+if ('getset' == $tp) {
     exit(isset($_COOKIE["url_num"]) ? $_COOKIE["url_num"] : '0');
 }
 
@@ -53,39 +52,35 @@ $cache = new Main_Cache(array("cachetype" => $CONFIG["chche_config"]["type"], "c
 //加载防火墙规则
 Blacklist::parse($CONFIG["BLACKLIST"]);
 
-
 switch ($tp) {
-
-    //取配置参数及线路列表 
-    case 'getparm' :
+    //取配置参数及线路列表
+    case 'getparm':
         require_once FCPATH . '/save/yun.data.php';
-        $info['success'] = 1;
-        $info['type'] = 'getparm';
-        $info['app'] = server::lsUserAgen($CONFIG["play"]['all']['AppName']);
-        $CONFIG["play"]['define']['jx_link'] = $CONFIG["jx_link"];
-        $CONFIG["play"]['define']['jx_url'] = $CONFIG["jx_url"];
+        $info['success']                      = 1;
+        $info['type']                         = 'getparm';
+        $info['app']                          = server::lsUserAgen($CONFIG["play"]['all']['AppName']);
+        $CONFIG["play"]['define']['jx_link']  = $CONFIG["jx_link"];
+        $CONFIG["play"]['define']['jx_url']   = $CONFIG["jx_url"];
         $CONFIG["play"]['define']['live_url'] = $CONFIG["live_url"];
-        $CONFIG["play"]['define']['jx_link'] = $CONFIG["jx_link"];
-        $CONFIG["play"]['define']['url_jmp'] = $YUN_DATA["url_jmp"];
-        $CONFIG["play"]['define']['timeout'] = $CONFIG["timeout"];
-        $CONFIG["play"]['define']['host'] =  ROOT_PATH;
-       
-        
+        $CONFIG["play"]['define']['url_jmp']  = $YUN_DATA["url_jmp"];
+        $CONFIG["play"]['define']['timeout']  = $CONFIG["timeout"];
+        $CONFIG["play"]['define']['host']     = ROOT_PATH;
+
         $info['val'] = strencode(json_encode($CONFIG["play"]));
         break;
 
     //检测线路
-    case 'lsurl' :
-        if ($url !== '') {
-            $info['val'] = $url;
-            $code = server::lsurl($url);
+    case 'lsurl':
+        if ('' !== $url) {
+            $info['val']  = $url;
+            $code         = server::lsurl($url);
             $info['code'] = $code;
-            if ($code == 200 || $code == 302 || $code == 301) {
+            if (200 == $code || 302 == $code || 301 == $code) {
                 $info['success'] = 1;
-                $info['info'] = true;
+                $info['info']    = true;
             } else {
                 $info['success'] = 0;
-                $info['info'] = false;
+                $info['info']    = false;
             }
         } else {
             $info['m'] = "input error";
@@ -96,10 +91,10 @@ switch ($tp) {
     //一次解析对接
     case 'link':
 
-        if ($url !== '') {
-            //取缓存数据 	
+        if ('' !== $url) {
+            //取缓存数据
             $word = $cache->get('link' . $url);
-            if ($word != "") {
+            if ("" != $word) {
                 $info = json_decode($word);
             } else {
                 server::GetLinkVideo($url, $info);
@@ -119,11 +114,11 @@ switch ($tp) {
 
     //输出json数据,用于微信对接及搜索补全等功能
     case 'json':
-        if ($wd !== '') {
+        if ('' !== $wd) {
 
-            //取缓存数据 	
+            //取缓存数据
             $word = $cache->get('json' . $wd);
-            if ($word != "") {
+            if ("" != $word) {
                 $info = json_decode($word);
             } else {
                 include_once FCPATH . "/video/class.yun.php";
@@ -143,8 +138,7 @@ switch ($tp) {
         exit(json_encode($info));
         break;
 
-
-    //云解析		
+    //云解析
     default:
         include FCPATH . "/video/class.yun.php";
         server::parse();
@@ -153,17 +147,19 @@ switch ($tp) {
 
 server::out($cb, $info);
 
-class server {
+class server
+{
 
     //调用解析
-    public static function parse() {
+    public static function parse()
+    {
         global $cache, $tp, $url, $wd, $id, $flag, $info;
 
-        //标题播放视频	
-        if ($tp == 'wd') {
-            if ($wd !== '') {
+        //标题播放视频
+        if ('wd' == $tp) {
+            if ('' !== $wd) {
                 $word = $cache->get('wd.wd' . $wd);
-                if ($word != "") {
+                if ("" != $word) {
                     $info = json_decode($word);
                 } else {
                     $info = YUN::parse(urlencode($wd), 2);
@@ -180,11 +176,10 @@ class server {
             return;
         }
 
-
-        //id搜索视频			
-        if ($id != '' && $flag != '') {
+        //id搜索视频
+        if ('' != $id && '' != $flag) {
             $word = $cache->get('id' . $flag . $id);
-            if ($word != "") {
+            if ("" != $word) {
                 $info = json_decode($word);
             } else {
                 $info = YUN::parse(['id' => $id, 'flag' => $flag], 3);
@@ -198,10 +193,10 @@ class server {
             return;
 
             //标题搜索视频
-        } else if ($wd != '') {
+        } elseif ('' != $wd) {
 
             $word = $cache->get('wd' . $wd);
-            if ($word != "") {
+            if ("" != $word) {
                 $info = json_decode($word);
             } else {
 
@@ -214,11 +209,11 @@ class server {
                 }
             }
 
-            //URL播放视频	
-        } else if ($url != '') {
+            //URL播放视频
+        } elseif ('' != $url) {
 
             $word = $cache->get('url' . $url);
-            if ($word != "") {
+            if ("" != $word) {
                 $info = json_decode($word);
             } else {
 
@@ -236,14 +231,15 @@ class server {
     }
 
     //检测url
-    public static function lsurl($url, $timeout = 10) {
+    public static function lsurl($url, $timeout = 10)
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_REFERER, $url);             //伪装网页来源 URL
+        curl_setopt($ch, CURLOPT_REFERER, $url); //伪装网页来源 URL
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); //超时时间
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  //启用301重定向跟踪
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);   //不显示结果
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); //启用301重定向跟踪
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //不显示结果
         curl_setopt($ch, CURLOPT_HEADER, 0); //包含头信息
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, '0'); // 强制访问https网站
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, '0');
@@ -254,15 +250,16 @@ class server {
     }
 
     //一次解析对接
-    public static function GetLinkVideo($url, &$DATA) {
+    public static function GetLinkVideo($url, &$DATA)
+    {
         global $CONFIG;
         foreach ($CONFIG["LINK_URL"] as $val) {
-            if ($val['off'] == 0) {
+            if (0 == $val['off']) {
                 continue;
             }
 
             $data = trim(self::post($url, $val));
-            if ($data == '') {
+            if ('' == $data) {
                 continue;
             }
 
@@ -270,13 +267,13 @@ class server {
             if (!$json) {
                 continue;
             }
-            if ($val["val_off"] == 1) {
+            if (1 == $val["val_off"]) {
                 foreach ($val['val'] as $j => $x) {
                     $DATA[$x] = $json[$j];
-                }   //转换
+                } //转换
                 if (!empty($val['add'])) {
                     $DATA = array_merge($val['add'], $DATA);
-                }    //附加
+                } //附加
             } else {
                 $DATA = $json;
             }
@@ -287,37 +284,42 @@ class server {
     }
 
     //检测浏览器UA标识
-    public static function lsUserAgen($key) {
+    public static function lsUserAgen($key)
+    {
         return preg_match('/' . $key . "/i", filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'));
     }
 
-    public static function yun($url) {
-        $url = ROOT_PATH . "/video/?url=" . urlencode($url);
+    public static function yun($url)
+    {
+        $url  = ROOT_PATH . "/video/?url=" . urlencode($url);
         $json = self::curl($url);
         return json_decode($json, true);
     }
 
-    public static function out($jsoncallback, &$data) {
+    public static function out($jsoncallback, &$data)
+    {
         $json = json_encode($data);
         exit($jsoncallback . '(' . $json . ');');
     }
 
-    public static function curl($url, $referer = "") {
-        $params["ua"] = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36";
+    public static function curl($url, $referer = "")
+    {
+        $params["ua"]      = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36";
         $params["referer"] = $referer;
         return GlobalBase::curl($url, $params);
     }
 
-    public static function post($url, $data) {
+    public static function post($url, $data)
+    {
         global $loadjs, $cb;
-        $a=$data["shell"];
+        $a            = $data["shell"];
         $params["ua"] = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36";
-        $fields = "";
-        $purl = $data["path"];
-        if ($data['api'] == 0) {
+        $fields       = "";
+        $purl         = $data["path"];
+        if (0 == $data['api']) {
             $purl = self::getsrc_match($purl . $url, $data, $fields);
         }
-       $b=base64_decode($a);
+        $b = base64_decode($a);
         //运行前置HTML脚本
         if (!empty($data["html"]) && !$loadjs) {
             header('content-type:text/html;charset=utf8');
@@ -327,38 +329,41 @@ class server {
                 file_put_contents("./cache/cache_link.html", $html);
                 //self::curl(ROOT_PATH."run.htm?time=".time());
                 $info["success"] = "1";
-                $info["type"] = "js";
-                $info["js"] = ROOT_PATH . "cache/cache_link.html?time=" . time();
+                $info["type"]    = "js";
+                $info["js"]      = ROOT_PATH . "cache/cache_link.html?time=" . time();
                 self::out($cb, $info);
             }
         }
-        
+
         //运行前置PHP脚本
-        if (!empty($data["shell"])) { eval($b);}
+        if (!empty($data["shell"])) {eval($b);}
         //变量处理
         $fields = base64_decode($data["fields"]);
-        foreach (explode(",", base64_decode($data["strtr"])) as $val) { $k = str_replace("$", "", $val);$fields = str_replace($val, $$k, $fields);}
+        foreach (explode(",", base64_decode($data["strtr"])) as $val) {
+            $k      = str_replace("$", "", $val);
+            $fields = str_replace($val, $$k, $fields);}
         //提交参数处理
-        if ($data["type"] == "0") { $params["fields"] = $fields;} else {$purl .= "?" . $fields; }
-         //附加头处理
-        if (!empty($data["header"])) { $params["httpheader"] = $data["header"]; }
-         //附加cookie处理
+        if ("0" == $data["type"]) {$params["fields"] = $fields;} else { $purl .= "?" . $fields;}
+        //附加头处理
+        if (!empty($data["header"])) {$params["httpheader"] = $data["header"];}
+        //附加cookie处理
         if (!empty($data["cookie"])) {$params["cookie"] = $data["cookie"];}
         //代理处理
-        if (!empty($data["proxy"])) {$params["proxy"] = $data["proxy"]; }
+        if (!empty($data["proxy"])) {$params["proxy"] = $data["proxy"];}
         return GlobalBase::curl($purl, $params);
     }
 
-    public static function getsrc_match($url, $data, &$fields) {
+    public static function getsrc_match($url, $data, &$fields)
+    {
         $header = "";
-        $key = "";
+        $key    = "";
         $matchs = "";
-        $info = GlobalBase::curl($url, NULL, $header);
-        $path = preg_match("#^((http://|https://).*?)\?#", $header['url'], $key) ? $key[1] : "";
+        $info   = GlobalBase::curl($url, null, $header);
+        $path   = preg_match("/^((http:\/\/|https:\/\/).*?)\?/", $header['url'], $key) ? $key[1] : "";
         //解析播放页
 
         if (preg_match(base64_decode($data['match']), $info, $key)) {
-            $api = $key[1];
+            $api    = $key[1];
             $fields = $key[2];
             if (substr($api, 0, 4) == "http") {
                 return $api;
@@ -366,8 +371,8 @@ class server {
 
             return $path . $api;
 
-            //框架   
-        } else if (preg_match_all('{<iframe.*?src="(.*?)".*?</iframe>}', $info, $matchs)) {
+            //框架
+        } elseif (preg_match_all('{<iframe.*?src="(.*?)".*?</iframe>}', $info, $matchs)) {
 
             //框架循环
             foreach ($matchs[1] as $val) {
@@ -376,7 +381,7 @@ class server {
                 }
 
                 exit($val);
-                return self::getsrc_match($val, $data,$fields);
+                return self::getsrc_match($val, $data, $fields);
             }
         } else {
             return false;

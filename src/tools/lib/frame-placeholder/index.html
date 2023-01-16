@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport" />
+    <style type="text/css">
+        * {
+            margin: 0;
+        }
+
+        body,
+        html {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            font: 24px "Microsoft YaHei", Arial, Lucida Grande, Tahoma, sans-serif;
+            padding: 0;
+            margin: 0;
+            /* background-color: #66ceff; */
+            background-color: black;
+            color: #fff;
+        }
+
+        .video-panel {
+            position: relative;
+            padding: 0 0 32px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            height: 100vh;
+            min-height: 700px;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -moz-box-orient: vertical;
+            -moz-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .video-panel .video-panel-video-wrapper {
+            position: absolute;
+            width: 100%;
+            background: rgba(0, 0, 0, 0);
+            height: 100%;
+        }
+
+        .video-panel .video-panel-bg-video.active {
+            opacity: 1;
+        }
+
+        .video-panel .video-panel-bg-video {
+            position: absolute;
+            width: 100%;
+            background: rgba(0, 0, 0, 0);
+            -o-object-fit: cover;
+            object-fit: cover;
+            height: 100%;
+            opacity: 0;
+            -webkit-transition: opacity 2s;
+            -o-transition: opacity 2s;
+            -moz-transition: opacity 2s;
+            transition: opacity 2s;
+        }
+
+        @media (max-width: 1136px) {
+            .video-panel {
+                padding-bottom: 0;
+            }
+        }
+
+        #loading {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            display: table;
+            position: absolute;
+            top: 0;
+            z-index: 10000000001;
+            background-size: 100%100%;
+        }
+
+        .desc {
+            font-size: 1.2rem;
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            display: table-cell;
+            text-shadow: 2px 2px 6px #d5ebe1;
+            animation-name: descRotate;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        }
+
+        /* div.main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            animation-name: descRotate;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        } */
+
+        @keyframes descRotate {
+            0% {
+                transform: rotate(10deg);
+            }
+
+            50% {
+                transform: rotate(-10deg);
+            }
+
+            100% {
+
+                transform: rotate(10deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="video-panel">
+        <div class="video-panel-video-wrapper">
+            <video id="js-panel-video" class="video-panel-bg-video" loop muted _preload="none">
+                <!-- <source src="https://okjx.cc/include/loding/mp4.php" type="video/mp4" /> -->
+            </video>
+        </div>
+    </div>
+
+    <div id="loading" class="center">
+        <div class="logo"></div>
+        <h1 class="desc">
+            请稍等...
+        </h1>
+    </div>
+
+</body>
+<script src="../utils/h5-common.js"></script>
+<script>
+    var urlParams = h5Utils.getUrlParams();
+    var desc = urlParams.desc || urlParams.title;
+
+    if (!desc) {
+        if (urlParams.vedio) desc = '请输入视频地址并解析播放';
+        // else {} todo
+    }
+
+    if ('vedio' in urlParams) {
+        const video = document.getElementById("js-panel-video");
+
+        desc = '解全网视频，秒响应'; // '请输入视频地址并解析播放';
+
+        video.addEventListener("canplay", function () {
+            video.play();
+            video.classList.add("active");
+        }, { once: true });
+
+        const videoList = [
+            'https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/eda2947952869d70716f52fdddf4d456_preview.mp4',
+            'https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/2d7a067d51ffa080e5a5c5abb4403e9b_preview.mp4',
+            'https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/c1ce4d5005b6f39ca0362df5bc542e42_preview.mp4',
+            'https://alywykqrxb-1310340178228433-static.oss-cn-zhangjiakou.aliyuncs.com/64f8a4f8-ff59-44ef-ac45-447fb69deea8/mp4/7e0c34f9-d679-4898-b791-eba2d781ce96.mp4',
+            'https://alywykqrxb-1310340178228433-static.oss-cn-zhangjiakou.aliyuncs.com/64f8a4f8-ff59-44ef-ac45-447fb69deea8/mp4/e4b05767-7eca-47b7-8ea1-8811d7746b3f.mp4',
+            'http://alimov2.a.yximgs.com/upic/2020/07/06/12/BMjAyMDA3MDYxMjIyMzRfMTU3MTgzMDAzOF8zMTg0MTYzNTAzMV8wXzM=_b_B86e28e584371da53af9d0ccd6655430a.mp4',
+        ];
+       const idx = Math.floor(Math.random() * videoList.length);
+        window.addEventListener("load", function () { 
+            video.src = videoList[idx];
+            video.play();
+         });
+    }
+
+    if (desc) document.querySelector('.desc').innerText = desc;
+</script>
+
+</html>

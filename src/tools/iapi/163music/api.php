@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+// error_reporting(0);
 // error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 include_once './api-inc.php';
@@ -7,7 +7,7 @@ include_once './api-inc.php';
 allowCROS();
 
 $id = tryGetReqParam('id');
-$type = tryGetReqParam(array(['type', 't'], 'mp3'));
+$type = tryGetReqParam(array('type', 't'), 'mp3');
 $br = tryGetReqParam('br', 320000); // 128000、192000、32000
 
 if (!$id) {
@@ -43,7 +43,7 @@ switch ($type) {
         $result = get_music_comments($id, false);
         break;
     case 'search':
-        $keyword = tryGetReqParam(array(['q', 's', 'keyword', '']), '');
+        $keyword = tryGetReqParam(array('q', 's', 'keyword'), '');
         $offset = tryGetReqParam('offset', 0);
         music_search($keyword, $offset);
         break;

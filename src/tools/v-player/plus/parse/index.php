@@ -2,8 +2,7 @@
 include "config.php";
 //接收参数
 $url = htmlspecialchars($_GET['url'] ? $_GET['url'] : $_GET['vid']);
-if (empty($url))
-{
+if (empty($url)) {
     exit('<style type="text/css">
     H1{margin:10% 0 auto; color:#C7636C; text-align:center; font-family: Microsoft Jhenghei;}
     p{font-size: 1.2rem;/*1.2 × 10px = 12px */;text-align:center; font-family: Microsoft Jhenghei;}
@@ -11,8 +10,8 @@ if (empty($url))
   <h1>请填写url地址</h1>
   <p>本解析接口仅用于学习交流，盗用必究！~</p>');
 
-  //防盗链
-  if(!is_referer()){ header('HTTP/1.1 404 Forbidden'); exit('404,文件未找到');}
+    //防盗链
+    if (!is_referer()) {header('HTTP/1.1 404 Forbidden');exit('404,文件未找到');}
 }
 ?>
 <!DOCTYPE html>
@@ -30,19 +29,21 @@ if (empty($url))
 <title><?php echo TITLE ?></title>
 <script type="text/javascript" src="./include/jquery.min.js"></script>
 <style type="text/css">
-html,body{
-background-color:#000;
-padding: 0;
-margin: 0;
-height:100%;
-width:100%;
-color:#999;
-overflow:hidden;
+html,
+body {
+    background-color: #000;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    color: #999;
+    overflow: hidden;
 }
-#a1{
-height:100%!important;
-width:100%!important;
-object-fit:fill;
+
+#a1 {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: fill;
 }
 </style>
 
@@ -51,84 +52,100 @@ object-fit:fill;
 <div id="a1" class="content" style="display:none;"></div>
 <div id="error" class="content" style="display:none;font-weight:bold;padding-top:90px;" align="center"></div>
 
-
 <script type="text/javascript">
-var url='<?php echo $url ?>'; var cip='null';
-var api="https://lzw.me/x/v-player/?url=" ;
-var myplayer="player/"+"<?php echo PLAYER ?>"+"/?url=";
-function tipstime(count){
-    $('.timemsg').text(count);
-    if (count === 20) {
-       $('.tips').hide();
-       $('.timeout').show();
-    } else {
-        count += 1;
-        setTimeout(function(){tipstime(count);}, 1000);
-    }
+var url = '<?php echo $url ?>';
+var cip = 'null';
+var api = 'https://lzw.me/x/v-player/?url=';
+var myplayer = 'player/' + '<?php echo PLAYER ?>' + '/?url=';
+function tipstime(count) {
+  $('.timemsg').text(count);
+  if (count === 20) {
+    $('.tips').hide();
+    $('.timeout').show();
+  } else {
+    count += 1;
+    setTimeout(function () {
+      tipstime(count);
+    }, 1000);
+  }
 }
 tipstime(0);
 
- function player(){$.post('api.php',{'url':url,'flag':'m3u8|27pan|ck|yun','cip':cip},function(data){success(data);},'json');};
+function player() {
+  $.post(
+    'api.php',
+    { url: url, flag: 'm3u8|27pan|ck|yun', cip: cip },
+    function (data) {
+      success(data);
+    },
+    'json'
+  );
+}
 
- function success(data){
+function success(data) {
+  if (data.success) {
+    if (data.info) {
+      info = data.info;
+      prat = data.part;
+    }
 
+    if (data['url'].search(/\.(ogg|mp4|webm|m3u8)$/i) !== -1) {
+      urlplay(myplayer + encodeURIComponent(data.url));
+    } else if (data.type === 'video' || data.type === 'm3u8' || data.type === 'mp4') {
+      urlplay(myplayer + data.url);
+    } else if (data.type === 'url') {
+      urlplay(data.url);
+    } else {
+      var word = '<br><br><a href="javascript:void(0);"  onclick="urlplay(api+url);">3秒后使用解析播放,点这里直接访问</a>';
 
-  if (data.success){
+      $('#loading').hide();
+      $('#error').show();
+      $('#error').html('解析失败,已上报至服务器' + word);
 
-		if(data.info){info=data.info;prat=data.part;};
-
-		if(data['url'].search(/\.(ogg|mp4|webm|m3u8)$/i)!==-1){
-
-				urlplay(myplayer+encodeURIComponent(data.url));
-
-        }else if(data.type==='video' || data.type==='m3u8' || data.type==='mp4'  ){
-
-               urlplay(myplayer+data.url);
-
-		 }else if(data.type==='url'  ){
-
-               urlplay(data.url);
-
-		 }else{
-
-
-				var word='<br><br><a href="javascript:void(0);"  onclick="urlplay(api+url);">3秒后使用解析播放,点这里直接访问</a>';
-
-				$("#loading").hide();$("#error").show();$("#error").html("解析失败,已上报至服务器" + word);
-
-                setTimeout(function(){urlplay(api+url);}, 3000);
-
-         }
-   }else{
-
-      var word='<br><br><a href="javascript:void(0);"  onclick="urlplay(api+url);">3秒后使用解析播放,点这里直接访问</a>';
-      $("#loading").hide();$("#error").show();$("#error").html("解析失败,已上报至服务器" + word);
-   	  setTimeout(function(){urlplay(api+url);}, 3000);
-   }
-
- }
-
-   function urlplay(url){
-
-   	  $("#loading").hide();$("#a1").show();
-      $("#a1").html('<iframe  width="100%" height="100%" src="' + url+'" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen="true" ></iframe>');
-
+      setTimeout(function () {
+        urlplay(api + url);
+      }, 3000);
+    }
+  } else {
+    var word = '<br><br><a href="javascript:void(0);"  onclick="urlplay(api+url);">3秒后使用解析播放,点这里直接访问</a>';
+    $('#loading').hide();
+    $('#error').show();
+    $('#error').html('解析失败,已上报至服务器' + word);
+    setTimeout(function () {
+      urlplay(api + url);
+    }, 3000);
   }
+}
 
- function  video_next(){
- }
+function urlplay(url) {
+  $('#loading').hide();
+  $('#a1').show();
+  $('#a1').html(
+    '<iframe  width="100%" height="100%" src="' +
+      url +
+      '" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowfullscreen="true" ></iframe>'
+  );
+}
 
- function  video_line(){
+function video_next() {}
 
- urlplay(api+url);
- }
+function video_line() {
+  urlplay(api + url);
+}
 
+function getcip() {
+  $.get('https://data.video.iqiyi.com/v.f4v', function (cdnip) {
+    sip = String(cdnip.t || cdnip).match(/\d+\.\d+\.\d+\.\d+/);
+    cip = sip[0];
+    player();
+  });
+}
 
-
- function getcip(){$.get("https://data.video.iqiyi.com/v.f4v",function(cdnip){sip=cdnip.match(/\d+\.\d+\.\d+\.\d+/);cip=sip[0];player();});}
-
- if(url.search(/\.(ogg|mp4|webm|m3u8)$/i)!==-1){urlplay(myplayer+encodeURIComponent(url));}else{getcip();}
-
+if (url.search(/\.(ogg|mp4|webm|m3u8)$/i) !== -1) {
+  urlplay(myplayer + encodeURIComponent(url));
+} else {
+  getcip();
+}
 </script>
 </body>
 </html>

@@ -72,12 +72,20 @@ ffmpeg -framerate 2 -i ./images/*.jpg lzw.me.mp4
 ```bash
 # 左上角
 ffmpeg -i input.mp4 -i lzw.me.logo.png -filter_complex overlay output.mp4
-# 右上角： 
-ffmpeg -i input.mp4 -i lzw.me.logo.png -filter_complex overlay=W-w output.mp4 
-# 左下角： 
-ffmpeg -i input.mp4 -i lzw.me.logo.png -filter_complex overlay=0:H-h output.mp4 
-# 右下角： 
+# 右上角：
+ffmpeg -i input.mp4 -i lzw.me.logo.png -filter_complex overlay=W-w output.mp4
+# 左下角：
+ffmpeg -i input.mp4 -i lzw.me.logo.png -filter_complex overlay=0:H-h output.mp4
+# 右下角：
 ffmpeg -i input.mp4 -i lzw.me.logo.png -filter_complex overlay=W-w:H-h output.mp4
 ```
 
 ## ffmpeg 为视频去 logo
+
+TODO
+
+## ffmpeg 下载 m3u8 视频
+
+```bash
+ffmpeg -i "https://lzw.me/x/vip/test.m3u8" -vcodec copy -acodec copy -absf aac_adtstoasc test.mp4
+```
