@@ -4,14 +4,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><meta name="renderer" content="webkit"/>
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->  
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->
         <meta http-equiv="pragma" content="no-cache"/><meta http-equiv="expires" content="0" />
         <meta http-equiv="Cache-Control" content="no-siteapp" /><meta http-equiv="Cache-Control" content="no-cache" />
-        <title>动作编辑-防火墙设置-Xyplay 智能解析</title>  
+        <title>动作编辑-防火墙设置-Xyplay 智能解析</title>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="./css/font.css">
         <link rel="stylesheet" href="./css/xadmin.css">
-        <script type="text/javascript" src="./js/jquery.min.js"></script>	
+        <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -30,7 +30,7 @@
                         描述
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="BLACKLIST_BLACK_NAME" autocomplete="off" value="<?php echo $CONFIG["BLACKLIST"]['black'][$id]['name']; ?>" class="layui-input" >		
+                        <input type="text" name="BLACKLIST_BLACK_NAME" autocomplete="off" value="<?php echo $CONFIG["BLACKLIST"]['black'][$id]['name']; ?>" class="layui-input" >
                     </div>
                     <div class="layui-form-mid layui-word-aux">
                         输入一个名称用来进行区分，例：防盗链提示
@@ -45,11 +45,11 @@
                         语言
                     </label>
                     <div class="layui-input-inline">
-                        <select name="BLACKLIST_BLACK_TYPE" lay-filter="province">							 
+                        <select name="BLACKLIST_BLACK_TYPE" lay-filter="province">
 
-                            <?php foreach (array("HTML", "PHP") as $key => $val): ?>							 							 
-                                <option value="<?php echo $key ?>" <?php echo ($CONFIG["BLACKLIST"]['black'][$id]['type'] == $key) ? "selected" : ''; ?> ><?php echo $val; ?></option>	   
-                            <?php endforeach; ?> 
+                            <?php foreach (array("HTML", "PHP") as $key => $val): ?>
+                                <option value="<?php echo $key ?>" <?php echo ($CONFIG["BLACKLIST"]['black'][$id]['type'] == $key) ? "selected" : ''; ?> ><?php echo $val; ?></option>
+                            <?php endforeach; ?>
 
 
                         </select>
@@ -65,10 +65,10 @@
                         动作
                     </label>
                     <div class="layui-input-inline">
-                        <select name="BLACKLIST_BLACK_ACTION" lay-filter="province">							 					
-                            <?php foreach (array("放行", "拦截") as $key => $val): ?>							 							 
-                                <option value="<?php echo $key ?>" <?php echo ($CONFIG["BLACKLIST"]['black'][$id]['action'] == $key) ? "selected" : ''; ?> ><?php echo $val; ?></option>	   
-                            <?php endforeach; ?>        			         
+                        <select name="BLACKLIST_BLACK_ACTION" lay-filter="province">
+                            <?php foreach (array("放行", "拦截") as $key => $val): ?>
+                                <option value="<?php echo $key ?>" <?php echo ($CONFIG["BLACKLIST"]['black'][$id]['action'] == $key) ? "selected" : ''; ?> ><?php echo $val; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="layui-form-mid layui-word-aux">
@@ -84,14 +84,14 @@
                     </label>
                     <div class="layui-input-block">
                         <textarea name="BLACKLIST_BLACK_INFO"  style="height:500px"  class="layui-textarea"><?php echo base64_decode($CONFIG["BLACKLIST"]['black'][$id]['info']); ?></textarea>
-                    
+
                           <div class="layui-form-mid layui-word-aux">
                           脚本，输入对应语言内容，PHP脚本常用命令介绍如下：<br>
                              1. 显示文本内容： 例子： echo "文本内容";<br>
                              2. 跳转网址： 例子(延时3秒跳转)：header("Refresh:3;url=http://nohacks.cn"); <br>
-                        </div> 
-                    
-                    
+                        </div>
+
+
                     </div>
                 </div>
 
@@ -104,13 +104,13 @@
                 </div>
             </form>
         </div>
-       
+
        <script>
             layui.use(['form', 'layer'], function () {
                   $ = layui.jquery;
                   var form = layui.form ,layer = layui.layer;
                    //监听提交
-                  form.on('submit(edit)', function (data) {          
+                  form.on('submit(edit)', function (data) {
                   //发异步，把数据提交给php
                   data.field.type = 'black_black_edit';  data.field.id = "<?php echo $id; ?>";
                   x_admin_post("admin.php", data.field);

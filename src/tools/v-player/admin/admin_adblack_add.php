@@ -6,21 +6,21 @@ include "config.php";
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><meta name="renderer" content="webkit"/>
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->  
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->
         <meta http-equiv="pragma" content="no-cache"/><meta http-equiv="expires" content="0" />
         <meta http-equiv="Cache-Control" content="no-siteapp" /><meta http-equiv="Cache-Control" content="no-cache" />
         <title>规则添加-广告过滤-Xyplay 智能解析</title>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="./css/font.css">
         <link rel="stylesheet" href="./css/xadmin.css">
-        <script type="text/javascript" src="./js/jquery.min.js"></script>	
+        <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
         <!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->      
+        <![endif]-->
     </head>
 
     <body>
@@ -32,7 +32,7 @@ include "config.php";
                         描述
                     </label>
                     <div class="layui-input-inline">
-                        <input type="text" name="BLACKLIST_ADBLACK_MATCH_NAME" autocomplete="off" value="新规则" class="layui-input" >		
+                        <input type="text" name="BLACKLIST_ADBLACK_MATCH_NAME" autocomplete="off" value="新规则" class="layui-input" >
                     </div>
                     <div class="layui-form-mid layui-word-aux">
                         输入一个名称用来进行区分，例：解析过滤
@@ -44,15 +44,15 @@ include "config.php";
                         状态
                     </label>
                     <div class="layui-input-inline">
-                        <select name="BLACKLIST_ADBLACK_MATCH_OFF" lay-filter="province">							 
-                            <?php foreach (array("关闭", "启用") as $key => $val): ?>							 							 
-                                <option value="<?php echo $key ?>"  <?php echo (1 == $key) ? "selected" : ''; ?>><?php echo $val ?></option>	   
-                            <?php endforeach; ?> 
+                        <select name="BLACKLIST_ADBLACK_MATCH_OFF" lay-filter="province">
+                            <?php foreach (array("关闭", "启用") as $key => $val): ?>
+                                <option value="<?php echo $key ?>"  <?php echo (1 == $key) ? "selected" : ''; ?>><?php echo $val ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
 
                     <div class="layui-input-inline">
-                        <input type="text" name="BLACKLIST_ADBLACK_MATCH_NUM" autocomplete="off" value="100" class="layui-input" title="数字越小，优先级越高">		
+                        <input type="text" name="BLACKLIST_ADBLACK_MATCH_NUM" autocomplete="off" value="100" class="layui-input" title="数字越小，优先级越高">
                     </div>
 
 
@@ -94,8 +94,8 @@ include "config.php";
                         <div class="layui-form-mid layui-word-aux">
                           替换规则，格式：需替换内容=>待替换内容<br>
                           备注：需替换内容支持正则，可以通过查看网页源代码获取，待替换内容可以为空,则删除需替换内容；
-                        
-                        </div>  
+
+                        </div>
                     </div>
                 </div>
 
@@ -116,15 +116,15 @@ include "config.php";
                 //监听提交
                 form.on('submit(add)', function (data) {
 
-                    //发异步，把数据提交给php 
+                    //发异步，把数据提交给php
                     data.field.type = "adblack_match_add";
                     x_admin_post("admin.php", data.field);
-                    
+
                    return false;
                 });
-               
+
             });
-        
+
         </script>
 
     </body>

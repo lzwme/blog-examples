@@ -36,6 +36,11 @@
 - [网易云音乐简易API](https://lzw.me/x/iapi/163music/)
 - more...
 
+## 文档
+
+- [awesome-tools 个人常用工具列表](./src/docs/tools.md)
+- more...
+
 ## 其他
 
 ### CDN 资源
@@ -45,6 +50,9 @@
 - [bootcdn:](https://www.bootcdn.cn) 极兔云联合 Bootstrap中文网共同支持并维护的前端开源项目免费 CDN 服务
 - [字节跳动静态资源公共库](https://cdn.bytedance.com)
 - [jsdelivr](https://www.jsdelivr.com) 支持 npm 包、github 仓库
+  - [unpkg]格式：https://cdn.jsdelivr.net/npm/package@version/file
+  - [github]格式：https://cdn.jsdelivr.net/gh/user/repo@version/file
+  - [wordpress plugin]格式：https://cdn.jsdelivr.net/wp/plugins/project/tags/version/file
 - `zhimg(知乎)`
   - [unpkg]示例：https://unpkg.zhimg.com/jquery@3.3.1/dist/jquery.min.js
 - `elemecdn(饿了么)`

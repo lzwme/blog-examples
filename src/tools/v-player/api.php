@@ -115,7 +115,6 @@ switch ($tp) {
     //输出json数据,用于微信对接及搜索补全等功能
     case 'json':
         if ('' !== $wd) {
-
             //取缓存数据
             $word = $cache->get('json' . $wd);
             if ("" != $word) {

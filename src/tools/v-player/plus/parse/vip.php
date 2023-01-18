@@ -31,7 +31,7 @@ if (empty($url)) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-  <script type="text/javascript" src="./include/jquery.min.js"></script>
+  <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
   <style type="text/css">
   html,
   body {

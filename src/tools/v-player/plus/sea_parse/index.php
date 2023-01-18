@@ -28,7 +28,7 @@ if (empty($url))
 <meta name="x5-page-mode" content="app">
 
 <script type="text/javascript" src="./ckplayer/ckplayer.min.js"></script>
-<script type="text/javascript" src="./ckplayer/jquery.min.js"></script>
+<script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
 <style type="text/css">
 html,body{
 background-color:#000;

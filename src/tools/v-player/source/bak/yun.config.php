@@ -1,14 +1,14 @@
 <?php
 $YUN_CONFIG=array (
-  'API' => 
+  'API' =>
   array (
-    0 => '源1=>https://api.iokzy.com/inc/ldg_seackm3u8s.php',
-    1 => '源2=>http://www.zdziyuan.com/inc/s_ldgm3u8_sea.php',
+    0 => '源1=>https://caiji.kczyapi.com/api.php/provide/vod/',
+    // 1 => '源2=>https://caiji.kczyapi.com/api.php/provide/vod/',
   ),
   'name_filter' => '激情|写真|成人|福利',
   'flag_filter' => '',
   'jmp_off' => '1',
-  'flag_replace' => 
+  'flag_replace' =>
   array (
     'ckm3u8' => '一号线',
     'zuidam3u8' => '二号线',

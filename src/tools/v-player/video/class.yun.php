@@ -66,38 +66,48 @@ class YUN
                 $videoinfo['m']    = "url error!";return $videoinfo;}
 
             if (!self::getjmp($val, $url, $name, $num)) {
-                if (!self::getname($val, $name, $num)) {$videoinfo['code'] = 0;
-                    $videoinfo['m']                               = "getname error!";return $videoinfo;}}
+                if (!self::getname($val, $name, $num)) {
+                    $videoinfo['code'] = 0;
+                    $videoinfo['m']    = "getname error!";return $videoinfo;
+                }
+            }
         }
         if (filter_input(INPUT_GET, 'dd')) {echo "{'name':$name,'num':$num}";}
         //404判断,使用精确匹配
         if ("" != $YUN_MATCH["ERROR_404"] && self::findstrs($name, $YUN_MATCH["ERROR_404"])) {
             $videoinfo['code'] = 404;
-            $videoinfo['m']    = "404 NOT FOUND";return $videoinfo;}
+            $videoinfo['m']    = "404 NOT FOUND";
+            return $videoinfo;
+        }
 
         for ($i = 0; $i < sizeof($api); $i++) {
             $_api = explode("=>", $api[$i])[1];
-            $id   = self::getid($_api, $name, $num);if (!$id) {continue;}
+            $id   = self::getid($_api, $name, $num);
+            if (!$id) {continue;}
 
             //取视频信息
             $data = self::curl($_api . "?ac=videolist&ids=" . $id);
 
             if ('' == $data) {continue;}
 
-            $xml = simplexml_load_string($data);if (empty($xml)) {continue;}$ret = true;
+            $xml = preg_grep('/^{/', $data) ? json_encode($data) : simplexml_load_string($data);
+            if (empty($xml)) {continue;}
+
+            $ret = true;
 
             foreach ($xml->list->video->dl->dd as $video) {
                 $flag = (string)$video->attributes();
                 $vod  = explode("#", (string)$video);
                 //检测是否存在名称，兼容苹果CMS
                 if (!strpos($vod[0], "$")) {foreach ($vod as &$mov) {$mov = "高清$" . $mov;}}
-                if ("" == $YUN_CONFIG["flag_filter"] || preg_match('/' . $YUN_CONFIG["flag_filter"] . "/i", $flag)) {$info[] = array('flag' => $flag, 'flag_name' => $YUN_CONFIG["flag_replace"][$flag] ? $YUN_CONFIG["flag_replace"][$flag] : $flag, 'site' => $i, 'part' => sizeof($vod), 'video' => $vod);}
+                if ("" == $YUN_CONFIG["flag_filter"] || preg_match('/' . $YUN_CONFIG["flag_filter"] . "/i", $flag)) {
+                  $info[] = array('flag' => $flag, 'flag_name' => $YUN_CONFIG["flag_replace"][$flag] ? $YUN_CONFIG["flag_replace"][$flag] : $flag, 'site' => $i, 'part' => sizeof($vod), 'video' => $vod);
+                }
                 //匹配期数
                 $vods = preg_match('!#' . (string)$num . '.*?\$(.*?)(?=\$|#)!i', $video, $matches) ? trim($matches[1]) : '';
                 if ('' != $vods) {
                     $videoinfo['url']  = $vods;
                     $videoinfo['play'] = $flag;}
-
             }
 
         } //for end
@@ -112,7 +122,10 @@ class YUN
             array_multisort($num1, SORT_DESC, $num2, SORT_ASC, $info);
 
             //检查集数，如果未匹配集数，设置为最后一个视频
-            if (!$vods) {$max = sizeof($info[0]['video']);if ($max < $num) {$num = $max;};}
+            if (!$vods) {
+                $max = sizeof($info[0]['video']);
+                if ($max < $num) {$num = $max;};
+            }
             $vod = @$info[0]['video'][$num - 1];
             $vod = explode('$', $vod);
             //类型转换
@@ -152,7 +165,11 @@ class YUN
         $api = explode("=>", $YUN_CONFIG["API"][$flag])[1];
 
         $data = self::curl($api . "?ac=videolist&ids=" . $id);if ('' == $data) {return false;}
-        $xml  = simplexml_load_string($data);if (empty($xml)) {return false;}
+
+        $xml = preg_grep('/^{/', $data) ? json_encode($data) : simplexml_load_string($data);
+
+        if (empty($xml)) {return false;}
+
         $img  = $xml->list->video->pic . "";
         $name = $xml->list->video->name . "";
         foreach ($xml->list->video->dl->dd as $video) {
@@ -212,12 +229,18 @@ class YUN
             $data = self::curl($_api[1] . "?wd=" . $name);
 
             if (!$data) {break;}
-            $xml = simplexml_load_string($data);
-            foreach ($xml->list->video as $video) {
-                $id        = (string)$video->id;
-                $type      = (string)$video->dt;
-                $title     = (string)$video->name;
+
+            $xml = preg_match('/\{"/', trim($data)) ? json_decode($data) : simplexml_load_string($data);
+
+            $videoList = $xml->list->video ?: $xml->list;
+
+            foreach ($videoList as $video) {
+              // var_dump($video);
+                $id        = (string)($video->id ?: $video->vod_id);
+                $type      = (string)($video->dt ?: $video->type_name);
+                $title     = (string)($video->name ?: $video->vod_name);
                 $flag_name = $YUN_CONFIG["flag_replace"][$type] ? $YUN_CONFIG["flag_replace"][$type] : $type;
+
                 //搜索资源过滤
                 if ('' === $YUN_CONFIG["flag_filter"] || !preg_match('!' . $YUN_CONFIG["flag_filter"] . '!i', $title)) {
 
@@ -227,9 +250,14 @@ class YUN
 
             }
         }
+
         if (isset($info)) {
             $videoinfo['success'] = 1;
-            $videoinfo['info']    = $info;} else { $videoinfo['code'] = 404;}
+            $videoinfo['info']    = $info;
+        } else {
+          $videoinfo['code'] = 404;
+        }
+
         $videoinfo['title'] = $name;
 
         return $videoinfo;
@@ -238,27 +266,37 @@ class YUN
     //取视频ID
     public static function getid($api, $name, $num)
     {
-
         //根据标题取ID
-        $data = self::curl($api . "?wd=" . urlencode($name));if ("" == $data) {return false;};
+        $data = self::curl($api . "?wd=" . urlencode($name));
 
-        $xml   = simplexml_load_string($data);
+        if ("" == $data) {return false;};
+
+        $xml = preg_match('/\{"/', trim($data)) ? json_decode($data) : simplexml_load_string($data);
+
         $forst = false;
 
         if (!$xml) {return false;}
 
+        $videoList = $xml->list->video ?: $xml->list;
+
         //匹配标题对应ID
-        foreach ($xml->list->video as $video) {
-            $id    = (string)$video->id;
-            $video = (string)$video->name;
-            if ($video == $name) {return $id;}
+        foreach ($videoList as $video) {
+            $id    = (string)($video->id ?: $video->vod_id);
+            $video = (string)($video->name ?: $video->vod_name);
+
+            if ($video == $name) { return $id; }
         }
+
         //如果未找到，取集数匹配的视频
         if ($num > 1) {
             foreach ($xml->list->video as $video) {
                 $id  = (string)$video->id;
-                $ret = self::curl($api . "?ac=videolist&ids=" . $id);if ('' == $ret) {return false;}
-                $xm  = simplexml_load_string($ret);if (empty($xm)) {return false;}
+                $ret = self::curl($api . "?ac=videolist&ids=" . $id);
+                if ('' == $ret) {return false;}
+
+                $xm = preg_match('/\{"/', trim($data)) ? json_decode($data) : simplexml_load_string($data);
+
+                if (empty($xm)) {return false;}
                 $ret = (string)$xm->list->video->dl->dd[0];
                 $vod = explode("#", $ret);
                 if (sizeof($vod) >= $num) {return $id;}
@@ -338,7 +376,7 @@ class YUN
 
     public static function curl($url, $ref = '')
     {
-        $params["ua"]  = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36";
+        $params["ua"]  = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.76";
         $params['ref'] = $ref;
         return GlobalBase::curl($url, $params);
     }

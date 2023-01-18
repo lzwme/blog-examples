@@ -50,7 +50,7 @@ $TITLE = $CONFIG["TITLE"];
   <meta name=”apple-mobile-web-app-status-bar-style” content=”black-translucent” /> <!--  苹果全屏应用模式 -->
 
   <title><?php echo $TITLE ?></title>
-  <script type="text/javascript" src="./include/jquery.min.js"></script>
+  <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
   <script type="text/javascript" src="./include/class.main.js"></script>
   <style type="text/css">
   html,

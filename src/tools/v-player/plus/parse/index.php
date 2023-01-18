@@ -27,7 +27,7 @@ if (empty($url)) {
 <meta name="HandheldFriendly" content="true">
 <meta name="x5-page-mode" content="app">
 <title><?php echo TITLE ?></title>
-<script type="text/javascript" src="./include/jquery.min.js"></script>
+<script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
 <style type="text/css">
 html,
 body {

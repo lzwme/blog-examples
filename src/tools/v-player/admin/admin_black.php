@@ -4,14 +4,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><meta name="renderer" content="webkit"/>
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->  
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->
         <meta http-equiv="pragma" content="no-cache"/><meta http-equiv="expires" content="0" />
         <meta http-equiv="Cache-Control" content="no-siteapp" /><meta http-equiv="Cache-Control" content="no-cache" />
         <title>动作设置-防火墙</title>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="./css/font.css">
         <link rel="stylesheet" href="./css/xadmin.css">
-        <script type="text/javascript" src="./js/jquery.min.js"></script>	
+        <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -48,15 +48,15 @@
 
                         <th>名称</th>
 
-                        <th>语言</th>  
+                        <th>语言</th>
                         <th>脚本</th>
-                        <th>操作</th> 
+                        <th>操作</th>
 
                 </thead>
                 <tbody>
 
 
-                    <?php foreach ($CONFIG["BLACKLIST"]['black'] as $key => $val): ?>	
+                    <?php foreach ($CONFIG["BLACKLIST"]['black'] as $key => $val): ?>
 
 
                         <tr>
@@ -64,14 +64,14 @@
                                 <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='<?php echo $key; ?>'><i class="layui-icon">&#xe605;</i></div>
                             </td>
                             <td><?php echo $key; ?>	</td>
-                            <td><?php echo $val['name']; ?></td>		
+                            <td><?php echo $val['name']; ?></td>
 
-                            <td><?php echo ($val['type'] == 1) ? "PHP" : "HTML"; ?></td>            
+                            <td><?php echo ($val['type'] == 1) ? "PHP" : "HTML"; ?></td>
                             <td><?php if ($val['type'] == 0) {
                         echo "屏蔽显示请编辑查看内容";
                     } else {
                         echo base64_decode($val['info']);
-                    } ?></td>	
+                    } ?></td>
 
                             <td class="td-manage">
 
@@ -84,7 +84,7 @@
                             </td>
                         </tr>
 
-<?php endforeach; ?>   
+<?php endforeach; ?>
 
                 </tbody>
 
@@ -104,16 +104,16 @@
             });
 
             /*用户-删除*/
-            
+
             function member_del(obj, id){layer.confirm('确认要删除吗？', function (index){ x_admin_post("admin.php", {"type": "black_black_del", "id": id}); });}
-            
+
            /*用户-删除 多选*/
             function delAll(argument)
             {
             var data = tableCheck.getData(); data = data.join(",");
             layer.confirm('确认要删除吗？' + data, function (index) {x_admin_post("admin.php", {"type": "black_black_del", "id": data}); });
             }
- 
+
         </script>
 
     </body>

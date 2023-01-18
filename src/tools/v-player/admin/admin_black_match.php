@@ -4,14 +4,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><meta name="renderer" content="webkit"/>
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->  
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->
         <meta http-equiv="pragma" content="no-cache"/><meta http-equiv="expires" content="0" />
         <meta http-equiv="Cache-Control" content="no-siteapp" /><meta http-equiv="Cache-Control" content="no-cache" />
         <title>规则设置-防火墙设置-Xyplay智能解析</title>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" >
         <link rel="stylesheet" href="./css/font.css">
         <link rel="stylesheet" href="./css/xadmin.css">
-        <script type="text/javascript" src="./js/jquery.min.js"></script>	
+        <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -49,12 +49,12 @@
 
 
                         <th>优先级</th>
-                        <th>描述</th>			
+                        <th>描述</th>
                         <?php if (!lsMobile()): ?>
-                            <th>类型</th>            
+                            <th>类型</th>
                             <th>规则</th>
-                            <th>动作</th>                         
-                        <?php endif ?>          
+                            <th>动作</th>
+                        <?php endif ?>
 
                         <th>状态</th>
                         <th>操作</th>
@@ -62,7 +62,7 @@
                 <tbody>
 
 
-                    <?php foreach ($CONFIG["BLACKLIST"]['match'] as $key => $val): ?>	
+                    <?php foreach ($CONFIG["BLACKLIST"]['match'] as $key => $val): ?>
 
 
                         <tr>
@@ -71,7 +71,7 @@
                             </td>
                             <td><?php echo $key; ?>	</td>
                             <td><?php echo $val['num']; ?></td>
-                            <td><?php echo $val['name']; ?></td>			
+                            <td><?php echo $val['name']; ?></td>
                             <?php if (!lsMobile()): ?>
                                 <td><?php
                                     switch ($val['type']) {
@@ -84,10 +84,10 @@
                                         case 3: echo "客户IP";
                                             break;
                                     }
-                                    ?></td>            
-                                <td><?php echo ($val['match'] == 1) ? "匹配时拦截" : "不匹配时拦截"; ?></td>          
-                                <td><?php echo $CONFIG["BLACKLIST"]['black'][$val['black']]['name']; ?></td>   
-                            <?php endif ?> 
+                                    ?></td>
+                                <td><?php echo ($val['match'] == 1) ? "匹配时拦截" : "不匹配时拦截"; ?></td>
+                                <td><?php echo $CONFIG["BLACKLIST"]['black'][$val['black']]['name']; ?></td>
+                            <?php endif ?>
                             <td class="td-status">
 
                                 <span class="layui-btn layui-btn-normal layui-btn-mini <?php echo ($val['off'] == 1) ? "" : "layui-btn-disabled"; ?> "><?php echo ($val['off'] == 1) ? "已启用" : "已停用"; ?></span></td>
@@ -104,7 +104,7 @@
                             </td>
                         </tr>
 
-                    <?php endforeach; ?>   
+                    <?php endforeach; ?>
 
                 </tbody>
 
@@ -129,27 +129,27 @@
 
             /*用户-停用*/
 
-            function member_stop(obj, id) 
+            function member_stop(obj, id)
             {
                 if ($(obj).attr('title') === '停用')
                 {
                   layer.confirm('确认停用吗？', function (index){x_admin_post("admin.php", {"type": "black_match_stop", "id": id});});
                 } else {
-                   x_admin_post("admin.php", {"type": "black_match_start", "id": id});           
+                   x_admin_post("admin.php", {"type": "black_match_start", "id": id});
                 }
             };
-            
+
             /*用户-删除*/
             function member_del(obj, id){layer.confirm('确认要删除吗？', function (index){ x_admin_post("admin.php", {"type": "black_match_del", "id": id}); });}
-           
-           
+
+
            /*用户-删除 多选*/
             function delAll(argument)
             {
             var data = tableCheck.getData(); data = data.join(",");
             layer.confirm('确认要删除吗？' + data, function (index) {x_admin_post("admin.php", {"type": "black_match_del", "id": data}); });
             }
-      
+
         </script>
 
     </body>

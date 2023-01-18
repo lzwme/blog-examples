@@ -15,11 +15,9 @@ $skin = array(
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="renderer" content="webkit" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <script type="text/javascript" src="./include/jquery.min.js"></script>
+  <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
   <script type="text/javascript" src="./include/class.main.js"></script>
   <link href="./include/jquery.autocomplete.css" rel="stylesheet">
-  <script src="https://js.fundebug.cn/fundebug.1.7.3.min.js" apikey="86d7acd8a693cba80b985a1c4bc1d22cc780e5e33e9553ec04ccc158d405c9cc">
-  </script> <!--  用于BUG收集，请勿删除 -->
   <script type="text/javascript" src="./include/jquery.autocomplete.js?ver=1.2"></script>
   <title>智能解析系统</title>
   <style>

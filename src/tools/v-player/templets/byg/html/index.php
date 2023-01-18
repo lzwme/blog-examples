@@ -15,8 +15,8 @@
   <meta name="description" content="<?php echo $CONFIG["description"];?>" />
   <!--必要样式-->
   <link rel="stylesheet" type="text/css" href="./<?php echo TEMPLETS_PATH ?>images/styles.css">
-  <script type="text/javascript" src="./include/jquery.min.js"></script>
-  <script type="text/javascript" src="include/xyclass.min.js"></script>
+  <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
+  <!-- <script type="text/javascript" src="include/xyclass.min.js"></script> -->
   <script type="text/javascript" src="./include/class.main.js?time=<?php time();?>"></script>
   <?php require_once './save/config.php'; if($CONFIG["play"]['off']['posterr']){echo '<script>if("undefined" !== typeof fnErrorTrap){window.onerror=fnErrorTrap;}</script>';}?>
   <?php if($CONFIG["play"]['off']['debug']) {
@@ -105,7 +105,8 @@
     </script>
   </div>
 
-  <script type="text/javascript" src="include/class.db.js"></script><?php echo base64_decode($CONFIG["FOOTER_CODE"]);?>
+  <!-- <script type="text/javascript" src="include/class.db.js"></script> -->
+  <?php echo base64_decode($CONFIG["FOOTER_CODE"]);?>
   <?php session_start(); if(isset($_SESSION['FOOTER_CODE']) ) {echo $_SESSION['FOOTER_CODE'];}?>
 
 </body>

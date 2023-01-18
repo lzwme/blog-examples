@@ -27,7 +27,7 @@ class wechatCallbackapiTest
     }
     public function valid()
     {
-        $echoStr = $_GET["echostr"];
+        $echoStr = isset($_GET['echostr']) ? $_GET['echostr'] : '';
         if ("" == $echoStr) {
             $this->responseMsg();
         } elseif ($this->checkSignature()) {
@@ -38,7 +38,8 @@ class wechatCallbackapiTest
 
     public function responseMsg()
     {
-        $postStr      = addslashes(file_get_contents('php://input'));if (empty($postStr)) {exit("你好！请关注【" . TITLE . "】微信公众号获取服务");}
+        $postStr      = addslashes(file_get_contents('php://input'));
+        if (empty($postStr)) {exit("你好！请关注【" . TITLE . "】微信公众号获取服务");}
         $postObj      = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
         $fromUsername = $postObj->FromUserName;
         $toUsername   = $postObj->ToUserName;
@@ -147,7 +148,7 @@ class wechatCallbackapiTest
         } // switch end
     }
 
-    private function __checkSignature()
+    private function checkSignature()
     {
         // you must define TOKEN by yourself
         if (!defined("TOKEN")) {

@@ -4,7 +4,7 @@
     <head>
         <title>防火墙设置</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Content-language" content="zh-CN">   
+        <meta http-equiv="Content-language" content="zh-CN">
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta http-equiv="pragma" content="no-cache">
@@ -12,7 +12,7 @@
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="./css/font.css">
         <link rel="stylesheet" href="./css/xadmin.css">
-        <script type="text/javascript" src="./js/jquery.min.js"></script>
+        <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -25,7 +25,7 @@
     <body>
         <div class="x-nav">
             <span class="layui-breadcrumb">
-                <a><cite>首页</cite></a>  
+                <a><cite>首页</cite></a>
                 <a><cite>广告过滤</cite></a>
                 <a><cite>基本设置</cite></a>
             </span>
@@ -43,12 +43,12 @@
                     <div class="layui-input-inline">
                         <input type="text" name="ADBLACK_NAME" autocomplete="off" value="<?php echo $CONFIG["BLACKLIST"]['adblack']['name']; ?> "  class="layui-input" >
 
-                    </div>						  
+                    </div>
                      <div class="layui-form-mid layui-word-aux">
                         <span class="x-red">*</span> 调用名称,例：设置为jx,调用即为：/?jx=
                     </div>
 
-                </div>  
+                </div>
 
                 <div class="layui-form-item">
                     <button class="layui-btn" lay-submit="" lay-filter="*">
@@ -72,15 +72,15 @@
                 //监听提交
                 form.on('submit(*)', function (data) {
                     data.field.type="adblack_system";
-                   
-                   //发异步，把数据提交给php    
-                    x_admin_post("admin.php",data.field);   
-      
+
+                   //发异步，把数据提交给php
+                    x_admin_post("admin.php",data.field);
+
                    return false;
                 });
 
             });
-             
+
         </script>
 
     </body>

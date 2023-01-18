@@ -4,14 +4,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><meta name="renderer" content="webkit"/>
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->  
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/> <!-- 手机H5兼容模式 -->
         <meta http-equiv="pragma" content="no-cache"/><meta http-equiv="expires" content="0" />
         <meta http-equiv="Cache-Control" content="no-siteapp" /><meta http-equiv="Cache-Control" content="no-cache" />
         <title>规则设置-广告过滤-Xyplay智能解析</title>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" >
         <link rel="stylesheet" href="./css/font.css">
         <link rel="stylesheet" href="./css/xadmin.css">
-        <script type="text/javascript" src="./js/jquery.min.js"></script>	
+        <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
         <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="./js/xadmin.js"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -49,10 +49,10 @@
 
 
                         <th>优先级</th>
-                        <th>描述</th>			
+                        <th>描述</th>
                         <?php if (!lsMobile()): ?>
-                            <th>对象</th>                                           
-                        <?php endif ?>          
+                            <th>对象</th>
+                        <?php endif ?>
 
                         <th>状态</th>
                         <th>操作</th>
@@ -60,7 +60,7 @@
                 <tbody>
 
 
-                    <?php foreach ($CONFIG["BLACKLIST"]['adblack']["match"] as $key => $val): ?>	
+                    <?php foreach ($CONFIG["BLACKLIST"]['adblack']["match"] as $key => $val): ?>
 
 
                         <tr>
@@ -69,11 +69,11 @@
                             </td>
                             <td><?php echo $key; ?>	</td>
                             <td><?php echo $val['num']; ?></td>
-                            <td><?php echo $val['name']; ?></td>			
+                            <td><?php echo $val['name']; ?></td>
                             <?php if (!lsMobile()): ?>
 
-                            <td><?php echo base64_decode($val['target']); ?></td>          
-                            <?php endif ?> 
+                            <td><?php echo base64_decode($val['target']); ?></td>
+                            <?php endif ?>
                             <td class="td-status">
 
                                 <span class="layui-btn layui-btn-normal layui-btn-mini <?php echo ($val['off'] == 1) ? "" : "layui-btn-disabled"; ?> "><?php echo ($val['off'] == 1) ? "已启用" : "已停用"; ?></span></td>
@@ -90,7 +90,7 @@
                             </td>
                         </tr>
 
-                    <?php endforeach; ?>   
+                    <?php endforeach; ?>
 
                 </tbody>
 
@@ -107,13 +107,13 @@
             });
 
             /*用户-停用*/
-            function member_stop(obj, id) 
+            function member_stop(obj, id)
             {
                 if ($(obj).attr('title') === '停用')
                 {
                   layer.confirm('确认停用吗？', function (index){x_admin_post("admin.php", {"type": "adblack_match_stop", "id": id});});
                 } else {
-                   x_admin_post("admin.php", {"type": "adblack_match_start", "id": id});           
+                   x_admin_post("admin.php", {"type": "adblack_match_start", "id": id});
                 }
             };
 

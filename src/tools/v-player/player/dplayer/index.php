@@ -15,7 +15,7 @@
   <meta name=”apple-mobile-web-app-capable” content=”yes”>
   <meta name=”apple-mobile-web-app-status-bar-style” content=”black-translucent” /> <!--  苹果全屏应用模式 -->
   <!--必要样式-->
-  <script type="text/javascript" src="../../include/jquery.min.js"></script>
+  <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
   <script type="text/javascript" src="../../include/class.main.js"></script>
   <script type="text/javascript" src="hls.min.js"></script>
   <link rel="stylesheet" href="DPlayer.min.css">
