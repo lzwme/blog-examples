@@ -63,12 +63,15 @@ class YUN
         } else {
             if ("" != $YUN_CONFIG["url_filter"] && !preg_match('/' . $YUN_CONFIG["url_filter"] . "/i", $val)) {
                 $videoinfo['code'] = 0;
-                $videoinfo['m']    = "url error!";return $videoinfo;}
+                $videoinfo['m']    = "url error!";
+                return $videoinfo;
+            }
 
             if (!self::getjmp($val, $url, $name, $num)) {
                 if (!self::getname($val, $name, $num)) {
                     $videoinfo['code'] = 0;
-                    $videoinfo['m']    = "getname error!";return $videoinfo;
+                    $videoinfo['m']    = "getname error!";
+                    return $videoinfo;
                 }
             }
         }
@@ -101,7 +104,13 @@ class YUN
                 //检测是否存在名称，兼容苹果CMS
                 if (!strpos($vod[0], "$")) {foreach ($vod as &$mov) {$mov = "高清$" . $mov;}}
                 if ("" == $YUN_CONFIG["flag_filter"] || preg_match('/' . $YUN_CONFIG["flag_filter"] . "/i", $flag)) {
-                  $info[] = array('flag' => $flag, 'flag_name' => $YUN_CONFIG["flag_replace"][$flag] ? $YUN_CONFIG["flag_replace"][$flag] : $flag, 'site' => $i, 'part' => sizeof($vod), 'video' => $vod);
+                    $info[] = array(
+                        'flag'      => $flag,
+                        'flag_name' => $YUN_CONFIG["flag_replace"][$flag] ? $YUN_CONFIG["flag_replace"][$flag] : $flag,
+                        'site'      => $i,
+                        'part'      => sizeof($vod),
+                        'video'     => $vod,
+                    );
                 }
                 //匹配期数
                 $vods = preg_match('!#' . (string)$num . '.*?\$(.*?)(?=\$|#)!i', $video, $matches) ? trim($matches[1]) : '';
@@ -157,7 +166,7 @@ class YUN
         return $videoinfo;
 
     }
-//根据资源站序号及视频ID取视频信息
+    //根据资源站序号及视频ID取视频信息
     public static function getvideobyid($flag, $id)
     {
         global $YUN_MACTH, $YUN_CONFIG;
@@ -179,8 +188,13 @@ class YUN
             //检测是否存在名称，兼容苹果CMS
             if (!strpos($vod[0], "$")) {foreach ($vod as &$mov) {$mov = "高清$" . $mov;}}
 
-            if ("" == $YUN_CONFIG["flag_filter"] || preg_match('/' . $YUN_CONFIG["flag_filter"] . "/i", $flag)) {$info[] = array('flag' => $flag, 'flag_name' => $flag_name, 'part' => sizeof($vod), 'video' => $vod);}
-
+            if ("" == $YUN_CONFIG["flag_filter"] || preg_match('/' . $YUN_CONFIG["flag_filter"] . "/i", $flag)) {
+                $info[] = array('flag' => $flag,
+                    'flag_name'            => $flag_name,
+                    'part'                 => sizeof($vod),
+                    'video'                => $vod,
+                );
+            }
         }
 
         //结果按集数降序排列。
@@ -235,16 +249,27 @@ class YUN
             $videoList = $xml->list->video ?: $xml->list;
 
             foreach ($videoList as $video) {
-              // var_dump($video);
+                // var_dump($video);
                 $id        = (string)($video->id ?: $video->vod_id);
-                $type      = (string)($video->dt ?: $video->type_name);
+                $type_from = (string)($video->dt ?: $video->vod_play_from);
+                $type_name = (string)($video->type ?: $video->type_name);
                 $title     = (string)($video->name ?: $video->vod_name);
-                $flag_name = $YUN_CONFIG["flag_replace"][$type] ? $YUN_CONFIG["flag_replace"][$type] : $type;
+                $remark    = (string)($video->note ?: $video->vod_remarks);
+                $flag_name = $YUN_CONFIG["flag_replace"][$$type_from] ? $YUN_CONFIG["flag_replace"][$$type_from] : $$type_from;
 
                 //搜索资源过滤
                 if ('' === $YUN_CONFIG["flag_filter"] || !preg_match('!' . $YUN_CONFIG["flag_filter"] . '!i', $title)) {
-
-                    $info[] = array('flag' => $i, 'flag_name' => $flag_name, 'from' => $_api[0], 'type' => $type, 'id' => $id, 'title' => urlencode($title), 'img:' => 'null');
+                    $info[] = array(
+                        'flag'      => $i,
+                        'flag_name' => $flag_name,
+                        'from'      => $_api[0],
+                        'type'      => $type_from,
+                        't_name'    => $type_name,
+                        'id'        => $id,
+                        'title'     => urlencode($title),
+                        'remark'    => $remark,
+                        'img:'      => 'null',
+                    );
 
                 }
 
@@ -255,7 +280,7 @@ class YUN
             $videoinfo['success'] = 1;
             $videoinfo['info']    = $info;
         } else {
-          $videoinfo['code'] = 404;
+            $videoinfo['code'] = 404;
         }
 
         $videoinfo['title'] = $name;
@@ -284,7 +309,7 @@ class YUN
             $id    = (string)($video->id ?: $video->vod_id);
             $video = (string)($video->name ?: $video->vod_name);
 
-            if ($video == $name) { return $id; }
+            if ($video == $name) {return $id;}
         }
 
         //如果未找到，取集数匹配的视频

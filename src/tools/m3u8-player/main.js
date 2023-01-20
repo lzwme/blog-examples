@@ -1,9 +1,14 @@
 h5CommInit();
 
+let hls;
 function playM3u8(url) {
   if (Hls.isSupported()) {
+    if (hls) {
+      hls.destroy();
+    }
+
     video.volume = 1.0;
-    var hls = new Hls();
+    hls = new Hls();
     var m3u8Url = decodeURIComponent(url);
     hls.loadSource(m3u8Url);
     hls.attachMedia(video);
@@ -30,7 +35,7 @@ if (uri != null) {
   if (urlParams.autoplay !== '0') playM3u8(uri);
 
   if (self !== window.top) {
-    $('header,footer,.logo,.input-div,.am-text-right,.am-alert-secondary').remove();
+    $('header,footer,.logo,.am-text-right,.am-alert-secondary').remove();
     $('#player,.am-container,body,html').css({
       height: '100%',
       width: '100%',

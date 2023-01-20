@@ -9,34 +9,34 @@
       tittext: document.getElementById('tittext'),
     },
     urls: [
-      ['https://jx.xmflv.com/?url='],
-      ['https://jx.bozrc.com:4433/player/?url='],
-      ['https://jx.playerjy.com/?url='],
-      ['https://jx.yparse.com/index.php?url='],
-      ['https://okjx.cc/?url='],
-      ['https://www.jiexila.com/?url='],
-      ['https://www.nxflv.com/?url='],
-      ['https://jx.aidouer.net/?url='],
-      ['https://www.1717yun.com/jx/ty.php?url='],
-      ['http://www.1717yun.com/jx/vip/index.php?url='],
-      ['https://yparse.jn1.cc/?url='],
-      ['https://api.jiexi.la/?url='],
-      ['https://www.ckplayer.vip/jiexi/?url='],
-      ['https://www.ckmov.vip/api.php?url='],
-      ['https://www.h8jx.com/jiexi.php?url='],
-      ['https://jx.jsonplayer.com/player/?url='],
-      ['https://www.8090g.cn/?url='],
-      ['https://www.8090g.cn/jiexi/?url='],
-      ['https://vip.mpos.ren/v/?url='],
-      ['https://jx.m3u8.tv/jiexi/?url='],
-      ['https://www.pangujiexi.cc/jiexi.php?url='],
-      ['https://www.xymav.com/?url='],
-      ['http://jx.618g.com/?url='],
-      ['https://2.08bk.com/?url='],
-      ['https://vip.bljiex.com/?v='],
+      ['https://jx.xmflv.com/?url=', '线路xmflv'],
+      ['https://jx.bozrc.com:4433/player/?url=', '线路bozrc'],
+      ['https://jx.playerjy.com/?url=', '线路playerjy'],
+      ['https://jx.yparse.com/index.php?url=', '线路yparse'],
+      ['https://okjx.cc/?url=', '线路okjx'],
+      ['https://www.jiexila.com/?url=', '线路jiexila'],
+      ['https://www.nxflv.com/?url=', '线路nxflv'],
+      ['https://jx.aidouer.net/?url=', '线路aidouer'],
+      ['https://www.1717yun.com/jx/ty.php?url=', '线路1717yun'],
+      ['https://www.1717yun.com/jx/vip/index.php?url=', '线路1717yun(vip)'],
+      ['https://yparse.jn1.cc/?url=', '线路jn1'],
+      ['https://api.jiexi.la/?url=', '线路jiexi-la'],
+      ['https://www.ckplayer.vip/jiexi/?url=', '线路ckplayer'],
+      ['https://www.ckmov.vip/api.php?url=', '线路ckmov'],
+      ['https://www.h8jx.com/jiexi.php?url=', '线路h8jx'],
+      ['https://jx.jsonplayer.com/player/?url=', '线路jsonplayer'],
+      ['https://www.8090g.cn/?url=', '线路8090g'],
+      ['https://www.8090g.cn/jiexi/?url=', '线路8090g2'],
+      ['https://vip.mpos.ren/v/?url=', '线路mpos'],
+      ['https://jx.m3u8.tv/jiexi/?url=', '线路m3u8tv'],
+      ['https://www.pangujiexi.cc/jiexi.php?url=', '线路pangujiexi'],
+      ['https://www.xymav.com/?url=', '线路xymav'],
+      // ['http://jx.618g.com/?url=', '线路618g'],
+      ['https://2.08bk.com/?url=', '线路08bk'],
+      // ['https://vip.bljiex.com/?v=', '线路bljiex'],
     ],
-    play: function () {
-      var rul = VIP.el.urlInput.value; //获取input链接
+    play: function (rul) {
+      if (!rul) rul = VIP.el.urlInput.value; //获取input链接
 
       if (rul == '') {
         alert('提示您：请输入链接，没链接我给你解析个毛线');
@@ -114,6 +114,12 @@
       VIP.el.playBtn.addEventListener('click', VIP.play, false);
 
       VIP.initHrTime();
+      const urlParams = h5Utils.getUrlParams();
+      const url = urlParams.url || url.v;
+      if (String(url).startsWith('http')) {
+        VIP.el.urlInput.value = url;
+        VIP.play(url);
+      }
     },
   };
 

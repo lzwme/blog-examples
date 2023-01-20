@@ -1,16 +1,33 @@
 <?php include ('./data/beipy.inc.php');?>
 
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
-  <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="full-screen" content="yes">
+    <meta name="browsermode" content="application">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="author" content="lzw.me">
+    <meta property="og:image" content="img/tvlogo.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/tvlogo.png">
+    <link rel="shortcut icon" sizes="114x114" href="img/tvlogo.png">
+
   <title>
     <?php echo $aik['title'];?>
   </title>
   <meta name="keywords" content="<?php echo $aik['keywords'];?>" />
   <meta name="description" content="<?php echo $aik['description'];?>" />
-  <meta name=viewport content="width=device-width,anicital-scale=1">
+
   <link crossorigin="anonymous" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
     href="https://lib.baomitu.com/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
   <script crossorigin="anonymous"

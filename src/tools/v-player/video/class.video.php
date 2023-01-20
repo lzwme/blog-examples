@@ -13,10 +13,10 @@ class VIDEO
             $videoinfo['code']    = 200;
             return $videoinfo;
         } elseif (stristr($url, ".m3u8") !== false) {
-            if (preg_grep('/^http:/', $url)) {
+            if (preg_grep('/^https?:/', $url)) {
                 require_once '../includes/class.main.php';
 
-                if ('m3u8' == $info['ext'] && preg_match('/^http:/', $info['url'])) {
+                if ('m3u8' == $info['ext'] && preg_match('/^https?:/', $info['url'])) {
                     $url = GlobalBase::is_root() . "video/m3u8.php?url=" . urlencode($info['url']);
                 }
             }

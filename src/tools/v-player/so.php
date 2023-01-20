@@ -317,9 +317,10 @@ $skin = array(
           var v = xyplay.data.info;
           var w = "<br><br><div style='text-align:center;'><h3>搜索到相关视频" + v.length + "个，请点击访问</h3>";
           for (i = 0, len = v.length; i < len; i++) {
+            var item = v[i];
             var href = "./?flag=" + v[i].flag + "&type=" + v[i].type + "&id=" + v[i].id + "&wd=" + v[i].title;
-            var title = removeHTMLTag(decodeURIComponent(v[i].title), true) + "(" + (v[i].from) + ")";
-            w += "<a  class='list_btn' target='_parent' href='" + href + "' title='" + title + "' ><strong>" + title + "</strong></a>";
+            var title = removeHTMLTag(`[${item.t_name}]${decodeURIComponent(v[i].title)}(${item.remark})(${item.from})`, true);
+            w += "<a  class='list_btn' target='_parent' href='" + href + "' title='" + `${title}` + "' ><strong>" + title + "</strong></a>";
           }
           w += "</div>";
 
