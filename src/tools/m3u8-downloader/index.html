@@ -698,10 +698,14 @@
       },
       // 获取链接中携带的资源链接
       getSource() {
-        let { href } = location
-        if (href.indexOf('?source=') > -1) {
-          this.url = decodeURIComponent(href.split('?source=')[1])
+        let { href } = location;
+
+        if (href.indexOf('source=') > -1) {
+          this.url = decodeURIComponent(href.split('source=')[1])
+          this.title = new URL(this.url).searchParams.get('title');
         }
+
+        if (!this.title) this.title = new URL(location).searchParams.get('title') || '';
       },
 
       // 获取顶部 window title，因可能存在跨域问题，故使用 try catch 进行保护
@@ -819,7 +823,7 @@
           window.history.replaceState(null, '', `${location.href.split('?')[0]}?source=${this.url}`)
         }
 
-        if (this.url) this.title = new URL(this.url).searchParams.get('title') || this.title // 获取视频标题
+        if (this.url && !this.title) this.title = new URL(this.url).searchParams.get('title') || this.title // 获取视频标题
         this.tips = 'm3u8 文件下载中，请稍后'
         this.beginTime = new Date();
         try {

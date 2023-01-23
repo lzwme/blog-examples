@@ -410,3 +410,28 @@ function endebug(off, code) {
       });
   }
 }
+
+//复制内容到剪切板
+function txtCopy(msg) {
+  function copy(e) {
+      msg = typeof msg === 'string' ? msg : JSON.stringify(msg);
+    e.clipboardData.setData('text/plain', msg);
+    e.preventDefault();
+  }
+
+  document.addEventListener('copy', copy);
+  document.execCommand('copy');
+  document.removeEventListener('copy', copy);
+}
+
+//复制内容到剪切板2
+function txtCopy2(msg) {
+  var oInput = document.createElement('input');
+  oInput.value = typeof msg === 'string' ? msg : JSON.stringify(msg);
+  document.body.appendChild(oInput);
+  oInput.select(); // 选择对象
+  document.execCommand('copy'); // 执行浏览器复制命令
+  oInput.className = 'oInput';
+  oInput.style.display = 'none';
+  oInput.remove();
+}
