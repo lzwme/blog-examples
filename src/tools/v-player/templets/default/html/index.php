@@ -18,9 +18,15 @@
   <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
   <!-- <script type="text/javascript" src="include/xyclass.min.js"></script> -->
   <script type="text/javascript" src="include/class.main.js?time=<?php echo time(); ?>"></script>
-  <?php require_once './save/config.php';if ($CONFIG["play"]['off']['posterr']) {echo '<script>if("undefined" !== typeof fnErrorTrap){window.onerror=fnErrorTrap;}</script>';} ?>
-  <?php if ($CONFIG["play"]['off']['debug']) {echo '<script src="https://js.fundebug.cn/fundebug.1.7.3.min.js" apikey="86d7acd8a693cba80b985a1c4bc1d22cc780e5e33e9553ec04ccc158d405c9cc"></script>';} ?>
-  <script id="xyplay" src="include/xyplay.min.js?time=<?php echo time(); ?>"></script>
+  <?php 
+  require_once './save/config.php';
+  if ($CONFIG["play"]['off']['posterr']) {
+    echo '<script>if("undefined" !== typeof fnErrorTrap){window.onerror=fnErrorTrap;}</script>';
+    } ?>
+  <?php if ($CONFIG["play"]['off']['debug']) {
+    // echo '<script src="https://js.fundebug.cn/fundebug.1.7.3.min.js" apikey="86d7acd8a693cba80b985a1c4bc1d22cc780e5e33e9553ec04ccc158d405c9cc"></script>';
+  } ?>
+  <script id="xyplay" src="./include/xyplay.min.js?v=0.0.1"></script>
   <?php require_once TEMPLETS_PATH . $CONFIG["templets"]['html'] . '/config.php';include_once TEMPLETS_PATH . $CONFIG["templets"]['html'] . '/css.php'; ?>
   <?php if (1 == $CONFIG["templets"]['off']): ?><style type="text/css">
   <?php echo $CONFIG["templets"]['css'] ?>

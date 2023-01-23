@@ -34,8 +34,11 @@ if (uri != null) {
   $('.s-input').val(uri);
   if (urlParams.autoplay !== '0') playM3u8(uri);
 
-  if (self !== window.top) {
+  if (self !== window.top || urlParams.type === '1') {
     $('header,footer,.logo,.am-text-right,.am-alert-secondary').remove();
+    if (!urlParams.showInput) $('.input-div').remove();
+    else $('.input-file,.input-content').remove();
+
     $('#player,.am-container,body,html').css({
       height: '100%',
       width: '100%',
@@ -94,6 +97,13 @@ $('#str-post button.rotate').click(function (ev) {
   $('#player').css({
     transform: `rotate(${vedioRotate}deg)`,
   });
+});
+$('button.download').on('click', () => {
+    let url = $('input[name=url]').val();
+
+  if (!url) return alert('请输入 m3u8 的 url 地址');
+  if (url === 'test.m3u8') url = location.origin + location.pathname + url;
+  window.open('../m3u8-downloader?source=' + encodeURIComponent(url));
 });
 
 $('#vedioSelect').on('change', ev => {

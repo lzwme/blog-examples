@@ -66,7 +66,7 @@
 
     var _hmt = _hmt || [];
     var hm = document.createElement('script');
-    hm.src = 'https://hm.baidu.com/hm.js?' + (id || '1c720b7315e37bbf488afd28e60002bf');
+    hm.src = 'https://hm.baidu.com/hm.js?' + (id || '9490cd5069dd0fc72fa96e7dff4d1562');
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(hm, s);
   }

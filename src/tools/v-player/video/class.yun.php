@@ -15,25 +15,22 @@ class YUN
         global $YUN_MATCH;
 
         switch ($type) {
-            case 1: //地址播放视频
+            case 1: // 地址播放视频
                 $val = str_replace($YUN_MATCH["url_replace"], "", urldecode($val)); //url地址过滤
                 return self::getvideo($val);
-            case 2: //标题播放视频
+            case 2: // 标题播放视频
                 return self::getvideo($val, true);
-            case 3: //    搜索资源 使用ID
+            case 3: // 搜索资源 使用ID
                 return self::getvideobyid($val["flag"], $val["id"]);
-
             case 4: //搜索资源 使用标题
                 return self::getnames(urldecode($val));
-
             default:
-
                 return array('success' => 0, 'code' => 0, 'm' => 'input error!');
 
         }
 
     }
-//检测链接跳转
+    //检测链接跳转
     public static function getjmp($val, &$url, &$name, &$num)
     {
         global $YUN_DATA;
@@ -48,7 +45,7 @@ class YUN
         return false;
     }
 
-//根据url或视频名称取视频信息
+    //根据url或视频名称取视频信息
     public static function getvideo($val, $lswrod = false)
     {
 
@@ -58,6 +55,7 @@ class YUN
         $num       = 1;
         $name      = "";
         $url       = "";
+
         if ($lswrod) {
             $name = $val;
         } else {
@@ -75,7 +73,9 @@ class YUN
                 }
             }
         }
+
         if (filter_input(INPUT_GET, 'dd')) {echo "{'name':$name,'num':$num}";}
+
         //404判断,使用精确匹配
         if ("" != $YUN_MATCH["ERROR_404"] && self::findstrs($name, $YUN_MATCH["ERROR_404"])) {
             $videoinfo['code'] = 404;
@@ -159,7 +159,6 @@ class YUN
             $videoinfo['info']    = $info;
 
         } else {
-
             $videoinfo['m'] = "未找到资源!";
         }
 
@@ -173,7 +172,8 @@ class YUN
 
         $api = explode("=>", $YUN_CONFIG["API"][$flag])[1];
 
-        $data = self::curl($api . "?ac=videolist&ids=" . $id);if ('' == $data) {return false;}
+        $data = self::curl($api . "?ac=videolist&ids=" . $id);
+        if ('' == $data) {return false;}
 
         $xml = preg_grep('/^{/', $data) ? json_encode($data) : simplexml_load_string($data);
 
@@ -198,7 +198,8 @@ class YUN
         }
 
         //结果按集数降序排列。
-        foreach ($info as $key => $row) {$num1[$key] = $row['part'];}array_multisort($num1, SORT_DESC, $info);
+        foreach ($info as $key => $row) {$num1[$key] = $row['part'];}
+        array_multisort($num1, SORT_DESC, $info);
 
         $vod = $info[0]['video'][0];
         $vod = explode('$', $vod);
@@ -228,7 +229,7 @@ class YUN
 
     }
     //视频搜索
-    public static function getnames($name)
+    public static function getnames($name, $isAll = false)
     {
         global $YUN_MACTH, $YUN_CONFIG;
         $api = $YUN_CONFIG["API"];
@@ -238,14 +239,17 @@ class YUN
         $videoinfo = array('success' => 0, 'code' => 0);
 
         for ($i = 0; $i < sizeof($api); $i++) {
+            if (preg_match('/^\/\//', $api[$i])) continue;
+            
             $_api = explode("=>", $api[$i]);
 
             $data = self::curl($_api[1] . "?wd=" . $name);
 
-            if (!$data) {break;}
+            if (!$data) {
+                continue;
+            }
 
             $xml = preg_match('/\{"/', trim($data)) ? json_decode($data) : simplexml_load_string($data);
-
             $videoList = $xml->list->video ?: $xml->list;
 
             foreach ($videoList as $video) {
@@ -258,7 +262,7 @@ class YUN
                 $flag_name = $YUN_CONFIG["flag_replace"][$$type_from] ? $YUN_CONFIG["flag_replace"][$$type_from] : $$type_from;
 
                 //搜索资源过滤
-                if ('' === $YUN_CONFIG["flag_filter"] || !preg_match('!' . $YUN_CONFIG["flag_filter"] . '!i', $title)) {
+                if ($id && '' === $YUN_CONFIG["flag_filter"] || !preg_match('!' . $YUN_CONFIG["flag_filter"] . '!i', $title)) {
                     $info[] = array(
                         'flag'      => $i,
                         'flag_name' => $flag_name,
@@ -270,10 +274,11 @@ class YUN
                         'remark'    => $remark,
                         'img:'      => 'null',
                     );
-
                 }
 
             }
+
+            if (isset($info) && !$isAll) break;
         }
 
         if (isset($info)) {
@@ -359,7 +364,7 @@ class YUN
 
         if ('' == $data) {if (function_exists('file_get_contents')) {$data = file_get_contents($url);}}if ("" == $data) {return false;}
 
-        //调用配置预设正则，获取视频标题。
+        // 调用配置预设正则，获取视频标题。
         foreach ($YUN_MACTH["title_match"] as $val => $value) {
             if (preg_match($val, $url)) {
                 foreach ($value as $word) {
@@ -371,7 +376,7 @@ class YUN
                 if ("" != $title) {break;}
             }
         }
-//过滤换行符
+        //过滤换行符
         $title = trim(str_replace(array("\r\n", "\n", "\r"), "", $title));
 
         //调用配置预设正则，获取视频名称和集数。
@@ -391,7 +396,7 @@ class YUN
         $name = trim(str_replace($YUN_MACTH["title_replace"], "", $name));
         return ("" !== $name);
     }
-    //检测字符串组的字符在字符串中是否存在
+    // 检测字符串组的字符在字符串中是否存在
     public static function findstrs($str, $find, $separator = "|")
     {
         $ymarr = explode($separator, $find);

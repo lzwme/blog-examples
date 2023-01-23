@@ -72,15 +72,30 @@ switch ($tp) {
     //检测线路
     case 'lsurl':
         if ('' !== $url) {
-            $info['val']  = $url;
-            $code         = server::lsurl($url);
-            $info['code'] = $code;
-            if (200 == $code || 302 == $code || 301 == $code) {
-                $info['success'] = 1;
-                $info['info']    = true;
+            $urls = explode(',', $url, 50);
+
+            if (count($urls) > 1 || isset($list)) {
+                // 支持批量检测
+                foreach($urls as $val) {
+                    $code = server::lsurl($val);
+                    $success = 200 == $code || 302 == $code || 301 == $code;
+                    $info['list'][] = array(
+                        'code' => $code,
+                        'success' => $success ? 1 : 0,
+                        'url' => $val,
+                    );
+                }
             } else {
-                $info['success'] = 0;
-                $info['info']    = false;
+                $code         = server::lsurl($url);
+                $info['code'] = $code;
+                $info['val']  = $url;
+                if (200 == $code || 302 == $code || 301 == $code) {
+                    $info['success'] = 1;
+                    $info['info']    = true;
+                } else {
+                    $info['success'] = 0;
+                    $info['info']    = false;
+                }
             }
         } else {
             $info['m'] = "input error";
@@ -112,7 +127,7 @@ switch ($tp) {
 
         break;
 
-    //输出json数据,用于微信对接及搜索补全等功能
+    // 输出json数据,用于微信对接及搜索补全等功能
     case 'json':
         if ('' !== $wd) {
             //取缓存数据
@@ -137,7 +152,7 @@ switch ($tp) {
         exit(json_encode($info));
         break;
 
-    //云解析
+    // 云解析
     default:
         include FCPATH . "/video/class.yun.php";
         server::parse();
@@ -298,7 +313,8 @@ class server
     public static function out($jsoncallback, &$data)
     {
         $json = json_encode($data);
-        exit($jsoncallback . '(' . $json . ');');
+        if ($jsoncallback) exit($jsoncallback . '(' . $json . ');');
+        else exit($json);
     }
 
     public static function curl($url, $referer = "")

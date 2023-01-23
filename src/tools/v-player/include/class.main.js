@@ -324,9 +324,10 @@ function open_without_referrer(link) {
 function fnErrorTrap(msg, url, line) {
   errinfo = { type: 'xyplay_error', msg: msg, url: url, line: line, ua: navigator.userAgent };
 
-  document.write(
-    '<div style="margin-top:90px;text-align:center;"><font color=\'#ff0000\'>哎呀，这是彩蛋，BUG君被你发现了！&nbsp;&nbsp;<a  href="javascript:;" onClick="copy_errinfo()" >来抓我</a>'
-  );
+  // document.write(
+  //   '<div style="margin-top:90px;text-align:center;"><font color=\'#ff0000\'>哎呀，这是彩蛋，BUG君被你发现了！&nbsp;&nbsp;<a  href="javascript:;" onClick="copy_errinfo()" >来抓我</a>'
+  // );
+  console.log(errinfo);
 }
 
 //复制内容到剪切板

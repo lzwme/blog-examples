@@ -23,7 +23,7 @@
     // echo '<script src="https://js.fundebug.cn/fundebug.1.7.3.min.js" apikey="86d7acd8a693cba80b985a1c4bc1d22cc780e5e33e9553ec04ccc158d405c9cc"></script>';
   }
   ?>
-  <script id="xyplay" src="./include/xyplay.min.js?time=<?php echo time();?>"></script>
+  <script id="xyplay" src="./include/xyplay.min.js?v=0.0.1"></script>
   <?php
   require_once TEMPLETS_PATH.$CONFIG["templets"]['html'].'/config.php';
   include_once TEMPLETS_PATH.$CONFIG["templets"]['html'].'/css.php';

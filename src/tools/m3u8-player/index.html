@@ -23,7 +23,8 @@
     <meta name="keywords" content="M3U8在线破解,M3U8在线播放,M3U8播放器,M3U8直播源在线播放,M3U8在线测试">
     <meta name="description" content="M3U8在线播放器">
     <meta name="referrer" content="never">
-    <link crossorigin="anonymous" integrity="sha384-tmPnA6RZ3EY8nQ2M3yHLyhmabHvhkSgFCjqzQ4nfmhjFUVQJXOahb3GEiawAHaOP" href="https://lib.baomitu.com/amazeui/latest/css/amazeui.flat.min.css" rel="stylesheet">
+    <link crossorigin="anonymous" integrity="sha384-tmPnA6RZ3EY8nQ2M3yHLyhmabHvhkSgFCjqzQ4nfmhjFUVQJXOahb3GEiawAHaOP"
+        href="https://lib.baomitu.com/amazeui/latest/css/amazeui.flat.min.css" rel="stylesheet">
 
     <style>
         .input-div {
@@ -96,23 +97,25 @@
     </header>
     <div class="am-container">
         <div class="logo">m3u8视频在线播放器</div>
-        <div class="am-u-lg-6 input-div">
+        <div class="am-u-lg-6 input-div input-url">
             <form method="post" id="str-post" class="am-input-group am-input-group-primary">
-                <input type="text" name="url" placeholder="请输入m3u8播放地址" autocomplete="off"
-                    class="am-form-field s-input" value="test.m3u8">
+                <input type="text" name="url" placeholder="请输入m3u8播放地址" autocomplete="off" class="am-form-field s-input"
+                    value="test.m3u8">
                 <span class="am-input-group-btn">
                     <button class="am-btn am-btn-primary play" type="button"><span class="am-icon-play"></span></button>
                     <button class="am-btn am-btn-success rotate" type="button"><span
                             class="am-icon-rotate"></span>旋转</button>
+                    <button class="am-btn am-btn-link download" type="button"><span
+                            class="am-icon-download"></span>下载</button>
                 </span>
             </form>
         </div>
-        <div class="am-u-lg-6 input-div">
+        <div class="am-u-lg-6 input-div input-content">
             <textarea name="m3u8Content" id="m3u8Content" cols="30" rows="3"
                 placeholder="可直接输入 m3u8 文件内容，基于该内容播放"></textarea>
         </div>
 
-        <div class="am-u-lg-6 input-div">
+        <div class="am-u-lg-6 input-div input-file">
             <div class="am-input-group am-input-group-primary">
                 <span class="am-input-group-btn">
                     <button class="am-btn am-btn-primary play" type="button">选择本地文件播放</button>
@@ -133,7 +136,9 @@
             </p>
             <h3>HLS(HTTP Live Streaming)</h3>
             <p>
-              HLS（HTTP Live Streaming的缩写）是一个由苹果公司提出的基于HTTP的流媒体网络传输协议。HLS协议基于HTTP协议，客户端按照顺序使用HTTP协议下载存储在服务器上的文件。HLS协议规定，视频的封装格式是TS（Transport Stream），除了TS视频文件本身，还定义了用来控制播放的M3U8文件（文本文件）。HLS协议的工作原理是把整个视频流分割成一个个小的TS格式视频文件来传输，在开始一个流媒体会话时，客户端会先下载一个包含TS文件URL地址的M3U8文件（相当于一个播放列表），给客户端用于下载TS文件。
+                HLS（HTTP Live
+                Streaming的缩写）是一个由苹果公司提出的基于HTTP的流媒体网络传输协议。HLS协议基于HTTP协议，客户端按照顺序使用HTTP协议下载存储在服务器上的文件。HLS协议规定，视频的封装格式是TS（Transport
+                Stream），除了TS视频文件本身，还定义了用来控制播放的M3U8文件（文本文件）。HLS协议的工作原理是把整个视频流分割成一个个小的TS格式视频文件来传输，在开始一个流媒体会话时，客户端会先下载一个包含TS文件URL地址的M3U8文件（相当于一个播放列表），给客户端用于下载TS文件。
             </p>
             <h3>M3U8格式文件</h3>
             <p>
@@ -150,7 +155,8 @@
                 <a style="color: #39f" href="https://lzw.me/x/m3u8-downloader" target="_blank">M3U8视频在线下载工具</a>
             </p>
             <h3>M3U8文件适用场景与加密</h3>
-            <p>HLS协议采用M3U8文件来告知客户端视频文件播放列表，客户端拿到M3U8文件以后就可以直接播放视频，为了避免源站的视频文件被非授权客户端访问，需要对HLS协议使用的TS视频文件做加密，对TS视频文件做了加密以后，还需要告知客户端解密方法，这里就可以通过配置M3U8标准加密改写功能，通过#EXT-X-KEY标签来告知客户端加密算法、密钥URI和鉴权key。</p>
+            <p>HLS协议采用M3U8文件来告知客户端视频文件播放列表，客户端拿到M3U8文件以后就可以直接播放视频，为了避免源站的视频文件被非授权客户端访问，需要对HLS协议使用的TS视频文件做加密，对TS视频文件做了加密以后，还需要告知客户端解密方法，这里就可以通过配置M3U8标准加密改写功能，通过#EXT-X-KEY标签来告知客户端加密算法、密钥URI和鉴权key。
+            </p>
             <p></p>
             <p>参考：https://help.aliyun.com/document_detail/179287.html</p>
         </div>
@@ -169,9 +175,14 @@
     </footer>
 
     <!-- <script src="https://unpkg.zhimg.com/jquery@3.3.1/dist/jquery.min.js"></script> -->
-    <script crossorigin="anonymous" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" src="https://lib.baomitu.com/jquery/3.6.3/jquery.min.js"></script>
-    <script crossorigin="anonymous" integrity="sha384-Kbu/V+OSM4tlnynmLUxMcmL8DX4RoR7BMhcyRgjyK6P4J/fei35Lz/k0VQBn44H/" src="https://lib.baomitu.com/amazeui/latest/js/amazeui.min.js"></script>
-    <script crossorigin="anonymous" integrity="sha512-yi//c0pOEPlBEqUMgK7Ia1VXQT9TwuMHJIRU+T2lyV7YxsMhbF35N/DGYkCFWfC9ebjdupP4xadFyFVTz/sgEg==" src="https://lib.baomitu.com/hls.js/1.3.0/hls.min.js"></script>
+    <script crossorigin="anonymous"
+        integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+        src="https://lib.baomitu.com/jquery/3.6.3/jquery.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-Kbu/V+OSM4tlnynmLUxMcmL8DX4RoR7BMhcyRgjyK6P4J/fei35Lz/k0VQBn44H/"
+        src="https://lib.baomitu.com/amazeui/latest/js/amazeui.min.js"></script>
+    <script crossorigin="anonymous"
+        integrity="sha512-yi//c0pOEPlBEqUMgK7Ia1VXQT9TwuMHJIRU+T2lyV7YxsMhbF35N/DGYkCFWfC9ebjdupP4xadFyFVTz/sgEg=="
+        src="https://lib.baomitu.com/hls.js/1.3.0/hls.min.js"></script>
     <script src="../lib/utils/h5-common.js"></script>
     <script src="main.js"></script>
 </body>
