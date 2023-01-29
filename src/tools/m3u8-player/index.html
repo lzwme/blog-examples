@@ -25,7 +25,7 @@
     <meta name="referrer" content="never">
     <link crossorigin="anonymous" integrity="sha384-tmPnA6RZ3EY8nQ2M3yHLyhmabHvhkSgFCjqzQ4nfmhjFUVQJXOahb3GEiawAHaOP"
         href="https://lib.baomitu.com/amazeui/latest/css/amazeui.flat.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://lib.baomitu.com/dplayer/latest/DPlayer.min.css">
     <style>
         .input-div {
             width: 100%;
@@ -67,10 +67,12 @@
             margin-top: -38px
         }
 
-        #player {
+        #dplayer {
             margin-bottom: .3em;
             max-height: 80vh;
-            width: 100%
+            min-height: 40vh;
+            width: 100%;
+            display: none;
         }
     </style>
 </head>
@@ -97,34 +99,37 @@
     </header>
     <div class="am-container">
         <div class="logo">m3u8视频在线播放器</div>
-        <div class="am-u-lg-6 input-div input-url">
-            <form method="post" id="str-post" class="am-input-group am-input-group-primary">
-                <input type="text" name="url" placeholder="请输入m3u8播放地址" autocomplete="off" class="am-form-field s-input"
-                    value="test.m3u8">
-                <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-primary play" type="button"><span class="am-icon-play"></span></button>
-                    <button class="am-btn am-btn-success rotate" type="button"><span
-                            class="am-icon-rotate"></span>旋转</button>
-                    <button class="am-btn am-btn-link download" type="button"><span
-                            class="am-icon-download"></span>下载</button>
-                </span>
-            </form>
-        </div>
-        <div class="am-u-lg-6 input-div input-content">
-            <textarea name="m3u8Content" id="m3u8Content" cols="30" rows="3"
-                placeholder="可直接输入 m3u8 文件内容，基于该内容播放"></textarea>
-        </div>
-
-        <div class="am-u-lg-6 input-div input-file">
-            <div class="am-input-group am-input-group-primary">
-                <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-primary play" type="button">选择本地文件播放</button>
-                </span>
-                <input class="am-form-field" type="file" name="vedioSelect" id="vedioSelect" title="选择本地文件播放">
+        <div class="am-x">
+            <div class="input-div input-url">
+                <form method="post" id="str-post" class="am-input-group am-input-group-primary">
+                    <input type="text" name="url" placeholder="请输入m3u8播放地址" autocomplete="off" class="am-form-field s-input"
+                        value="test.m3u8">
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-primary play" type="button"><span class="am-icon-play"></span></button>
+                        <button class="am-btn am-btn-success rotate" type="button"><span
+                                class="am-icon-rotate"></span>旋转</button>
+                        <button class="am-btn am-btn-link download" type="button"><span
+                                class="am-icon-download"></span>下载</button>
+                    </span>
+                </form>
+            </div>
+            <div class="input-div input-content">
+                <textarea name="m3u8Content" id="m3u8Content" cols="30" rows="3"
+                    placeholder="可直接输入 m3u8 文件内容，基于该内容播放"></textarea>
+            </div>
+    
+            <div class="input-div input-file">
+                <div class="am-input-group am-input-group-primary">
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-primary play" type="button">选择本地文件播放</button>
+                    </span>
+                    <input class="am-form-field" type="file" name="vedioSelect" id="vedioSelect" title="选择本地文件播放">
+                </div>
             </div>
         </div>
 
-        <video id="player" controls=""></video>
+        <div id="dplayer"></div>
+        <!-- <video id="player" controls=""></video> -->
 
         <div class="am-text-right">
             <a class="am-hide am-btn am-btn-primary am-round" data-am-modal="{target: '#fenxiang'}"><i
@@ -180,9 +185,13 @@
         src="https://lib.baomitu.com/jquery/3.6.3/jquery.min.js"></script>
     <script crossorigin="anonymous" integrity="sha384-Kbu/V+OSM4tlnynmLUxMcmL8DX4RoR7BMhcyRgjyK6P4J/fei35Lz/k0VQBn44H/"
         src="https://lib.baomitu.com/amazeui/latest/js/amazeui.min.js"></script>
+
+    <script crossorigin="anonymous" src="https://cdn.staticfile.org/flv.js/1.6.2/flv.min.js"></script>
     <script crossorigin="anonymous"
         integrity="sha512-yi//c0pOEPlBEqUMgK7Ia1VXQT9TwuMHJIRU+T2lyV7YxsMhbF35N/DGYkCFWfC9ebjdupP4xadFyFVTz/sgEg=="
         src="https://lib.baomitu.com/hls.js/1.3.0/hls.min.js"></script>
+    <script crossorigin="anonymous" src="https://lib.baomitu.com/webtorrent/latest/webtorrent.min.js"></script>
+    <script crossorigin="anonymous" src="https://lib.baomitu.com/dplayer/latest/DPlayer.min.js"></script>
     <script src="../lib/utils/h5-common.js"></script>
     <script src="main.js?v=0.0.1"></script>
 </body>

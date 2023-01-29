@@ -45,7 +45,7 @@
   <div class="Logo"></div>
   <nav id="menu" class="menu slideout-menu">
     <section class="menu-section">
-      <h3 class="menu-section-title"><a href="#" onclick="javascript:top.location.reload()">解析线路</a></h3>
+      <h3 class="menu-section-title"><a href="#" onclick="javascript:top.location = top.location.pathname">解析线路</a></h3>
       <ul class="menu-section-list" id="word"> </ul>
     </section>
     <?php if ($CONFIG["play"]['off']['live'] == 1): ?>
