@@ -19,15 +19,15 @@ foreach ($_REQUEST as $k => $v) {
 }
 
 //参数初始化
-$cb     = isset($cb) && $cb ? $cb : '';
-$tp     = isset($tp) && $tp ? $tp : '';
-$url    = isset($url) && $url ? $url : '';
-$wd     = isset($wd) && $wd ? $wd : '';
-$line   = isset($line) && $line ? $line : '0';
-$id     = isset($id) ? $id : '';
-$flag   = isset($flag) ? $flag : '';
-$app    = isset($app) ? $app : 'xysoft';
-$dd     = isset($dd) && $dd ? $dd : 0;
+$cb = isset($cb) && $cb ? $cb : '';
+$tp = isset($tp) && $tp ? $tp : '';
+$url = isset($url) && $url ? $url : '';
+$wd = isset($wd) && $wd ? $wd : '';
+$line = isset($line) && $line ? $line : '0';
+$id = isset($id) ? $id : '';
+$flag = isset($flag) ? $flag : '';
+$app = isset($app) ? $app : 'xysoft';
+$dd = isset($dd) && $dd ? $dd : 0;
 $loadjs = isset($loadjs) ? $loadjs : 0;
 
 //全局变量,输出信息
@@ -56,15 +56,15 @@ switch ($tp) {
     //取配置参数及线路列表
     case 'getparm':
         require_once FCPATH . '/save/yun.data.php';
-        $info['success']                      = 1;
-        $info['type']                         = 'getparm';
-        $info['app']                          = server::lsUserAgen($CONFIG["play"]['all']['AppName']);
-        $CONFIG["play"]['define']['jx_link']  = $CONFIG["jx_link"];
-        $CONFIG["play"]['define']['jx_url']   = $CONFIG["jx_url"];
+        $info['success'] = 1;
+        $info['type'] = 'getparm';
+        $info['app'] = server::lsUserAgen($CONFIG["play"]['all']['AppName']);
+        $CONFIG["play"]['define']['jx_link'] = $CONFIG["jx_link"];
+        $CONFIG["play"]['define']['jx_url'] = $CONFIG["jx_url"];
         $CONFIG["play"]['define']['live_url'] = $CONFIG["live_url"];
-        $CONFIG["play"]['define']['url_jmp']  = $YUN_DATA["url_jmp"];
-        $CONFIG["play"]['define']['timeout']  = $CONFIG["timeout"];
-        $CONFIG["play"]['define']['host']     = ROOT_PATH;
+        $CONFIG["play"]['define']['url_jmp'] = $YUN_DATA["url_jmp"];
+        $CONFIG["play"]['define']['timeout'] = $CONFIG["timeout"];
+        $CONFIG["play"]['define']['host'] = ROOT_PATH;
 
         $info['val'] = strencode(json_encode($CONFIG["play"]));
         break;
@@ -76,7 +76,7 @@ switch ($tp) {
 
             if (count($urls) > 1 || isset($list)) {
                 // 支持批量检测
-                foreach($urls as $val) {
+                foreach ($urls as $val) {
                     $code = server::lsurl($val);
                     $success = 200 == $code || 302 == $code || 301 == $code;
                     $info['list'][] = array(
@@ -86,15 +86,15 @@ switch ($tp) {
                     );
                 }
             } else {
-                $code         = server::lsurl($url);
+                $code = server::lsurl($url);
                 $info['code'] = $code;
-                $info['val']  = $url;
+                $info['val'] = $url;
                 if (200 == $code || 302 == $code || 301 == $code) {
                     $info['success'] = 1;
-                    $info['info']    = true;
+                    $info['info'] = true;
                 } else {
                     $info['success'] = 0;
-                    $info['info']    = false;
+                    $info['info'] = false;
                 }
             }
         } else {
@@ -176,7 +176,7 @@ class server
                 if ("" != $word) {
                     $info = json_decode($word);
                 } else {
-                    $info = YUN::parse(urlencode($wd), 2);
+                    $info = YUN::parse(['wd' => urlencode($wd), 'flag' => $flag], 2);
                     if ($info['success']) {
                         $cache->set('wd.wd' . $wd, json_encode($info));
                     } else {
@@ -184,7 +184,6 @@ class server
                     }
                 }
             } else {
-
                 $info['m'] = "wd input error";
             }
             return;
@@ -208,13 +207,12 @@ class server
 
             //标题搜索视频
         } elseif ('' != $wd) {
-
             $word = $cache->get('wd' . $wd);
             if ("" != $word) {
                 $info = json_decode($word);
             } else {
 
-                $info = YUN::parse(urlencode($wd), 4);
+                $info = YUN::parse(['wd' => urlencode($wd), 'flag' => $flag], 4);
 
                 if ($info['success']) {
                     $cache->set('wd' . $wd, json_encode($info));
@@ -305,7 +303,7 @@ class server
 
     public static function yun($url)
     {
-        $url  = ROOT_PATH . "/video/?url=" . urlencode($url);
+        $url = ROOT_PATH . "/video/?url=" . urlencode($url);
         $json = self::curl($url);
         return json_decode($json, true);
     }
@@ -313,13 +311,15 @@ class server
     public static function out($jsoncallback, &$data)
     {
         $json = json_encode($data);
-        if ($jsoncallback) exit($jsoncallback . '(' . $json . ');');
-        else exit($json);
+        if ($jsoncallback)
+            exit($jsoncallback . '(' . $json . ');');
+        else
+            exit($json);
     }
 
     public static function curl($url, $referer = "")
     {
-        $params["ua"]      = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36";
+        $params["ua"] = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36";
         $params["referer"] = $referer;
         return GlobalBase::curl($url, $params);
     }
@@ -327,10 +327,10 @@ class server
     public static function post($url, $data)
     {
         global $loadjs, $cb;
-        $a            = $data["shell"];
+        $a = $data["shell"];
         $params["ua"] = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36";
-        $fields       = "";
-        $purl         = $data["path"];
+        $fields = "";
+        $purl = $data["path"];
         if (0 == $data['api']) {
             $purl = self::getsrc_match($purl . $url, $data, $fields);
         }
@@ -344,41 +344,54 @@ class server
                 file_put_contents("./cache/cache_link.html", $html);
                 //self::curl(ROOT_PATH."run.htm?time=".time());
                 $info["success"] = "1";
-                $info["type"]    = "js";
-                $info["js"]      = ROOT_PATH . "cache/cache_link.html?time=" . time();
+                $info["type"] = "js";
+                $info["js"] = ROOT_PATH . "cache/cache_link.html?time=" . time();
                 self::out($cb, $info);
             }
         }
 
         //运行前置PHP脚本
-        if (!empty($data["shell"])) {eval($b);}
+        if (!empty($data["shell"])) {
+            eval($b);
+        }
         //变量处理
         $fields = base64_decode($data["fields"]);
         foreach (explode(",", base64_decode($data["strtr"])) as $val) {
-            $k      = str_replace("$", "", $val);
-            $fields = str_replace($val, $$k, $fields);}
+            $k = str_replace("$", "", $val);
+            $fields = str_replace($val, $$k, $fields);
+        }
         //提交参数处理
-        if ("0" == $data["type"]) {$params["fields"] = $fields;} else { $purl .= "?" . $fields;}
+        if ("0" == $data["type"]) {
+            $params["fields"] = $fields;
+        } else {
+            $purl .= "?" . $fields;
+        }
         //附加头处理
-        if (!empty($data["header"])) {$params["httpheader"] = $data["header"];}
+        if (!empty($data["header"])) {
+            $params["httpheader"] = $data["header"];
+        }
         //附加cookie处理
-        if (!empty($data["cookie"])) {$params["cookie"] = $data["cookie"];}
+        if (!empty($data["cookie"])) {
+            $params["cookie"] = $data["cookie"];
+        }
         //代理处理
-        if (!empty($data["proxy"])) {$params["proxy"] = $data["proxy"];}
+        if (!empty($data["proxy"])) {
+            $params["proxy"] = $data["proxy"];
+        }
         return GlobalBase::curl($purl, $params);
     }
 
     public static function getsrc_match($url, $data, &$fields)
     {
         $header = "";
-        $key    = "";
+        $key = "";
         $matchs = "";
-        $info   = GlobalBase::curl($url, null, $header);
-        $path   = preg_match("/^((http:\/\/|https:\/\/).*?)\?/", $header['url'], $key) ? $key[1] : "";
+        $info = GlobalBase::curl($url, null, $header);
+        $path = preg_match("/^((http:\/\/|https:\/\/).*?)\?/", $header['url'], $key) ? $key[1] : "";
         //解析播放页
 
         if (preg_match(base64_decode($data['match']), $info, $key)) {
-            $api    = $key[1];
+            $api = $key[1];
             $fields = $key[2];
             if (substr($api, 0, 4) == "http") {
                 return $api;

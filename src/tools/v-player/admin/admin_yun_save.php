@@ -36,27 +36,27 @@ if (filter_has_var(INPUT_POST, "yun_match_title_match")) {
     require_once("../save/yun.match.php");
    
    //404跳转设置
-    $YUN_MACTH["ERROR_404"] = filter_input(INPUT_POST, "yun_match_error_404");
+    $YUN_MATCH["ERROR_404"] = filter_input(INPUT_POST, "yun_match_error_404");
      
    //输出类型转换
-    $YUN_MACTH["type_match"] = arr_input("yun_match_type_match");
+    $YUN_MATCH["type_match"] = arr_input("yun_match_type_match");
      
     //视频标题过滤
-    $YUN_MACTH["title_replace"] = preg_split('/[\r\n]+/s', trim(filter_input(INPUT_POST, "yun_match_title_replace")));
+    $YUN_MATCH["title_replace"] = preg_split('/[\r\n]+/s', trim(filter_input(INPUT_POST, "yun_match_title_replace")));
  
     //URL地址过滤
-    $YUN_MACTH["url_replace"] = preg_split('/[\r\n]+/s', trim(filter_input(INPUT_POST, "yun_match_url_replace")));
+    $YUN_MATCH["url_replace"] = preg_split('/[\r\n]+/s', trim(filter_input(INPUT_POST, "yun_match_url_replace")));
 
     //视频地址转换
-   $YUN_MACTH["url_match"] = arr_input("yun_match_url_match");
+   $YUN_MATCH["url_match"] = arr_input("yun_match_url_match");
 
    //资源标题规则设置
   
-    $YUN_MACTH["title_match"] = arr_input("yun_match_title_match",true);
+    $YUN_MATCH["title_match"] = arr_input("yun_match_title_match",true);
     
     //视频名称和集数规则设置
  
-    $YUN_MACTH["name_match"] = arr_input("yun_match_name_match",true);
+    $YUN_MATCH["name_match"] = arr_input("yun_match_name_match",true);
    
     
     if (Main_db::save("../save/yun.match.php")) {

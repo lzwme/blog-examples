@@ -9,7 +9,7 @@ class LEDUO {
    public static function get_video($url) {
         $videoinfo = array('success' => 0, 'code' => 0);
         $base = parse_url($url);
-        $base["scheme"] = $base["scheme"] == '' ? GlobalBase::is_https() : $base["scheme"] . '://';
+        $base["scheme"] = $base["scheme"] == '' ? GlobalBase::get_http_protocol() : $base["scheme"] . '://';
         $port = isset($base["port"]) ? ":" . $base["port"] : "";
         $host = $base["scheme"] . $base["host"] . $port;
         $content = self::curl($url); $_vurl = array();           

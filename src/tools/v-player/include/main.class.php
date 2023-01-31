@@ -85,10 +85,10 @@ class GlobalBase
     }
 
     /**
-     * [is_https 是否是安全连接访问]
+     * [get_http_protocol 是否是安全连接访问]
      * @return boolean [description]
      */
-    public static function is_https()
+    public static function get_http_protocol()
     {
         if (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
             return "https://";
@@ -109,7 +109,7 @@ class GlobalBase
     }
     public static function is_root()
     {
-        return self::is_https() . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/" . self::is_dir();
+        return self::get_http_protocol() . filter_input(INPUT_SERVER, 'HTTP_HOST') . "/" . self::is_dir();
     }
 
     /**

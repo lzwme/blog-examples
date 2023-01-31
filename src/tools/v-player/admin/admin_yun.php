@@ -131,7 +131,7 @@
                                     404跳转设置，如果网页标题包含将跳转404页面，多个请用"|"分割,设置为空则不使用；
                                 </label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="yun_match_error_404" autocomplete="off" value="<?php echo $YUN_MACTH["ERROR_404"]; ?>" class="layui-input" />
+                                    <input type="text" name="yun_match_error_404" autocomplete="off" value="<?php echo $YUN_MATCH["ERROR_404"]; ?>" class="layui-input" />
                                 </div>
                             </div>
 
@@ -142,7 +142,7 @@
                                     输出类型转换（支持正则,格式： 正则(匹配播放源或URL) => 输出类型，每条一行）
                                 </label>
                                 <div class="layui-input-block">
-                                    <textarea  name="yun_match_type_match"  class="layui-textarea" ><?php if(is_array($YUN_MACTH["type_match"])){foreach ($YUN_MACTH["type_match"] as $key => $val) {echo "$key=>$val" . "\r\n";}} ?></textarea>
+                                    <textarea  name="yun_match_type_match"  class="layui-textarea" ><?php if(is_array($YUN_MATCH["type_match"])){foreach ($YUN_MATCH["type_match"] as $key => $val) {echo "$key=>$val" . "\r\n";}} ?></textarea>
                                 </div>
                             </div>
 
@@ -151,7 +151,7 @@
                                     视频标题过滤（每条一行）
                                 </label>
                                 <div class="layui-input-block">
-                                    <textarea  name="yun_match_title_replace"  class="layui-textarea" ><?php if(is_array($YUN_MACTH["title_replace"])) {foreach ($YUN_MACTH["title_replace"] as $val) { echo "$val" . "\r\n";}}?></textarea>
+                                    <textarea  name="yun_match_title_replace"  class="layui-textarea" ><?php if(is_array($YUN_MATCH["title_replace"])) {foreach ($YUN_MATCH["title_replace"] as $val) { echo "$val" . "\r\n";}}?></textarea>
                                 </div>
                             </div>
                             <div class="layui-form-item layui-form-text">
@@ -159,7 +159,7 @@
                                     URL地址过滤（每条一行）
                                 </label>
                                 <div class="layui-input-block">
-                                    <textarea  name="yun_match_url_replace"  class="layui-textarea"><?php if(is_array($YUN_MACTH["url_replace"])){foreach ( $YUN_MACTH["url_replace"] as $val){ echo "$val" ."\r\n";}} ?></textarea>
+                                    <textarea  name="yun_match_url_replace"  class="layui-textarea"><?php if(is_array($YUN_MATCH["url_replace"])){foreach ( $YUN_MATCH["url_replace"] as $val){ echo "$val" ."\r\n";}} ?></textarea>
                                 </div>
                             </div>
 
@@ -168,7 +168,7 @@
                                     视频地址转换,使用PHP正则,规则：'=>'后面的'(?n)'会用前面正则左起第n个小括号里的匹配内容替换。
                                 </label>
                                 <div class="layui-input-block">
-                                    <textarea   style="height:200px" name="yun_match_url_match"  class="layui-textarea" ><?php if(is_array($YUN_MACTH["url_match"])){foreach ($YUN_MACTH["url_match"] as $key => $val) {echo "$key=>$val" . "\r\n";}}?></textarea>
+                                    <textarea   style="height:200px" name="yun_match_url_match"  class="layui-textarea" ><?php if(is_array($YUN_MATCH["url_match"])){foreach ($YUN_MATCH["url_match"] as $key => $val) {echo "$key=>$val" . "\r\n";}}?></textarea>
                                 </div>
                             </div>
 
@@ -177,7 +177,7 @@
                                     视频标题规则设置(格式：视频站正则=>标题正则1,标题正则2，... ，注意:标题正则的子表达式1应为包含标题信息的文本【如果有HTML标签,内部会过滤处理】)
                                 </label>
                                 <div class="layui-input-block">
-                                    <textarea   style="height:200px" name="yun_match_title_match"  class="layui-textarea" ><?php if(is_array($YUN_MACTH["title_match"])){foreach ($YUN_MACTH["title_match"] as $key => $val) {$b = '';foreach ($val as $k => $a) { if (sizeof($val) == ($k + 1)) { $b .= "$a"; } else {$b .= "$a" . ","; }}echo"$key=>$b" . "\r\n";}} ?></textarea>
+                                    <textarea   style="height:200px" name="yun_match_title_match"  class="layui-textarea" ><?php if(is_array($YUN_MATCH["title_match"])){foreach ($YUN_MATCH["title_match"] as $key => $val) {$b = '';foreach ($val as $k => $a) { if (sizeof($val) == ($k + 1)) { $b .= "$a"; } else {$b .= "$a" . ","; }}echo"$key=>$b" . "\r\n";}} ?></textarea>
 
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                     视频名称和集数规则设置(格式：视频站正则=>标题正则1,标题正则2，... ，注意:标题正则的子表达式1应为标题,子表达式2应为集数)
                                 </label>
                                 <div class="layui-input-block">
-                                    <textarea   style="height:200px" name="yun_match_name_match"  class="layui-textarea" ><?php if(is_array($YUN_MACTH["title_match"])){foreach ($YUN_MACTH["name_match"] as $key => $val) {$b = '';foreach ($val as $k => $a) { if (sizeof($val) == ($k + 1)) { $b .= "$a"; } else {$b .= "$a" . ","; }} echo "$key=>$b" . "\r\n";}}?></textarea>
+                                    <textarea   style="height:200px" name="yun_match_name_match"  class="layui-textarea" ><?php if(is_array($YUN_MATCH["title_match"])){foreach ($YUN_MATCH["name_match"] as $key => $val) {$b = '';foreach ($val as $k => $a) { if (sizeof($val) == ($k + 1)) { $b .= "$a"; } else {$b .= "$a" . ","; }} echo "$key=>$b" . "\r\n";}}?></textarea>
                                 <div class="layui-form-mid layui-word-aux">规则调试路径   ："/video/?dd=1&url=视频地址" ,显示出的视频标题如果有多余部分加入标题过滤即可！</div>
                                 </div>
                             </div>

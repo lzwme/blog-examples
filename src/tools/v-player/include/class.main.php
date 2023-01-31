@@ -106,10 +106,10 @@ class GlobalBase
     }
 
     /**
-     * [is_https 是否是安全连接访问]
-     * @return boolean [description]
+     * [get_http_protocol 是否是安全连接访问]
+     * @return string [description]
      */
-    public static function is_https()
+    public static function get_http_protocol()
     {
         if (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
             return "https://";
@@ -130,7 +130,7 @@ class GlobalBase
     }
     public static function is_root()
     {
-        return self::is_https() . filter_input(INPUT_SERVER, 'HTTP_HOST') . self::is_dir();
+        return self::get_http_protocol() . filter_input(INPUT_SERVER, 'HTTP_HOST') . self::is_dir();
     }
 
     public static function is_time($time)
@@ -162,7 +162,7 @@ class GlobalBase
 
     /**
      * [getdirs 取指定目录下的子目录数组]
-     * @return array [dir]
+     * @return array|false [dir]
      */
     public static function getdirs($dir)
     {
@@ -254,7 +254,7 @@ class AdBlack
         return $word;
     }
 
-    public static function frame_replace($word, $url, $jx, $path)
+    public static function frame_replace($word, $url, $jx, $path = '')
     {
         $key    = array();
         $matchs = array();

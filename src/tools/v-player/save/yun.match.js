@@ -1,5 +1,5 @@
 <?php
-$YUN_MACTH=array (
+$YUN_MATCH=array (
   'ERROR_404' => '404|404错误：你访问的页面丢失了|那条视频不见了|出错提示|404页',
   'type_match' => 
   array (

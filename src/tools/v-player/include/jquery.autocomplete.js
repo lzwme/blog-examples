@@ -64,6 +64,7 @@ $(function () {
 
   function handlerInputSerach(event) {
     var keywords = $searchInput.val();
+    var flag = $('select#flag').val();
     var ajax_request = function () {
       if (keywords === '') {
         $autocomplete.hide();
@@ -71,7 +72,7 @@ $(function () {
       }
 
       $.ajax({
-        url: $api + keywords,
+        url: $api + keywords + `&flag=${flag}`,
         dataType: 'jsonp',
         jsonp: 'cb', //回调函数的参数名(发送请求到服务器的key，例如 &key=Callback )
         // jsonpCallback: 'fun', //回调函数名(值：value，如果为空，默认会用success()处理)
