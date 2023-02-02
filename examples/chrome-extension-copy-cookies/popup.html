@@ -1,0 +1,156 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <style>
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #f40;
+    }
+
+    ::-webkit-scrollbar-track {
+      border-radius: 8px;
+      background-color: #1890ff;
+    }
+
+    table,
+    tbody,
+    td,
+    tfoot,
+    th,
+    thead,
+    tr,
+    ul {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    #tip {
+      margin: 5px auto;
+      text-align: center;
+      padding: 5px;
+      background: #f7f75c;
+      border-radius: 3px;
+    }
+
+    #container {
+      min-width: 300px;
+      max-height: 220px;
+      word-break: break-all;
+      background: #39f;
+      color: #fff;
+      padding: 10px;
+      border-radius: 3px;
+      overflow: auto;
+    }
+
+    .input-warpper {
+      display: flex;
+    }
+
+    .input-warpper input {
+      width: 100%;
+      flex: 1;
+      display: block;
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 4px 0 0 4px;
+      box-shadow: none;
+      border: 1px solid #cccccc;
+      border-right: 0;
+      outline: 0;
+    }
+
+    .input-warpper input:focus {
+      border-color: #aaa;
+    }
+
+    .input-warpper button {
+      min-width: 100px;
+      display: inline-flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+      border: 0;
+      background-color: #0ACD76;
+    }
+
+    .detail-list table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 4px;
+      margin-top: 4px;
+    }
+
+    .detail-list table tr:nth-child(odd) {
+      background-color: #f6f4f0
+    }
+
+    .detail-list table tr:nth-child(even) {
+      background-color: #fff
+    }
+
+    .detail-list table tr.fixzebra {
+      background-color: #f6f4f0
+    }
+
+    .detail-list table th {
+      color: #fff;
+      background-color: #555;
+      border: 1px solid #333;
+      font-size: 13px;
+      padding: 3px;
+      vertical-align: top;
+      text-align: left
+    }
+
+    .detail-list table th a:link,
+    .detail-list table th a:visited {
+      color: #fff
+    }
+
+    .detail-list table th a:active,
+    .detail-list table th a:hover {
+      color: #ee872a
+    }
+
+    .detail-list table td {
+      border: 1px solid #333;
+      padding: 5px;
+      vertical-align: top;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      min-width: 24px;
+      max-width: 200px;
+    }
+  </style>
+  <title>Copy Cookies</title>
+</head>
+
+<body>
+  <h2>Copy Cookies</h2>
+  <div class="input-warpper">
+    <input type="text" id="url" placeholder="input the website domain">
+    <button id="reGet">读取并复制</button>
+  </div>
+  <div id="tip">(click below text to copy)</div>
+  <div id="container"></div>
+  <div id="detailList" class="detail-list"></div>
+  <script src="./popup.js"></script>
+</body>
+
+</html>

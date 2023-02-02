@@ -2,7 +2,12 @@
 
 主要发布博文中涉及的工具子项目、博文示例等资源。
 
-- [博客地址：志文工作室](https://lzw.me)
+- [博客地址：https://lzw.me](https://lzw.me)
+
+![志文工作室](https://img.shields.io/badge/blog-lzwme-7d25df)
+![Visitor Count](https://profile-counter.glitch.me/badge?page_id=lzwme)
+
+[![Lzwme's GitHub stats](https://github-readme-stats.vercel.app/api?username=lzwme&show_icons=true&count_private=true&theme=vue-dark)](https://lzw.me)
 
 ## 资源列表
 
