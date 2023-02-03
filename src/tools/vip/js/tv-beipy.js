@@ -115,7 +115,7 @@
 
       VIP.initHrTime();
       const urlParams = h5Utils.getUrlParams();
-      const url = urlParams.url || url.v;
+      const url = urlParams.url || urlParams.v;
       if (String(url).startsWith('http')) {
         VIP.el.urlInput.value = url;
         VIP.play(url);

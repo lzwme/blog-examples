@@ -18,6 +18,8 @@ async function copy(refresh = true) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (!$container) return;
+
   $container.onclick = () => copy(false);
   $reGetBtn.onclick = copy;
 

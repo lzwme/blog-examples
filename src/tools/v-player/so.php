@@ -163,6 +163,10 @@ $skin = array(
       color: #fff;
     }
 
+    .bar6 select option {
+      color: #222;
+    }
+
     .bar6 input {
       width: 180px;
       border-radius: 5px 0 0 5px;
@@ -404,7 +408,7 @@ $skin = array(
     }
 
     function echoby() {
-      alert("本站所有视频均来自外部引用，本站不存储不制作任何视频！\r\n 如有侵权问题，请与源站联系,谢谢合作！");
+      alert("本站仅用于技术研究与学习，请支持正版！\n所有视频均来自外部引用，本站不存储不制作任何视频！\r\n 如有侵权问题，请与源站联系,谢谢合作！");
     }
 
     function toggleCenter() {
