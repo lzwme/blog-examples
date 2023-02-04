@@ -58,6 +58,41 @@
         el.setAttribute('style', `background: url(${bg}) no-repeat center bottom;`);
       }
     },
+    loadJsOrCss(urls = []) {
+      if (typeof urls == 'string') urls = [urls];
+      const list = [];
+      for (const url of urls) {
+        const isCss = url.includes('.css');
+        const isLoaded = document.querySelector(isCss ? `link[href="${url}"]` : `script[src="${url}"]`);
+        if (isLoaded) continue;
+
+        const el = document.createElement(isCss ? 'link' : 'script');
+        if (isCss) {
+          el.rel = 'stylesheet';
+          el.href = url;
+        } else {
+          el.src = url;
+          // el.type = 'module';
+        }
+
+        list.push(
+          new Promise(rs => {
+            el.onload = () => rs();
+            setTimeout(() => rs(), 10_000);
+            document.querySelector('head').append(el);
+          })
+        );
+      }
+
+      return Promise.allSettled(list);
+    },
+    /** {@see https://sweetalert2.github.io/} */
+    alert(options) {
+      return this.loadJsOrCss([
+        'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css',
+        'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js',
+      ]).then(() => Swal.fire(options));
+    },
   };
 
   function initTJ(id) {

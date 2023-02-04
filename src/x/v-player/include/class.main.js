@@ -332,13 +332,8 @@ function fnErrorTrap(msg, url, line) {
 
 //复制内容到剪切板
 function copy_errinfo() {
-  var oInput = document.createElement('input');
-  oInput.value = JSON.stringify(errinfo);
-  document.body.appendChild(oInput);
-  oInput.select(); // 选择对象
-  document.execCommand('Copy'); // 执行浏览器复制命令
-  oInput.className = 'oInput';
-  oInput.style.display = 'none';
+  if (!errinfo) return;
+  txtCopy2(JSON.stringify(errinfo));
   alert('成功捕获野生BUG君，粘贴打包给它主人有奖励哟!');
 }
 

@@ -38,14 +38,16 @@ class wechatCallbackapiTest
 
     public function responseMsg()
     {
-        $postStr      = addslashes(file_get_contents('php://input'));
-        if (empty($postStr)) {exit("你好！请关注【" . TITLE . "】微信公众号获取服务");}
-        $postObj      = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $postStr = addslashes(file_get_contents('php://input'));
+        if (empty($postStr)) {
+            exit("你好！请关注【" . TITLE . "】微信公众号获取服务");
+        }
+        $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
         $fromUsername = $postObj->FromUserName;
-        $toUsername   = $postObj->ToUserName;
-        $time         = $postObj->CreateTime;
-        $keyword      = trim($postObj->Content);
-        $event        = $postObj->Event;
+        $toUsername = $postObj->ToUserName;
+        $time = $postObj->CreateTime;
+        $keyword = trim($postObj->Content);
+        $event = $postObj->Event;
 
         $textTpl = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[%s]]></MsgType><Content><![CDATA[%s]]></Content></xml>";
         $newsTpl = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime> <MsgType><![CDATA[news]]></MsgType> <ArticleCount>1</ArticleCount><Articles><item><Title><![CDATA[%s]]></Title> <Description><![CDATA[%s]]></Description><PicUrl><![CDATA[%s]]></PicUrl><Url><![CDATA[%s]]></Url></item></Articles></xml>";
@@ -55,8 +57,8 @@ class wechatCallbackapiTest
                 if ('subscribe' == $event) {
                     //关注后的回复
                     $contentStr = "欢迎关注" . TITLE . "\r\n本公众号提供在线影视观看，免广告看VIP视频，持续关注，精彩多多。\r\n输入格式：\r\n	1.输入电影名,如: 西游记 即可在线观看！\r\n2.输入视频网址,支持爱奇艺,优酷,腾讯等主流视频网站免VIP播放。\r\n3.回复数字:\r\n 【0】 显示帮助\r\n 【1】打开留言板";
-                    $msgType    = 'text';
-                    $textTpl    = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                    $msgType = 'text';
+                    $textTpl = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                     echo $textTpl;
                     break;
 
@@ -81,23 +83,25 @@ class wechatCallbackapiTest
                             $pic = $row['pic'];
                             $txt .= "<a href='" . $url . "'>·" . urldecode($title) . "</a>\r\n\n";
                             $i++;
-                            if ($i > NUM) {break;}
+                            if ($i > NUM) {
+                                break;
+                            }
                         }
 
                         $contentStr = $txt . '<a href="' . API . "/?wd=" . $keyword . '">【更多】...</a>';
-                        $msgType    = 'text';
-                        $resultStr  = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                        $msgType = 'text';
+                        $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                         echo $resultStr;
 
                     } else {
 
                         //没有查找到的时候的回复
                         $title = "资源未找到,点击图片留言反馈! ";
-                        $des1  = "";
+                        $des1 = "";
                         //图片地址
                         $picUrl1 = PIC;
                         //跳转链接
-                        $url       = self::getContentLink(BOOK);
+                        $url = self::getContentLink(BOOK);
                         $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $title, $des1, $picUrl1, $url);
                         echo $resultStr;
                     }
@@ -106,39 +110,40 @@ class wechatCallbackapiTest
 
                 } elseif ($this->CheckUrl($keyword)) {
                     $title = '点击开始播放';
-                    $des1  = "";
+                    $des1 = "";
                     //图片地址
                     $picUrl1 = PIC;
                     //跳转链接
-                    $url       = API . "/?url=" . $keyword . "";
-                    $url       = self::getContentLink($url);
+                    $url = API . "/?url=" . $keyword . "";
+                    $url = self::getContentLink($url);
                     $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $title, $des1, $picUrl1, $url);
                     echo $resultStr;
 
                 } elseif ("0" == $keyword) {
                     $contentStr = "欢迎关注" . TITLE . "\r\n本公众号提供在线影视观看，免广告看VIP视频，持续关注，精彩多多。\r\n输入格式：\r\n	1.输入电影名,如: 西游记 即可在线观看！\r\n2.输入视频网址,支持爱奇艺,优酷,腾讯等主流视频网站免VIP播放。\r\n3.回复数字:\r\n 【0】 显示帮助\r\n 【1】打开留言板";
-                    $msgType    = 'text';
-                    $resultStr  = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                    $msgType = 'text';
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                     echo $resultStr;
 
                 } elseif ("1" == $keyword) {
                     $title = '点击打开留言板';
-                    $des1  = "";
+                    $des1 = "";
                     //图片地址
                     $picUrl1 = PIC;
                     //跳转链接
-                    $url       = self::getContentLink(BOOK);
+                    $url = self::getContentLink(BOOK);
                     $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $title, $des1, $picUrl1, $url);
                     echo $resultStr;
 
                 } else {
 
                     $contentStr = "输入格式：\r\n	1.输入电影名,如: 西游记 即可在线观看！\r\n2.输入视频网址,支持爱奇艺,优酷,腾讯等主流视频网站免VIP播放。\r\n 3.回复数字:\r\n 【0】 显示帮助\r\n 【1】打开留言板  ";
-                    $msgType    = 'text';
-                    $resultStr  = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                    $msgType = 'text';
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                     echo $resultStr;
 
-                };
+                }
+                ;
 
                 break;
 
@@ -157,9 +162,9 @@ class wechatCallbackapiTest
 
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
-        $nonce     = $_GET["nonce"];
+        $nonce = $_GET["nonce"];
 
-        $token  = TOKEN;
+        $token = TOKEN;
         $tmpArr = array($token, $timestamp, $nonce);
         // use SORT_STRING rule
         sort($tmpArr, SORT_STRING);
@@ -175,11 +180,11 @@ class wechatCallbackapiTest
 
     private function __getContentLink($url)
     {
-
-        $api    = "http://api.t.sina.com.cn/short_url/shorten.json?source=2815391962&url_long=";
-        $result = file_get_contents($api . $url);
-        $result = json_decode($result, true);
-        return $result[0]["url_short"];
+        return $url;
+        // $api = "http://api.t.sina.com.cn/short_url/shorten.json?source=2815391962&url_long=";
+        // $result = file_get_contents($api . $url);
+        // $result = json_decode($result, true);
+        // return $result[0]["url_short"];
 
     }
 
