@@ -1,7 +1,8 @@
 !(function () {
+  const isDev = ['localhost', '127.0.0', '192.168.'].some (d => location.host.includes(d));
   const inited = {
     comm: false,
-    bdtj: false,
+    bdtj: isDev,
     iosDisableScale: false,
   };
 
