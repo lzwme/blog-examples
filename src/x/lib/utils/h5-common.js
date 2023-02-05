@@ -89,8 +89,8 @@
     /** {@see https://sweetalert2.github.io/} */
     alert(options) {
       return this.loadJsOrCss([
-        'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css',
-        'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js',
+        'https://npm.elemecdn.com/sweetalert2@11/dist/sweetalert2.min.css',
+        'https://npm.elemecdn.com/sweetalert2@11/dist/sweetalert2.all.min.js',
       ]).then(() => Swal.fire(options));
     },
   };

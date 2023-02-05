@@ -774,7 +774,7 @@ function ckplayerConfig() {
 						thisTemp.embedHls(thisTemp.VA[0][0], v['autoplay'], v['hlsjsConfig']);
 					};
 					// this.loadJs(javascriptPath + 'hls/hls.min.js', loadJsHandler);
-					this.loadJs('https://cdn.jsdelivr.net/npm/cdnbye@latest', loadJsHandler);
+					this.loadJs('https://npm.elemecdn.com/cdnbye@latest', loadJsHandler);
 				}
 				this.css(this.V, 'backgroundColor', '#000000');
 				//创建一个画布容器

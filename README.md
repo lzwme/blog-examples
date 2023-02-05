@@ -115,6 +115,9 @@ https://unpkg.zhimg.com/jquery/
 
 ```html
 <!-- bootstrap 3 -->
+<link crossorigin="anonymous" href="https://lib.baomitu.com/bootstrap@3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script crossorigin="anonymous" src="https://npm.elemecdn.com/bootstrap@3/dist/js/bootstrap.min.js"></script>
+
 <link crossorigin="anonymous" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" href="https://lib.baomitu.com/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script crossorigin="anonymous" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" src="https://lib.baomitu.com/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -142,21 +145,21 @@ https://unpkg.zhimg.com/bootstrap/
 <!-- font-awesome 4.7 -->
 <link crossorigin="anonymous" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://npm.elemecdn.com/font-awesome@4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
 
 <!-- font-awesome 6.2 -->
 <link crossorigin="anonymous" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" href="https://lib.baomitu.com/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" integrity="sha256-zgORubRsz5iTQajy0X9EdrJBq1vNm70B2ZW4YKdRy3s=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" crossorigin="anonymous">
 
 <!-- font-awesome latest all -->
 <link crossorigin="anonymous" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" href="https://lib.baomitu.com/font-awesome/latest/css/all.min.css" rel="stylesheet">
 
 <link rel="stylesheet" href="https://jsdelivr.ioiox.cn/npm/@fortawesome/fontawesome-free/css/all.min.css">
 
-<!-- fontawesome-free latest https://cdn.jsdelivr.net/npm/fontawesome-free/ -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/fontawesome.min.css" integrity="sha256-zgORubRsz5iTQajy0X9EdrJBq1vNm70B2ZW4YKdRy3s=" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/fontawesome.min.js" integrity="sha256-CmI2IEcfp/ocwrmWKlpyn/Ms5CuLnZ2WWGa1nmooYvE=" crossorigin="anonymous"></script>
+<!-- fontawesome-free latest https://npm.elemecdn.com/fontawesome-free/ -->
+<link rel="stylesheet" href="https://npm.elemecdn.com/@fortawesome/fontawesome-free/css/fontawesome.min.css" crossorigin="anonymous">
+<script src="https://npm.elemecdn.com/@fortawesome/fontawesome-free/js/fontawesome.min.js" crossorigin="anonymous"></script>
 
 <!-- 其他
 https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/
