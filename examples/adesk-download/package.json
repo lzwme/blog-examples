@@ -1,0 +1,19 @@
+{
+  "name": "adesk-download",
+  "version": "1.0.0",
+  "description": "一个基于 adesk 接口的图库批量下载工具",
+  "main": "src/index.js",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "adeskdl": "src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "dev": "node src/cli.js -d E:\\adesk-download"
+  },
+  "dependencies": {
+    "@lzwme/fe-utils": "^1.3.3",
+    "yargs-parser": "^21.1.1"
+  }
+}

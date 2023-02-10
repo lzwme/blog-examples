@@ -14,7 +14,8 @@
 ### [EXAMPLES](./examples/)
 
 - [PC微信dat图片扫描与转换](./examples/weixin-dat)
-- [ffmpeg 批量转换](./examples/ffmpeg-convert)
+- [ffmpeg 批量转换](./examples/ffmpeg-convert/README.md)
+- [adesk 壁纸批量下载](./examples//adesk-download/README.md)
 - more...
 
 ### [工具类](./src/x/)
