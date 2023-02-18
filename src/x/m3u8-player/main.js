@@ -116,7 +116,7 @@ h5CommInit();
         if (!file) return;
         const url = window.URL.createObjectURL(ev.target.files[0]);
 
-        MP.player(url, file.name.includes('.m3u8') ? 'customHls' : '');
+        MP.dplayer(url, file.name.includes('.m3u8') ? 'customHls' : '');
         // player.onload = () => window.URL.revokeObjectURL(url);
       });
 
