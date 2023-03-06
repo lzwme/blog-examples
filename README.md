@@ -52,7 +52,7 @@
 ### CDN 资源
 
 - [360 前端静态资源库](https://cdn.baomitu.com) 由奇舞团支持并维护的开源项目免费 CDN 服务，支持 HTTPS 和 HTTP/2，囊括上千个前端资源库和 Google 字体库。
-- [staticfile:](http://www.staticfile.org) 七牛云提供 CDN，掘金提供技术支持
+- [staticfile:](http://www.staticfile.org) 七牛云提供 CDN，掘金提供技术支持，同步 [cdnjs](https://github.com/cdnjs/cdnjs) 服务资源
 - [bootcdn:](https://www.bootcdn.cn) 极兔云联合 Bootstrap中文网共同支持并维护的前端开源项目免费 CDN 服务
 - [字节跳动静态资源公共库](https://cdn.bytedance.com)
 - [jsdelivr](https://www.jsdelivr.com) 支持 npm 包、github 仓库
@@ -69,7 +69,7 @@
 - `elemecdn(饿了么)`
   - [unpkg]示例：https://npm.elemecdn.com/jquery@3/dist/jquery.min.js
   - [github]示例：https://github.elemecdn.com/jquery/
-- [cdnjs](https://cdnjs.com) 上面许多 CDN 资源均是基于 cdnjs 同步的
+- [cdnjs](https://cdnjs.com)[(github)](https://github.com/cdnjs/cdnjs) 上面许多 CDN 资源均是基于 cdnjs 同步的
 - https://statically.io
 - https://www.sourcegcdn.com
 

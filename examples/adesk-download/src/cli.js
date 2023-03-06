@@ -14,6 +14,7 @@ program
   .option('-t, --type <cate...>', '指定要下载的分类')
   .addOption(new Option('-o, --order <order>', `排序类型`).choices(['hot', 'new', 'favs']), 'hot')
   .option('-l, --limit <port>', '单一分类最多下载的数量', '1000')
+  .option('-s, --sleep <millisecond>', '每一张下载完成后的等待时间，避免高频下载被识别而遭屏蔽。0 不等待，小于 0 则随机', '-1')
   .option('-d, --downloadDir <dir>', '指定图片保存的目录', 'download')
   // .option('--debug', `开启调试模式。`, false)
   .action(opts => {

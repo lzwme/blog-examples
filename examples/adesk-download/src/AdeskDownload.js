@@ -28,12 +28,14 @@ export class AdeskDownload {
     /** 单一分类最多下载的数量 */
     limit: 1000,
     downloadDir: './download',
+    sleep: -1,
   };
   constructor(config) {
     if (config) {
       if (config.type === 'string') config.type = [config.type];
       Object.assign(this.config, config);
       this.config.limit = Number(this.config.limit) || 1000;
+      this.config.sleep = Number(this.config.sleep) || -1;
     }
     console.log('config:', this.config);
   }
@@ -101,7 +103,8 @@ export class AdeskDownload {
           })
           .catch(err => console.log(`[${this.downloadedTotal}] Download ${cate}/${filename} error:`, err));
 
-        await sleep(Math.ceil(Math.random() * 10) * 100 + 500);
+        const sleepTime = this.config.sleep < 0 ? Math.ceil(Math.random() * 1000) : this.config.sleep;
+        if (sleepTime > 0) await sleep(Math.ceil(Math.random() * 10) * 100 + 500);
       }
     }
   }

@@ -1,0 +1,20 @@
+{
+    "recommendations": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens",
+        "ms-ceintl.vscode-language-pack-zh-hans",
+        "naumovs.color-highlight",
+        "editorconfig.editorconfig",
+        "mariusalchimavicius.json-to-ts",
+        "stylelint.vscode-stylelint",
+        "steoates.autoimport",
+        "lzwme.lzwme-eye-care",
+        "ClemensPeters.format-json",
+        "OBKoro1.korofileheader",
+        "darkriszty.markdown-table-prettify",
+        "doggy8088.quicktype-refresh",
+        "richie5um2.vscode-sort-json",
+        "qcz.text-power-tools",
+    ]
+}
