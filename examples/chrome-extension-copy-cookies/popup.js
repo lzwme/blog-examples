@@ -42,15 +42,18 @@ function getCookies(url = currentTabUrl) {
   if (!url) url = currentTabUrl;
   if (!url.startsWith('http')) url = 'https://' + url;
   const domain = new URL(url).host;
+  const rlen = ['.com.cn', '.net.cn', '.org.cn'].some(d => domain.endsWith(d)) ? -3 : -2;
+  const domainRoot = domain.split('.').slice(rlen).join('.');
 
   $urlInput.value = domain;
 
   return new Promise(resolve => {
     chrome.cookies.getAll(
       {
-        domain,
+        domain: domainRoot,
       },
       cookies => {
+        cookies = domain === domainRoot ? cookies : cookies.filter(c => domain.includes(c.domain));
         const result = { cookies, str: cookies.map(c => c.name + '=' + c.value).join(';') };
         $container.textContent = result.str;
         updateDetialList(result.cookies);

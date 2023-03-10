@@ -12,6 +12,9 @@
 
 ## Macbook
 
+- Tools
+  - [HomeBrew](https://brew.sh)
+    - [brew 配置指南、应用加速代理镜像库](https://github.com/lzwme/homebrew-cn)
 - Terminal
   - [iTerm2](https://www.iterm2.com)
   - [zsh](https://en.wikipedia.org/wiki/Z_shell)
@@ -21,6 +24,9 @@
 
 ## Windows
 
+- Tools
+  - [Scoop](https://scoop.sh)
+    - [国内可用的 Scoop 应用下载地址加速仓库](https://github.com/lzwme/scoop-proxy-cn)
 - Terminal / ssh Terminal
   - [FinalShell](https://www.hostbuf.com) Terminal 终端工具。 Windows 下使用，优点是性能稳定，上传下载很稳定
   - 可选：[electerm](https://electerm.github.io/electerm) 或 [nxshell](https://github.com/nxshell/nxshell)，应用商店都可以搜到
