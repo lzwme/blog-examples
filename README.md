@@ -4,11 +4,6 @@
 
 - [博客地址：https://lzw.me](https://lzw.me)
 
-![志文工作室](https://img.shields.io/badge/blog-lzwme-7d25df)
-![Visitor Count](https://profile-counter.glitch.me/badge?page_id=lzwme)
-
-[![Lzwme's GitHub stats](https://github-readme-stats.vercel.app/api?username=lzwme&show_icons=true&count_private=true&theme=vue-dark)](https://lzw.me)
-
 ## 资源列表
 
 ### [EXAMPLES](./examples/)
@@ -45,6 +40,8 @@
 ## 文档
 
 - [awesome-tools 个人常用工具列表](./src/docs/tools.md)
+- [Awesome ChatGPT 学习资料搜集](./src/docs/AIGC/ChatGPT/READEME.md)
+
 - more...
 
 ## 其他
