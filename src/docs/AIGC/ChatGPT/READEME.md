@@ -36,8 +36,12 @@ github 仓库同步更新文档：[https://github.com/lzwme/blog-examples/tree/m
 欢迎 PR 补充与修订：
 
 - 按添加先后时间排序
-- 前缀标记：[⭐] 推荐等级，[🔑] 需要key ，[⛔] 使用受限，~[20230301(失效时间)]已失效~
-- 失效超过 30 天移除列表
+- 前缀标记：
+  - [⭐] 推荐等级
+  - [🚀] 需要梯子
+  - [⛔] 使用受限（需登录、付费等）
+  - [🔑] 需要 API KEY
+  - ~[❌0301(失效日期)]已失效~，超过 30 天从列表移除
 
 > ！请注意，应自行甄别需要自己输入 apiKey 的站点，谨防 apiKey 泄露
 
@@ -49,7 +53,6 @@ github 仓库同步更新文档：[https://github.com/lzwme/blog-examples/tree/m
 1. [⭐] https://chat.zecoba.cn
 1. https://chat.tgbot.co
 1. https://chat.geekr.dev
-1. ~~https://desk.i~~
 1. https://xc.com
 1. https://chat.51buygpt.com
 1. https://chat.forchange.cn
@@ -71,19 +74,24 @@ github 仓库同步更新文档：[https://github.com/lzwme/blog-examples/tree/m
 1. https://chatgpt.ddiu.io
 1. https://ai117.com
 1. http://chat.livepo.top
-1. ~~[20230310]https://freechatgpt.lol~~
+1. ~~[0310]https://freechatgpt.lol~~
 1. https://chatgpt.ddiu.me
 1. [🔑] https://freegpt.cc
-1. ~~https://ai.ls~~
+1. ~~[❌0310] https://ai.ls~~
 1. [需登录] https://chat.alpaca-bi.com
 1. [需登录，会员制] https://chat.paoying.net
 1. https://chat.eaten.fun
-1. https://gpt.lzw.me
+1. [⛔] https://gpt.lzw.me
 1. https://chatgpt.ddiu.me
 1. https://chat.binjie.site:7777
 1. https://chatgpt123.fyi
 1. https://chatgpt.white-peach.ga
 1. https://chatgpt.haomingzi.net/ChatGPT.html
+1. [🔑] https://lzwme-gpt.netlify.app
+1. [🚀] https://chatgpt-demo-9ddqso22f-ddiu8081.vercel.app
+1. [⭐] https://www.aitoolgpt.com
+1. [⭐] https://www.chatsverse.xyz
+
 
 ### 同类列表
 
