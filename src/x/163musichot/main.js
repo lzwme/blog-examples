@@ -55,7 +55,9 @@ $(function () {
     false
   );
 
-  Nextone();
+  const mid = +h5Utils.getUrlParams().id;
+  if (mid) playMp3(mid);
+  else Nextone();
 });
 
 function bf() {
@@ -98,6 +100,10 @@ async function Nextone(json) {
   el.yh.html('来自网易云用户「@' + json.data.nickname + '」的评论：');
   el.pl.html(json.data.content);
 
+  const u = new URL(location.href);
+  u.searchParams.set('id', json.data.id);
+  history.pushState(null, '', u.toString());
+
   dataJson = json.data;
 }
 
@@ -109,7 +115,7 @@ function copyUrl2() {
   oInput.select(); // 选择对象
   document.execCommand('Copy'); // 执行浏览器复制命令
   oInput.style.display = 'none';
-  alert('复制成功');
+  h5Utils.alert('复制成功');
 }
 function updateComment() {
   var hotComments = dataJson.hotComments;
@@ -122,11 +128,12 @@ function updateComment() {
   el.pl.text(rndItem.content);
 }
 
-async function getHotList() {
+async function getHotList(isPreLoad) {
   if (!hotList) {
     const d = await fetch(`../iapi/163music/hot.php?type=playlist`).then(d => d.json());
-    if (d.code !== 200) return alert(d.errmsg || '获取失败！');
+    if (d.code !== 200) return h5Utils.alert(d.errmsg || '获取失败！');
     hotList = d;
+    if (isPreLoad) return hotList;
   }
 
   let htmllist = [];
@@ -145,12 +152,15 @@ async function getHotList() {
 
   el.toplistContain.style.display = 'block';
   el.toplistContain.innerHTML = `<div class="expand on">收起/展开</div><ul class="toplist-info">${htmllist.join('')}</ul>`;
+  return hotList;
 }
 
 async function playMp3(id) {
+  if (!hotList) await getHotList(true);
   const item = hotList.result.tracks.find(d => d.id == id);
-  const comments = await $.getJSON(`../iapi/163music/hot.php?type=comment&id=${id}`);
+  if (!item) return false;
 
+  const comments = await $.getJSON(`../iapi/163music/hot.php?type=comment&id=${id}`);
   dataJson = {
     id,
     commentIdx: 0,
@@ -166,4 +176,5 @@ async function playMp3(id) {
 
   Nextone({ data: dataJson });
   updateComment();
+  return true;
 }
