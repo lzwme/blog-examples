@@ -31,26 +31,30 @@ github 仓库同步更新文档：[https://github.com/lzwme/blog-examples/tree/m
 
 ## ChatGPT 在线体验站
 
+已基于 github 仓库创建站点搜集同步任务仓库，可关注更新：[https://github.com/lzwme/chatgpt-sites](https://github.com/lzwme/chatgpt-sites)
+
+**以下信息仅供参考，不再作更新维护**
+
 在此的列表基本都是基于 ChatGPT 的最新 API 构建的在线应用。
 
 欢迎 PR 补充与修订：
 
 - 按添加先后时间排序
 - 前缀标记：
-  - [⭐] 推荐等级
-  - [🚀] 需要梯子
-  - [⛔] 使用受限（需登录、付费等）
-  - [🔑] 需要 API KEY
-  - ~[❌0301(失效日期)]已失效~，超过 30 天从列表移除
+  - [&#x2b50;] 推荐等级
+  - [&#x1f680;] 需要梯子
+  - [&#x26d4;] 使用受限（需登录、付费等）
+  - [&#x1f511;] 需要 API KEY
+  - ~[&#x274c;0301(失效日期)]已失效~，超过 30 天从列表移除
 
 > ！请注意，应自行甄别需要自己输入 apiKey 的站点，谨防 apiKey 泄露
 
-1. [⭐⭐] https://www.chat2ai.cn
-1. [⭐] https://chat.ninvfeng.xyz
-1. [⭐] https://chatforai.com
-1. [⭐] https://chat.yqcloud.top
-1. [⭐] https://fastgpt.app
-1. [⭐] https://chat.zecoba.cn
+1. [&#x2b50;&#x2b50;] https://www.chat2ai.cn
+1. [&#x2b50;] https://chat.ninvfeng.xyz
+1. [&#x2b50;] https://chatforai.com
+1. [&#x2b50;] https://chat.yqcloud.top
+1. [&#x2b50;] https://fastgpt.app
+1. [&#x2b50;] https://chat.zecoba.cn
 1. https://chat.tgbot.co
 1. https://chat.geekr.dev
 1. https://xc.com
@@ -62,11 +66,11 @@ github 仓库同步更新文档：[https://github.com/lzwme/blog-examples/tree/m
 1. http://chat.apigpt.cn
 1. https://aigcfun.com
 1. http://gpt.mxnf.store
-1. [编程] https://www.aicodehelper.com
-1. [综合] https://ai-toolbox.codefuture.top
-1. [虚拟女友] https://chilloutai.com
-1. [文字游戏] https://harry-potter.openai-lab.co
-1. [写故事] https://wordstory.streamlit.app
+1. https://www.aicodehelper.com
+1. https://ai-toolbox.codefuture.top
+1. https://chilloutai.com
+1. https://harry-potter.openai-lab.co
+1. https://wordstory.streamlit.app
 1. https://94gpt.com
 1. https://www.teach-anything.com
 1. http://itecheasy.com.cn
@@ -76,21 +80,21 @@ github 仓库同步更新文档：[https://github.com/lzwme/blog-examples/tree/m
 1. http://chat.livepo.top
 1. ~~[0310]https://freechatgpt.lol~~
 1. https://chatgpt.ddiu.me
-1. [🔑] https://freegpt.cc
-1. ~~[❌0310] https://ai.ls~~
+1. [&#x1f511;] https://freegpt.cc
+1. ~~[&#x274c;0310] https://ai.ls~~
 1. [需登录] https://chat.alpaca-bi.com
 1. [需登录，会员制] https://chat.paoying.net
 1. https://chat.eaten.fun
-1. [⛔] https://gpt.lzw.me
+1. [&#x26d4;] https://gpt.lzw.me
 1. https://chatgpt.ddiu.me
 1. https://chat.binjie.site:7777
 1. https://chatgpt123.fyi
 1. https://chatgpt.white-peach.ga
 1. https://chatgpt.haomingzi.net/ChatGPT.html
-1. [🔑] https://lzwme-gpt.netlify.app
-1. [🚀] https://chatgpt-demo-9ddqso22f-ddiu8081.vercel.app
-1. [⭐] https://www.aitoolgpt.com
-1. [⭐] https://www.chatsverse.xyz
+1. [&#x1f511;] https://lzwme-gpt.netlify.app
+1. [&#x1f680;] https://chatgpt-demo-9ddqso22f-ddiu8081.vercel.app
+1. [&#x2b50;] https://www.aitoolgpt.com
+1. [&#x2b50;] https://www.chatsverse.xyz
 
 
 ### 同类列表
