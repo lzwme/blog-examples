@@ -56,7 +56,7 @@
     setRandomBodyBg(el = document.body) {
       if (el && el.setAttribute) {
         const bg = '//lzw.me/x/iapi/bing/api.php?n=8&idx=' + Math.ceil(Math.random() * 7);
-        el.setAttribute('style', `background: url(${bg}) no-repeat center bottom;`);
+        el.setAttribute('style', `background: transparent url(${bg}) center/cover no-repeat fixed`);
       }
     },
     loadJsOrCss(urls = []) {
@@ -119,11 +119,6 @@
     }
   }
 
-  function setRandomBodyBg() {
-    const bg = '//lzw.me/x/iapi/bing/api.php?n=8&idx=' + Math.ceil(Math.random() * 7);
-    document.body.setAttribute('style', `background: url(${bg}) no-repeat center bottom;`);
-  }
-
   function setCurrentYear() {
     const cy = document.getElementById('currentYear');
     if (cy) cy.innerText = new Date().getFullYear();
@@ -140,7 +135,7 @@
 
     if (types.includes('bdtj')) initTJ();
     if (types.includes('disableScale')) iosDisableScale();
-    if (types.includes('bg')) setRandomBodyBg();
+    if (types.includes('bg')) h5Utils.setRandomBodyBg();
 
     inited.comm = true;
   }
