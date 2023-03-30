@@ -1,5 +1,5 @@
 !(function () {
-  const isDev = ['localhost', '127.0.0', '192.168.'].some (d => location.host.includes(d));
+  const isDev = ['localhost', '127.0.0', '192.168.'].some(d => location.host.includes(d));
   const inited = {
     comm: false,
     bdtj: isDev,
@@ -54,9 +54,27 @@
       return params;
     },
     setRandomBodyBg(el = document.body) {
-      if (el && el.setAttribute) {
+      if (el) {
         const bg = '//lzw.me/x/iapi/bing/api.php?n=8&idx=' + Math.ceil(Math.random() * 7);
-        el.setAttribute('style', `background: transparent url(${bg}) center/cover no-repeat fixed`);
+        if (el === 'blur') {
+          const id = 'bodyBefore';
+          const styleEl = document.getElementById(id);
+          if (styleEl) styleEl.remove();
+          setTimeout(() => {
+            document.head.insertAdjacentHTML(
+              'beforeend',
+              [
+                `<style id="${id}">body:before{`,
+                `content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;`,
+                `background: transparent url(https://lzw.me/x/iapi/bing/api.php?n=10) center/cover no-repeat;`,
+                `filter: blur(7px); z-index: -1; background-attachment: fixed;`,
+                `}</style>`,
+              ].join('')
+            );
+          }, 0);
+        } else if (el.setAttribute) {
+          el.setAttribute('style', `background: transparent url(${bg}) center/cover no-repeat fixed`);
+        }
       }
     },
     loadJsOrCss(urls = []) {
