@@ -106,11 +106,11 @@
       return Promise.allSettled(list);
     },
     /** {@see https://sweetalert2.github.io/} */
-    alert(options) {
+    alert(...args) {
       return this.loadJsOrCss([
         'https://npm.elemecdn.com/sweetalert2@11/dist/sweetalert2.min.css',
         'https://npm.elemecdn.com/sweetalert2@11/dist/sweetalert2.all.min.js',
-      ]).then(() => Swal.fire(options));
+      ]).then(() => Swal.fire(...args));
     },
   };
 
@@ -142,6 +142,10 @@
     if (cy) cy.innerText = new Date().getFullYear();
   }
 
+  function loadCommCss() {
+    return h5Utils.loadJsOrCss(`https://lzw.me/x/lib/utils/h5-common.css?v=1`); // ${new Date().toISOString().slice(0, 10)}
+  }
+
   // === init ====
   function h5CommInit(types, isMergeDefault = true) {
     const defaultTypes = ['disableScale', 'bdtj'];
@@ -154,6 +158,7 @@
     if (types.includes('bdtj')) initTJ();
     if (types.includes('disableScale')) iosDisableScale();
     if (types.includes('bg')) h5Utils.setRandomBodyBg();
+    if (types.includes('css')) loadCommCss();
 
     inited.comm = true;
   }
