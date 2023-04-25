@@ -375,7 +375,7 @@
 
   <?php include 'footer.php';?>
 
-  <script src="../lib/utils/h5-common.js"></script>
+  <script src="../lib/utils/h5-common.js?v=20230425-2"></script>
   <script>
   document.querySelector('.dropdown-menu').innerHTML = h5Utils.config.h5List.map(d => {
     return `<li><a href="${d[0]}" target="_blank" title="${d[2]}">${d[1]}</a></li>`;
