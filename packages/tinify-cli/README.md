@@ -9,7 +9,7 @@
 [![GitHub issues][issues-badge]][issues-url]
 [![GitHub forks][forks-badge]][forks-url]
 [![GitHub stars][stars-badge]][stars-url]
-![license MIT](https://img.shields.io/github/license/lzwme/tinify-cli)
+![license MIT](https://img.shields.io/github/license/lzwme/blog-examples)
 
 ## Install
 
