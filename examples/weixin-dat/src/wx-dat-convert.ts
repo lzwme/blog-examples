@@ -2,8 +2,8 @@ import { sync } from 'fast-glob';
 import { basename, dirname, resolve } from 'path';
 import { existsSync, promises } from 'fs';
 import { concurrency, dateFormat, getLogger, md5 } from '@lzwme/fe-utils';
-import { scanWeChatFiles } from './scanWeChatFiles';
-import { datConvert, getDatType } from './utils';
+import { scanWeChatFiles } from './scanWeChatFiles.js';
+import { datConvert, getDatType } from './utils.js';
 
 interface WDCOptions {
   /** 自动检测 */
@@ -70,7 +70,7 @@ export class WxDatConvert {
       }
     }
 
-    const converted = datConvert(content, filepath);
+    const { converted } = datConvert(content, filepath);
     const destDir = dirname(result.dest);
     const destName = `${dateFormat('yyyy-MM-dd_hhmmss', result.stats.atime)}_${basename(result.dest)}`;
 

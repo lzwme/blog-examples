@@ -155,6 +155,8 @@ https://unpkg.zhimg.com/bootstrap/
 
 <link rel="stylesheet" href="https://jsdelivr.ioiox.cn/npm/@fortawesome/fontawesome-free/css/all.min.css">
 
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
 <!-- fontawesome-free latest https://npm.elemecdn.com/fontawesome-free/ -->
 <link rel="stylesheet" href="https://npm.elemecdn.com/@fortawesome/fontawesome-free/css/fontawesome.min.css" crossorigin="anonymous">
 <script src="https://npm.elemecdn.com/@fortawesome/fontawesome-free/js/fontawesome.min.js" crossorigin="anonymous"></script>

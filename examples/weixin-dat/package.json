@@ -1,0 +1,19 @@
+{
+  "name": "weixin-dat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "web": "ss -a",
+    "dev": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lzwme/fe-utils": "^1.5.2",
+    "fast-glob": "^3.3.0"
+  }
+}

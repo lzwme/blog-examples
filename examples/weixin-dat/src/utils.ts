@@ -1,0 +1,47 @@
+import { ALL_FILE_TYPE } from './constants.js';
+
+export function getDatType(content: Buffer, filepath = '') {
+  const [c1, c2, c3] = content;
+  const v: number[] = [0, 0, 0];
+
+  for (const [head, ext] of Object.entries(ALL_FILE_TYPE)) {
+    v[0] = c1 ^ parseInt(head.slice(0, 2), 16);
+    v[1] = c2 ^ parseInt(head.slice(2, 4), 16);
+    v[2] = c3 ^ parseInt(head.slice(4, 6), 16);
+
+    if (v[0] === v[1] && v[1] === v[2]) return { ext, v };
+  }
+
+  const errmsg = `不支持的文件类型：${filepath}`;
+  return { errmsg, ext: '', v };
+}
+
+export function datConvert(content: Buffer, filepath = '') {
+  const { ext, v, errmsg } = getDatType(content, filepath);
+  if (!ext && errmsg) return { ext, converted: null, errmsg };
+
+  const converted = filepath.endsWith(ext) ? content : content.map(d => d ^ v[0]);
+  return { converted, ext };
+}
+
+export function formatByteSize(byteSize: number | string, decimal = 2, toFixed = false) {
+  let formated = +byteSize;
+  if (byteSize === '' || byteSize == null || Number.isNaN(formated)) {
+    return typeof byteSize === 'string' ? byteSize : '';
+  }
+
+  const neg = formated < 0 ? '-' : '';
+  if (neg) formated = -formated;
+  if (formated < 1) return neg + formated + 'B';
+
+  const base = 1024;
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  let idx = 0;
+
+  while (idx < units.length && formated > base) {
+    formated /= base;
+    idx++;
+  }
+
+  return neg + (decimal > 0 ? (toFixed ? formated.toFixed(decimal) : +formated.toFixed(decimal)) : formated) + units[idx];
+}
