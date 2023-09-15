@@ -70,7 +70,6 @@ export class WxDatConvert {
       }
     }
 
-    const { converted } = datConvert(content, filepath);
     const destDir = dirname(result.dest);
     const destName = `${dateFormat('yyyy-MM-dd_hhmmss', result.stats.atime)}_${basename(result.dest)}`;
 
@@ -80,11 +79,14 @@ export class WxDatConvert {
     if (!existsSync(destDir)) await promises.mkdir(destDir, { recursive: true });
     if (existsSync(result.dest)) {
       this.logger.info('文件已存在：', result.dest);
-    } else {
-      await promises.writeFile(result.dest, converted);
-      this.logger.info('写入文件：', result.dest);
+    } else  {
+      const { converted } = datConvert(content, filepath);
+      if (converted) {
+        await promises.writeFile(result.dest, converted);
+        this.logger.info('写入文件：', result.dest);
+      }
     }
-    result.ignored = false;
+    result.ignored = !existsSync(result.dest);
     return result;
   }
   async start(options: WDCOptions = { src: process.cwd() }) {
