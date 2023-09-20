@@ -5,14 +5,14 @@ import path from 'node:path';
 // https://www.jianshu.com/p/fb1d1ad58a0b
 const api = {
   wallpaper: {
-      album: 'http://service.picasso.adesk.com/v1/wallpaper/album',
-      getList: id => `http://service.picasso.adesk.com/v1/album/${id}/wallpaper/`,
+      album: 'https://service.picasso.adesk.com/v1/wallpaper/album',
+      getList: id => `https://service.picasso.adesk.com/v1/album/${id}/wallpaper/`,
   },
   /** 获取手机壁纸类别 */
-  category: 'http://service.picasso.adesk.com/v1/vertical/category',
+  category: 'https://service.picasso.adesk.com/v1/vertical/category',
   /** 不分类别获取壁纸接口 */
-  vertical: 'http://service.picasso.adesk.com/v1/vertical/vertical',
-  getCateDetailUrl: cateId => `http://service.picasso.adesk.com/v1/vertical/category/${cateId}/vertical`,
+  vertical: 'https://service.picasso.adesk.com/v1/vertical/vertical',
+  getCateDetailUrl: cateId => `https://service.picasso.adesk.com/v1/vertical/category/${cateId}/vertical`,
 };
 const req = new Request();
 
@@ -56,7 +56,7 @@ export class AdeskDownload {
     return this.category;
   }
   async download(url, cateInfo, skip = 0) {
-    if (!url) url = `http://service.picasso.adesk.com/v1/vertical/category/4e4d610cdf714d2966000000/vertical`;
+    if (!url) url = `//service.picasso.adesk.com/v1/vertical/category/4e4d610cdf714d2966000000/vertical`;
     const params = {
       limit: 30,
       skip: skip,

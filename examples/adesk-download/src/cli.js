@@ -19,6 +19,5 @@ program
   // .option('--debug', `开启调试模式。`, false)
   .action(opts => {
     new AdeskDownload(opts).start();
-  });
-
-program.parse(process.argv);
+  })
+  .parse(process.argv);

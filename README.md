@@ -6,11 +6,16 @@
 
 ## 资源列表
 
+### [工具包（发布至NPM）](./packages)
+
+- [@lzwme/tinify-cli: 基于 tinify 的图片批量压缩工具](./packages/tinify-cli/README.md)
+
 ### [EXAMPLES](./examples/)
 
 - [PC微信dat图片扫描与转换](./examples/weixin-dat)
 - [ffmpeg 批量转换](./examples/ffmpeg-convert/README.md)
-- [adesk 壁纸批量下载](./examples//adesk-download/README.md)
+- [adesk 壁纸批量下载](./examples/adesk-download/README.md)
+- [photoplus 活动图片批量下载](./examples/photoplus-download/README.md)
 - more...
 
 ### [工具类](./src/x/)

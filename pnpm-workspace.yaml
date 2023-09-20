@@ -1,6 +1,7 @@
 packages:
   # all packages in subdirs of packages/
   - 'packages/**'
+  - 'examples/**'
   # exclude packages that are inside test directories
   - '!**/test/**'
   - '!**/tmp/**'

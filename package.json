@@ -13,8 +13,8 @@
   "packageManager": "pnpm@8.6.0",
   "devDependencies": {
     "@lzwme/fe-utils": "^1.5.5",
-    "@types/jsdom": "^21.1.2",
-    "@types/node": "^20.6.0",
+    "@types/jsdom": "^21.1.3",
+    "@types/node": "^20.6.2",
     "@types/yargs-parser": "^21.0.0",
     "commander": "^11.0.0",
     "fast-glob": "^3.3.1",

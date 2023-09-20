@@ -11,6 +11,8 @@
 [![GitHub stars][stars-badge]][stars-url]
 ![license MIT](https://img.shields.io/github/license/lzwme/blog-examples)
 
+基于 `tinify` API 的图片批量压缩工具。需要去 [tinify 官网](https://tinify.cn/) 注册账号并获取一个 API KEY。
+
 ## Install
 
 ```bash
