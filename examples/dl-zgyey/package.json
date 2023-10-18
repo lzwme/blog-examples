@@ -1,0 +1,17 @@
+{
+  "name": "dl-zgyey",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lzwme/fe-utils": "^1.5.5",
+    "file-type": "^18.5.0",
+    "jsdom": "^22.1.0"
+  }
+}
