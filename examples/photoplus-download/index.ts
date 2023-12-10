@@ -1,10 +1,26 @@
-import { color, download, getLogger, md5, mkdirp } from '@lzwme/fe-utils';
+import { color, download, getLogger, md5, mkdirp, concurrency } from '@lzwme/fe-utils';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 
 export const logger = getLogger('[photoplus-dl]');
 
 type IParams = Record<string, string | number | boolean>;
+
+type IListReust = {
+  pics_total: number;
+  pics_array: {
+    id: number;
+    pic_hash: string;
+    pic_name: string;
+    pic_type: number;
+    pic_size: number;
+    show_size: number;
+    origin_img: string;
+    create_time: number;
+    width: number;
+    height: number;
+  }[];
+};
 
 export interface PPDLOptions {
   params: IParams & {
@@ -15,7 +31,7 @@ export interface PPDLOptions {
 }
 
 function toQueryString(params: IParams) {
-  let qs = [];
+  let qs: string[] = [];
   for (let [key, value] of Object.entries(params)) {
     qs.push(`${key}=${value == null || value === '' ? '' : encodeURIComponent(value as never)}`);
   }
@@ -78,7 +94,7 @@ async function getActivityList(params: Record<string, string | number | boolean>
 
   logger.info('get list from url', url);
 
-  return res;
+  return res as { result: IListReust; success: boolean };
 }
 
 export async function photoplusDl(options: PPDLOptions) {
@@ -90,7 +106,7 @@ export async function photoplusDl(options: PPDLOptions) {
 
   const cacheInfo = {
     now: Date.now(),
-    list: {} as Record<string, any>,
+    list: {} as { [id: number]: IListReust['pics_array'][0] },
     total: 0,
   };
   const cacheUrlFile = resolve(options.saveDir, `${options.params.activityNo}-cache.json`);
@@ -112,7 +128,7 @@ export async function photoplusDl(options: PPDLOptions) {
     if (res.result?.pics_total) {
       cacheInfo.total = res.result.pics_total;
       for (const item of res.result.pics_array) {
-        cacheInfo.list[item.origin_img] = item;
+        cacheInfo.list[item.id] = item;
       }
 
       mkdirp(options.saveDir);
@@ -120,30 +136,43 @@ export async function photoplusDl(options: PPDLOptions) {
     }
   }
 
-  const urls = Object.keys(cacheInfo.list);
+  const list = Object.values(cacheInfo.list);
 
-  if (!urls.length) {
+  if (!list.length) {
     logger.error('未获取到任何图片地址');
   } else {
-    logger.info('获取 url 列表下载完毕！total:', urls.length);
+    logger.info('获取 url 列表下载完毕！total:', list.length);
 
+    const { default: glob } = await import('fast-glob');
+    const existFiles = await glob('**.{jpeg,jpg}', { cwd: options.saveDir });
+    const existFilesSet = new Set(existFiles.map(d => basename(d)));
     const savePath = resolve(options.saveDir, String(options.params.activityNo));
     let dlCount = 0;
-    mkdirp(savePath);
 
-    for (const url of urls) {
-      const filepath = `${savePath}/${md5(url)}.jpg`;
-      if (existsSync(filepath)) continue;
+    console.log(existFilesSet);
 
-      logger.info(`[${dlCount}/${urls.length}] start download:`, color.gray(url));
-      await download({
-        url: `https:${url}`,
-        filepath,
-      });
-      dlCount++;
-    }
+    const taskList = list.map(item => {
+      const url = item.origin_img;
+      return async () => {
+        const filename = `${md5(item.pic_hash)}.jpg`;
+        const filepath = resolve(savePath, filename);
+        if (existFilesSet.has(filename) || existsSync(filepath)) {
+          console.log('文件已存在：', filename);
+          return;
+        }
 
-    logger.info(`下载完毕！图片总数： ${urls.length}，本次下载： ${dlCount}`);
+        logger.info(`[${dlCount}/${list.length}] start download:`, color.gray(url));
+        await download({
+          url: `https:${url}`,
+          filepath,
+        });
+        dlCount++;
+      };
+    });
+
+    await concurrency(taskList);
+
+    logger.info(`下载完毕！图片总数： ${list.length}，本次下载： ${dlCount}`);
   }
 
   return cacheInfo;
