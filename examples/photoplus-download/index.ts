@@ -1,3 +1,10 @@
+/*
+ * @Author: renxia
+ * @Date: 2023-12-14 08:51:07
+ * @LastEditors: renxia
+ * @LastEditTime: 2023-12-14 09:45:19
+ * @Description:
+ */
 import { color, download, getLogger, md5, mkdirp, concurrency } from '@lzwme/fe-utils';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
@@ -5,7 +12,6 @@ import { basename, resolve } from 'node:path';
 export const logger = getLogger('[photoplus-dl]');
 
 type IParams = Record<string, string | number | boolean>;
-
 type IListReust = {
   pics_total: number;
   pics_array: {
@@ -16,12 +22,11 @@ type IListReust = {
     pic_size: number;
     show_size: number;
     origin_img: string;
-    create_time: number;
+    create_time: string;
     width: number;
     height: number;
   }[];
 };
-
 export interface PPDLOptions {
   params: IParams & {
     activityNo: number;
@@ -31,7 +36,7 @@ export interface PPDLOptions {
 }
 
 function toQueryString(params: IParams) {
-  let qs: string[] = [];
+  const qs: string[] = [];
   for (let [key, value] of Object.entries(params)) {
     qs.push(`${key}=${value == null || value === '' ? '' : encodeURIComponent(value as never)}`);
   }
@@ -40,10 +45,7 @@ function toQueryString(params: IParams) {
 
 function parseParams(params: IParams = {}) {
   const genc = (t: IParams) => {
-    // 创建一个新的字符串，用于存放排好序的键值对
-    // key按字典序
-    // 先用Object内置类的keys方法获取要排序对象的属性名，再利用Array原型上的sort方法对获取的属性名进行排序，newkey是一个数组
-    let keys = Object.keys(t).sort();
+    const keys = Object.keys(t).sort();
     let i = '';
     for (const key of keys) {
       if (null !== t[key]) {
@@ -55,8 +57,7 @@ function parseParams(params: IParams = {}) {
   };
 
   params._t = Date.now();
-  let o = genc({ ...params }).replace(/\"/g, '');
-  params._s = md5(o + 'laxiaoheiwu');
+  params._s = md5(genc({ ...params }).replace(/\"/g, '') + 'laxiaoheiwu');
 
   return params;
 }
@@ -88,20 +89,14 @@ async function getActivityList(params: Record<string, string | number | boolean>
       Referer: `https://live.photoplus.cn/live/pc/${params.activityNo}/`,
       'Referrer-Policy': 'strict-origin-when-cross-origin',
     },
-    // body: null,
     method: 'GET',
-  }).then(d => d.json());
+  }).then(d => d.json() as Promise<{ result: IListReust; success: boolean }>);
 
-  logger.info('get list from url', url);
-
-  return res as { result: IListReust; success: boolean };
+  logger.info('get activity list from url', color.cyan(url));
+  return res;
 }
 
 export async function photoplusDl(options: PPDLOptions) {
-  options = {
-    ...options,
-    saveDir: 'img',
-  };
   if (!options.saveDir) options.saveDir = 'img';
 
   const cacheInfo = {
@@ -127,10 +122,7 @@ export async function photoplusDl(options: PPDLOptions) {
 
     if (res.result?.pics_total) {
       cacheInfo.total = res.result.pics_total;
-      for (const item of res.result.pics_array) {
-        cacheInfo.list[item.id] = item;
-      }
-
+      for (const item of res.result.pics_array) cacheInfo.list[item.id] = item;
       mkdirp(options.saveDir);
       writeFileSync(cacheUrlFile, JSON.stringify(cacheInfo, null, 2), 'utf-8');
     }
@@ -141,41 +133,30 @@ export async function photoplusDl(options: PPDLOptions) {
   if (!list.length) {
     logger.error('未获取到任何图片地址');
   } else {
-    logger.info('获取 url 列表下载完毕！total:', list.length);
+    logger.info('获取 url 列表完毕！包含图片总数:', list.length, '相册图片总数：', cacheInfo.total);
 
     const { default: glob } = await import('fast-glob');
     const existFiles = await glob('**.{jpeg,jpg}', { cwd: options.saveDir });
     const existFilesSet = new Set(existFiles.map(d => basename(d)));
     const savePath = resolve(options.saveDir, String(options.params.activityNo));
     let dlCount = 0;
+    const taskList = list.map(item => async () => {
+      const url = item.origin_img.replace(/^\/\//, 'https://');
+      const filename = `${(item.create_time || '').replace(/[^\d]/g, '')}-${item.pic_name}`.toLowerCase(); // `${md5(item.pic_hash)}.jpg`;
+      const filepath = resolve(savePath, filename);
+      if (existFilesSet.has(filename) || existsSync(filepath)) {
+        logger.info(`[${dlCount}/${list.length}] 文件已存在：`, color.greenBright(filename));
+      } else {
+        await download({ url, filepath });
+        logger.info(`[${dlCount}/${list.length}] 已下载:`, color.green(filename), color.gray(url));
+      }
 
-    console.log(existFilesSet);
-
-    const taskList = list.map(item => {
-      const url = item.origin_img;
-      return async () => {
-        const filename = `${md5(item.pic_hash)}.jpg`;
-        const filepath = resolve(savePath, filename);
-        if (existFilesSet.has(filename) || existsSync(filepath)) {
-          console.log('文件已存在：', filename);
-          return;
-        }
-
-        logger.info(`[${dlCount}/${list.length}] start download:`, color.gray(url));
-        await download({
-          url: `https:${url}`,
-          filepath,
-        });
-        dlCount++;
-      };
+      dlCount++;
     });
 
     await concurrency(taskList);
-
     logger.info(`下载完毕！图片总数： ${list.length}，本次下载： ${dlCount}`);
   }
 
   return cacheInfo;
 }
-
-// photoplusDl({ params: { activityNo: 52991069 } });

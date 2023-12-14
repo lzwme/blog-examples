@@ -6,9 +6,11 @@ program
   .argument('activityNo', '活动ID或活动URL地址')
   .option('-d, --save-dir', '图片下载保存的路径', resolve('img'))
   .option('--count', '获取图片的总数。默认为 2000', '2000')
+  .option('--debug', '调试模式')
   .action((activityNo, option) => {
     activityNo = Number(String(activityNo).match(/\d{7,}/)?.[0]);
     if (!activityNo) return logger.error('活动ID不正确，请检查');
+    if (option.debug) logger.updateOptions({ levelType: 'debug' });
 
     photoplusDl({
       saveDir: option.saveDir,
