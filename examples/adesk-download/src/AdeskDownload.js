@@ -1,12 +1,12 @@
-import { mkdirp, Request, color, sleep } from '@lzwme/fe-utils';
+import { mkdirp, Request, color, sleep, concurrency } from '@lzwme/fe-utils';
 import fs from 'node:fs';
 import path from 'node:path';
 
 // https://www.jianshu.com/p/fb1d1ad58a0b
 const api = {
   wallpaper: {
-      album: 'https://service.picasso.adesk.com/v1/wallpaper/album',
-      getList: id => `https://service.picasso.adesk.com/v1/album/${id}/wallpaper/`,
+    album: 'https://service.picasso.adesk.com/v1/wallpaper/album',
+    getList: id => `https://service.picasso.adesk.com/v1/album/${id}/wallpaper/`,
   },
   /** 获取手机壁纸类别 */
   category: 'https://service.picasso.adesk.com/v1/vertical/category',
@@ -29,6 +29,8 @@ export class AdeskDownload {
     limit: 1000,
     downloadDir: './download',
     sleep: -1,
+    /** 并行下载数 */
+    paralelism: 8,
   };
   constructor(config) {
     if (config) {
@@ -79,33 +81,32 @@ export class AdeskDownload {
 
     return this.download(url, cateInfo, skip + 30);
   }
-  async downloadFile(data, cateInfo = null) {
+  async downloadFile(data = [], cateInfo = null) {
     const cate = cateInfo ? `${cateInfo.ename}` : data[0].cid;
-
-    for (let index = 0; index < data.length; index++) {
-      const item = data[index];
+    const tasks = data.map(item => async () => {
       const dirPath = `${this.config.downloadDir}/${cate}`;
       const filename = `${item.id}.jpeg`;
       const filepath = path.resolve(dirPath, filename);
 
       if (fs.existsSync(filepath)) {
-        console.log(color.cyan(`文件已存在`), cate, color.yellow(filepath));
+        console.log(color.cyan(`[${++this.downloadedTotal}] 文件已存在`), cate, color.yellow(filepath));
       } else {
-        mkdirp(dirPath);
-        this.downloadedTotal++;
-        await req
-          .get(item.wp)
-          .then(r => {
-            if (r.response.statusCode === 200) {
-              console.log(`[${this.downloadedTotal}] Download ${color.green(cate)}/${color.greenBright(filename)} Completed`);
-              return fs.promises.writeFile(filepath, r.buffer);
-            }
-          })
-          .catch(err => console.log(`[${this.downloadedTotal}] Download ${cate}/${filename} error:`, err));
+        try {
+          mkdirp(dirPath);
+          const r = await req.get(item.wp);
+          if (r.response.statusCode === 200) {
+            console.log(`[${++this.downloadedTotal}] Download ${color.green(cate)}/${color.greenBright(filename)} Completed`);
+            return fs.promises.writeFile(filepath, r.buffer);
+          }
 
-        const sleepTime = this.config.sleep < 0 ? Math.ceil(Math.random() * 1000) : this.config.sleep;
-        if (sleepTime > 0) await sleep(Math.ceil(Math.random() * 10) * 100 + 500);
+          const sleepTime = this.config.sleep < 0 ? Math.ceil(Math.random() * 1000) : this.config.sleep;
+          if (sleepTime > 0) await sleep(Math.ceil(Math.random() * 10) * 100 + 500);
+        } catch (err) {
+          console.log(`[${++this.downloadedTotal}] Download ${cate}/${filename} error:`, err);
+        }
       }
-    }
+    });
+
+    await concurrency(tasks, Math.max(+this.config.paralelism, 1));
   }
 }
