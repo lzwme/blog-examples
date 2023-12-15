@@ -1,7 +1,14 @@
+/*
+ * @Author: renxia
+ * @Date: 2023-03-29 11:23:16
+ * @LastEditors: renxia
+ * @LastEditTime: 2023-12-15 10:01:03
+ * @Description:
+ */
 import { sync } from 'fast-glob';
-import { existsSync, promises } from 'fs';
-import { homedir } from 'os';
-import { resolve } from 'path';
+import { existsSync, promises } from 'node:fs';
+import { homedir } from 'node:os';
+import { resolve } from 'node:path';
 
 async function getWeChatFilesFromMac(fileTypes: string[]) {
   if (process.platform !== 'darwin') throw new Error('不支持的系统类型:' + process.platform);
