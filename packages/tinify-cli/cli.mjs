@@ -19,6 +19,8 @@ program
     if (options.debug) logger.updateOptions({ levelType: 'debug' });
     logger.debug(options);
     if (key) options.key = key;
+    else if (process.env.TINIFY_API_KEY) options.key = process.env.TINIFY_API_KEY;
+
     if (options.key) {
       hanlder(options);
     } else {

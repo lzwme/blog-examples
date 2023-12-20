@@ -1,6 +1,6 @@
 {
   "name": "@lzwme/tinify-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于 tinify API 的图片批量压缩命令行工具",
   "main": "index.mjs",
   "type": "module",
@@ -40,8 +40,8 @@
     "standard-version": "^9.5.0"
   },
   "dependencies": {
-    "@lzwme/fe-utils": "^1.5.1",
-    "commander": "^10.0.1",
+    "@lzwme/fe-utils": "^1.5.8",
+    "commander": "^11.1.0",
     "tinify": "^1.7.1"
   },
   "files": [

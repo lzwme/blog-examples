@@ -36,6 +36,8 @@ tinify --key <API key> --src ./images --dest ./output
 tinify --key <API key> --src ./images --dest ./output -m 50
 ```
 
+支持通过环境变量 `TINIFY_API_KEY` 配置 API KEY。
+
 ## License
 
 `@lzwme/tinify-cli` is released under the MIT license.
