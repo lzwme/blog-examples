@@ -1,0 +1,19 @@
+{
+  "name": "js-decrypt",
+  "version": "1.0.0",
+  "description": "加密 js 解码学习",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "jsjiemi": "node node_modules/jsjiemi/Jsjiemi.js",
+    "decode": "node node_modules/decode-js/src/main.js",
+    "jiamiv7": "npm run decode -- -t sojsonv7"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "decode-js": "github:echo094/decode-js",
+    "jsjiemi": "github:NXY666/Jsjiemi"
+  }
+}
