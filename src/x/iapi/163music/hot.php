@@ -8,7 +8,7 @@
 
 include_once('./api-inc.php');
 
-allowCROS();
+allow_cros();
 
 $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
 $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'musichot';

@@ -1,6 +1,6 @@
 <?php
 /** 允许 CROS */
-function allowCROS($origin = '')
+function allow_cros($origin = '')
 {
     if (!$origin) {
         $origin = '*';
@@ -15,6 +15,9 @@ function allowCROS($origin = '')
     }
 
     header("Access-Control-Allow-Origin:" . $origin);
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Accept, Authorization, X-Requested-With, Token");
     header('cache-control: no-cache');
     header('Content-Type:application/json; charset=utf-8');
 }

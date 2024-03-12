@@ -4,7 +4,7 @@
 
 include_once './api-inc.php';
 
-allowCROS();
+allow_cros();
 
 $id = tryGetReqParam('id');
 $type = tryGetReqParam(array('type', 't'), 'mp3');
