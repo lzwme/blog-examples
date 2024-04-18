@@ -2,13 +2,17 @@
 include './include/class.main.php';
 include './save/config.php';
 include './save/yun.config.php';
+include_once './include/hotCache.inc.php';
+
+$hotTopN = $hotCache->getHotTopN();
+if (count($hotTopN) > 0) $CONFIG['resou'] = implode(array_keys($hotTopN), '|');
 
 $skin = array(
-  'color' => '#50b2c8',
-  //皮肤主色
-  'input_border' => '#6599aa',
-  //搜索边框颜色
-  'input_color' => 'white', //搜索文本颜色
+    'color' => '#50b2c8',
+    //皮肤主色
+    'input_border' => '#6599aa',
+    //搜索边框颜色
+    'input_color' => 'white', //搜索文本颜色
 );
 ?>
 <!DOCTYPE html>
@@ -20,9 +24,9 @@ $skin = array(
   <meta name="renderer" content="webkit" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <script type="text/javascript" src="https://lzw.me/x/lib/jquery/1/jquery.min.js"></script>
-  <script type="text/javascript" src="./include/class.main.js"></script>
-  <link href="./include/jquery.autocomplete.css" rel="stylesheet">
-  <script type="text/javascript" src="./include/jquery.autocomplete.js?ver=1.2"></script>
+  <script type="text/javascript" src="./public/js/class.main.js"></script>
+  <link href="./public/lib/jquery.autocomplete/jquery.autocomplete.css" rel="stylesheet">
+  <script type="text/javascript" src="./public/lib/jquery.autocomplete/jquery.autocomplete.js?ver=1.2"></script>
   <title>智能解析系统</title>
   <style>
     html,
@@ -123,7 +127,7 @@ $skin = array(
       outline: none;
       color:
         <?php echo $skin["input_color"];
-        ?>
+?>
       ;
     }
 
@@ -155,7 +159,7 @@ $skin = array(
       background: transparent;
       border: 2px solid
         <?php echo $skin["input_border"];
-        ?>
+?>
       ;
       top: 0;
       right: 0;
@@ -179,7 +183,7 @@ $skin = array(
     .bar6 button {
       background:
         <?php echo $skin["input_border"];
-        ?>
+?>
       ;
       border-radius: 0 5px 5px 0;
       width: 60px;
@@ -191,7 +195,7 @@ $skin = array(
       content: "解析";
       font-size: 13px;
       color:
-        <?php echo $skin["input_color"] ?>
+        <?php echo $skin["input_color"]; ?>
       ;
     }
 
@@ -210,13 +214,13 @@ $skin = array(
       /* 文字及边框属性 */
       color:
         <?php echo $skin["color"];
-        ?>
+?>
       ;
       font-size: 13px;
       border-radius: 5px;
       border: 2px solid
         <?php echo $skin["color"];
-        ?>
+?>
       ;
 
       /* 文字剪裁 */
@@ -238,13 +242,17 @@ $skin = array(
       clear: both
     }
 
+    .recent-search {
+      display: none;
+    }
+
     .resou {
       padding-top: 15px;
     }
 
     .resou a {
       color:
-        <?php echo $skin["color"] ?>
+        <?php echo $skin["color"]; ?>
       ;
       padding: 5px;
       text-decoration: none;
@@ -269,39 +277,42 @@ $skin = array(
         <select id="flag" name="flag">
           <option value="-1">自动选择</option>
           <?php
-          $api = $YUN_CONFIG["API"];
-          for ($i = 0; $i < sizeof($api); $i++) {
-            $_api = explode("=>", $api[$i]);
-            echo "<option value=\"$i\" data-url=\"$_api[1]\">$_api[0]</option>";
-          }
-          ?>
+$api = $YUN_CONFIG["API"];
+for ($i = 0; $i < sizeof($api); $i++) {
+    $_api = explode("=>", $api[$i]);
+    echo "<option value=\"$i\" data-url=\"$_api[1]\">$_api[0]</option>";
+}
+?>
         </select>
-        <button type="submit"></button>
+        <button type="submit" id="searchBtn"></button>
         <div id="word"></div>
       </form>
+      <div class="resou recent-search">
+        <font face="verdana" style="color:<?php echo $skin["color"]; ?>;"> 最近搜索：</font>
+      </div>
       <div class="resou">
-        <font face="verdana" style="color:<?php echo $skin["color"] ?>;"> 热门搜索：</font>
-        <?php $arror = explode("|", $CONFIG["resou"]);
-        foreach ($arror as $key => $val): ?>
-          <a href="./?v=<?php echo $val; ?>"><?php echo $val; ?></a>
-        <?php endforeach; ?>
+        <font face="verdana" style="color:<?php echo $skin["color"]; ?>;"> 热门搜索：</font>
+        <?php $arror = explode("|", $CONFIG['resou']);
+foreach ($arror as $key => $val): ?>
+          <a href="./?v=<?php echo $val; ?>" target="_parent"><?php echo $val; ?></a>
+        <?php endforeach;?>
 
       </div>
 
 
       <div>
         <br />
-        <font face="verdana" style="color:<?php echo $skin["color"] ?>;">解析支持：优酷、爱奇艺、腾讯、芒果、乐视、搜狐、MP4、M3U8、FLV等等</font>
+        <font face="verdana" style="color:<?php echo $skin["color"]; ?>;">解析支持：优酷、爱奇艺、腾讯、芒果、乐视、搜狐、MP4、M3U8、FLV等等</font>
         <br /><br />
-        <font face="verdana" style="color:<?php echo $skin["color"] ?>;"> 接口地址：</font> <a
-          style="color:<?php echo $skin["color"] ?>;" target="_top"
+        <font face="verdana" style="color:<?php echo $skin["color"]; ?>;"> 接口地址：</font> <a
+          style="color:<?php echo $skin["color"]; ?>;" target="_top"
           href="./?v=https://v.qq.com/x/cover/brq7blajvjhrcit.html">
-          <?php echo $CONFIG["ROOT_PATH"] ? $CONFIG["ROOT_PATH"] : GlobalBase::is_root() ?>?v=
+          <?php echo $CONFIG["ROOT_PATH"] ? $CONFIG["ROOT_PATH"] : GlobalBase::is_root(); ?>?v=
         </a>
         <br /><br />
 
         <!--  版本信息
- <font face="verdana" style="color:<?php echo $skin["color"] ?>;"><?php echo $CONFIG["play"]["all"]["ver"]; ?></font>
+ <font face="verdana" style="color:<?php echo $skin["color"]; ?>;"><?php echo $CONFIG["play"]["all"]["ver"]; ?></font>
  <br/> <br/>
 
  -->
@@ -313,6 +324,7 @@ $skin = array(
     <div id="footer"></div>
   </div>
 
+  <script src="https://lzw.me/x/lib/utils/h5-common.js"></script>
   <script>
     var week = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
     var timerID = setInterval(updateTime, 1000);
@@ -357,27 +369,25 @@ $skin = array(
   <script>
     var w = '<h3 >很抱歉，未搜索到相关资源</h3>';
 
-    updateInfo();
-
     function updateInfo() {
       var wd = _GET("wd");
       var url = _GET("url");
       var flag = _GET('flag');
 
-      if (flag) {
-        $('#flag').val(flag);
-      }
+      if (flag) $('#flag').val(flag);
 
       if (wd === "" && url === "") {
         //w="...请输入视频地址...  ";
         w =
-          '<br><br><font size="4" color="<?php echo $skin["color"] ?>">...视</font><font color="<?php echo $skin["color"] ?>">频地址不能为空...</font>';
+          '<br><br><font size="4" color="<?php echo $skin["color"]; ?>">...视</font><font color="<?php echo $skin["color"]; ?>">频地址不能为空...</font>';
 
         $(".date").html(w);
       }
       if (wd !== "") {
+        $('#wd').val(wd);
+
         var xyplay = parent.xyplay;
-        if ("undefined" !== typeof xyplay) {
+        if (xyplay && xyplay.data) {
           if (xyplay.data.success) {
             var v = xyplay.data.info;
             var w = "<br><br><div style='text-align:center;'><h3>搜索到相关视频" + v.length + "个，请点击访问</h3>";
@@ -430,6 +440,53 @@ $skin = array(
     $(window).resize(function () {
       toggleCenter();
     });
+
+    const $el = {
+      wd: document.getElementById("wd"),
+      searchBtn: document.getElementById("searchBtn"),
+      flag: document.getElementById("flag"),
+    };
+    const so = {
+      historyKeywords: new Set((localStorage.getItem("v_history_keywords") || '').split(',')),
+      init() {
+        so.initEvent();
+        updateInfo();
+
+        if (so.historyKeywords.size > 0) {
+          const links = [...so.historyKeywords].map((wd) => `<a href="./?v=${encodeURIComponent(wd)}" target="_parent">${wd}</a>`);
+          $('.recent-search').show().append(links.join(''));
+        }
+      },
+      initEvent() {
+        document.getElementById("searchBtn").addEventListener("click", function (ev) {
+          ev.preventDefault();
+          so.search();
+        }, false);
+      },
+      search(wd) {
+        if (!wd) wd = $el.wd.value.trim();
+        if (wd) {
+          if (!String(wd).startsWith('http')) {
+            so.historyKeywords.delete(wd);
+            so.historyKeywords.add(decodeURIComponent(wd));
+            localStorage.setItem('v_history_keywords', [...so.historyKeywords].reverse().slice(0, 20).join(','));
+          }
+
+          const flag = $el.flag.value;
+          parent.location.href = `./?v=${wd}&flag=${flag === '-1' ? '' : flag}`;
+        } else {
+          h5Utils.alert({
+          title: '请输入关键字或视频播放页地址！',
+          icon: 'info',
+          showConfirmButton: false,
+          timer: 2000
+        });
+        }
+      },
+    };
+
+    var hotKeywords = <?php echo json_encode($hotTopN); ?>;
+    so.init();
   </script>
 </body>
 

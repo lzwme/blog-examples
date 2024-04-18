@@ -1,4 +1,6 @@
 <?php
+// 已废弃，改为使用 class.main.php
+
 
 //不显示读取错误
 ini_set("error_reporting", "E_ALL & ~E_NOTICE");
@@ -16,12 +18,12 @@ class GlobalBase
     public static function curl($url, $params = array())
     {
 
-        $ip     = empty($params["ip"]) ? self::rand_ip() : $params["ip"];
+        $ip = empty($params["ip"]) ? self::rand_ip() : $params["ip"];
         $header = array('X-FORWARDED-FOR:' . $ip, 'CLIENT-IP:' . $ip);
         if (isset($params["httpheader"])) {
             $header = array_merge($header, $params["httpheader"]);
         }
-        $referer    = empty($params["ref"]) ? $url : $params["ref"];
+        $referer = empty($params["ref"]) ? $url : $params["ref"];
         $user_agent = empty($params["ua"]) ? $_SERVER['HTTP_USER_AGENT'] : $params["ua"];
 
         $ch = curl_init(); //初始化 curl
@@ -80,7 +82,7 @@ class GlobalBase
             array('-569376768', '-564133889'), //222.16.0.0-222.95.255.255
         );
         $rand_key = mt_rand(0, 9);
-        $ip       = long2ip(mt_rand($ip_long[$rand_key][0], $ip_long[$rand_key][1]));
+        $ip = long2ip(mt_rand($ip_long[$rand_key][0], $ip_long[$rand_key][1]));
         return $ip;
     }
 
@@ -104,7 +106,7 @@ class GlobalBase
     public static function is_dir()
     {
         $root = str_replace("\\", "/", filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'));
-        $dir  = str_replace("\\", "/", str_replace("include", "", dirname(__FILE__)));
+        $dir = str_replace("\\", "/", str_replace("include", "", dirname(__FILE__)));
         return str_replace($root, "", $dir);
     }
     public static function is_root()
@@ -121,7 +123,7 @@ class GlobalBase
 
         if (is_dir($dir) && is_readable($dir)) {
             $handle = opendir($dir);
-            $f_dir  = array();
+            $f_dir = array();
             while (($f_name = readdir($handle)) != false) {
                 if (is_dir($dir . '/' . $f_name) && "." != $f_name && ".." != $f_name) {$f_dir[] = $f_name;}
             }
@@ -162,8 +164,8 @@ function escape($string, $in_encoding = 'UTF-8', $out_encoding = 'UCS-2')
 function strencode($string, $key = 'xyplay')
 {
     $string = base64_encode($string);
-    $len    = strlen($key);
-    $code   = '';
+    $len = strlen($key);
+    $code = '';
     for ($i = 0; $i < strlen($string); $i++) {
         $k = $i % $len;
         $code .= $string[$i] ^ $key[$k];
@@ -230,8 +232,11 @@ class Blacklist
                 $action = $list['black'][$match['black']]['action'];
                 //if($type=='0'){ if(!$all){echo $shell;}if($action=='1'){exit;}}else{eval($shell);if($action=='1'){exit;}}
                 if ('0' == $type) {
-                    if ('0' == $action) {session_start();
-                        $_SESSION['FOOTER_CODE'] = $shell;} else {exit($shell);}} else {eval($shell);if ('1' == $action) {exit;}}
+                    if ('0' == $action) {
+                        session_start();
+                        $_SESSION['FOOTER_CODE'] = $shell;
+                    } else {exit($shell);}
+                } else {eval($shell);if ('1' == $action) {exit;}}
                 break;
 
         }
@@ -316,11 +321,11 @@ function findstrs($str, $find, $strcmp = false, $separator = "|")
 //获取顶级域名
 function get_host()
 {
-    $url   = $_SERVER['HTTP_HOST'];
-    $data  = explode('.', $url);
+    $url = $_SERVER['HTTP_HOST'];
+    $data = explode('.', $url);
     $co_ta = count($data);
     //判断是否是双后缀
-    $zi_tow  = true;
+    $zi_tow = true;
     $host_cn = 'com.cn,net.cn,org.cn,gov.cn';
     $host_cn = explode(',', $host_cn);
     foreach ($host_cn as $host) {
@@ -341,7 +346,7 @@ function get_host()
 function geturl($url, $timeout = 10)
 {
     $user_agent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36";
-    $curl       = curl_init(); //初始化 curl
+    $curl = curl_init(); //初始化 curl
     curl_setopt($curl, CURLOPT_URL, $url); //要访问网页 URL 地址
     curl_setopt($curl, CURLOPT_USERAGENT, $user_agent); //模拟用户浏览器信息
     curl_setopt($curl, CURLOPT_REFERER, $url); //伪装网页来源 URL
@@ -382,9 +387,9 @@ class Main_Cache
     private $__cachetype = 1; //默认缓存类型,1为文件，2为Redis服务
     private $__cacheprot = 6379; //缓存服务端口，默认为Redis服务端口
     private $__cacheTime = 3600; //默认缓存时间,单位微秒。
-    private $__cacheDir  = './cache'; //缓存绝对路径
-    private $__md5       = true; //是否对键进行加密
-    private $__suffix    = ""; //设置文件后缀
+    private $__cacheDir = './cache'; //缓存绝对路径
+    private $__md5 = true; //是否对键进行加密
+    private $__suffix = ""; //设置文件后缀
     private $__cache;
     public function __construct($config)
     {
@@ -419,13 +424,13 @@ class Main_Cache
             $val = $this->md5 ? base64_encode($val) : $val;
             if (function_exists("gzcompress")) {$val = @gzcompress($val);}
             !file_exists($this->cacheDir) && mkdir($this->cacheDir, 0777);
-            $file     = $this->cacheDir . '/' . $key . $this->suffix;
+            $file = $this->cacheDir . '/' . $key . $this->suffix;
             $leftTime = (null === $leftTime) ? $this->cacheTime : $leftTime;
             file_put_contents($file, $val) or $this->error(__line__, "文件写入失败");
             touch($file, time() + $leftTime) or $this->error(__line__, "更改文件时间失败");
 
         }if (2 == $this->cachetype) {
-            $key_md5    = $this->md5 ? md5($key) : $key;
+            $key_md5 = $this->md5 ? md5($key) : $key;
             $val_base64 = $this->md5 ? base64_encode($val) : $val;
             $val_base64 = @gzcompress($val_base64);
 
@@ -449,16 +454,16 @@ class Main_Cache
             if ($this->_isset($key)) {
 
                 $key_md5 = $this->md5 ? md5($key) : $key;
-                $file    = $this->cacheDir . '/' . $key_md5 . $this->suffix;
-                $val     = file_get_contents($file);
-                $val     = @gzuncompress($val);
-                $val     = $this->md5 ? base64_decode($val) : $val;
+                $file = $this->cacheDir . '/' . $key_md5 . $this->suffix;
+                $val = file_get_contents($file);
+                $val = @gzuncompress($val);
+                $val = $this->md5 ? base64_decode($val) : $val;
                 return $val;
             }
             return null;
         }if (2 == $this->cachetype) {
             $key_md5 = $this->md5 ? md5($key) : $key;
-            $val     = $this->cache->get($key_md5);
+            $val = $this->cache->get($key_md5);
             if (function_exists("gzuncompress")) {$val = @gzuncompress($val);}
             $val_base64 = $this->md5 ? base64_decode($val) : $val;
             return $val_base64;
@@ -470,7 +475,7 @@ class Main_Cache
     //判断文件是否有效
     public function isset($key)
     {
-        $key  = $this->md5 ? md5($key) : $key;
+        $key = $this->md5 ? md5($key) : $key;
         $file = $this->cacheDir . '/' . $key . $this->suffix;
         if (file_exists($file)) {
             if (0 == $this->cacheTime || filemtime($file) >= time()) {
@@ -491,7 +496,7 @@ class Main_Cache
         } elseif (1 == $this->cachetype) {
             if ($this->_isset($key)) {
                 $key_md5 = $this->md5 ? md5($key) : $key;
-                $file    = $this->cacheDir . '/' . $key_md5 . $this->suffix;
+                $file = $this->cacheDir . '/' . $key_md5 . $this->suffix;
                 return @unlink($file);
             }
             return false;
@@ -503,7 +508,7 @@ class Main_Cache
     //清除过期缓存文件
     public function clear()
     {
-        $files     = scandir($this->cacheDir);
+        $files = scandir($this->cacheDir);
         $cacheTime = $this->cacheTime;
 
         foreach ($files as $val) {
@@ -590,11 +595,11 @@ class ValidateCode
 
     public function __construct($w = 130, $h = 48, $n = 4, $imageType = 'png', $codeType = 3)
     {
-        $this->width     = $w;
-        $this->height    = $h;
-        $this->numbers   = $n;
+        $this->width = $w;
+        $this->height = $h;
+        $this->numbers = $n;
         $this->imageType = $imageType;
-        $this->codeType  = $codeType;
+        $this->codeType = $codeType;
 
         /*    生成随机的验证字符串    */
         $this->codeString = $this->createCode($this->codeType);
@@ -628,7 +633,7 @@ class ValidateCode
             case 3:
                 //混合类型
 
-                $words            = str_shuffle('abcdefghkmnprstuvwxyzABCDEFGHKMNPRSTUVWXYZ23456789');
+                $words = str_shuffle('abcdefghkmnprstuvwxyzABCDEFGHKMNPRSTUVWXYZ23456789');
                 $this->codeString = substr($words, 0, $this->numbers);
                 break;
         }

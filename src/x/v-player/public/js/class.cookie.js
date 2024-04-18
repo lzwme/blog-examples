@@ -1,9 +1,7 @@
 /**
  * Cookie操作类
- * @nohacks   http://nohacks.cn
- * @version 1.0
  */
-var Cookie = new (class {
+const Cookie = {
   //设置浏览器缓存项值，参数：项名,值,其他参数{expires:"5s",path:"/",domain:"localhost",secure} 或 "5(d,h,m,s,ms)"
   set(key, value, other) {
     var expdate = new Date();
@@ -26,7 +24,7 @@ var Cookie = new (class {
     }
     document.cookie = cookie;
     //console.log("setcookie:"+cookie);
-  }
+  },
   //获取浏览器缓存项值，参数：项名
   get(key) {
     if (document.cookie.length > 0) {
@@ -35,7 +33,7 @@ var Cookie = new (class {
     }
 
     return '';
-  }
+  },
 
   getTime(time) {
     if ('undefined' !== typeof time && time !== null) {
@@ -60,12 +58,11 @@ var Cookie = new (class {
     } else {
       return -1;
     }
-  }
-
+  },
   //删除浏览器缓存项值，参数：项名
   del(key) {
     this.set(key);
-  }
+  },
   //更新文件头信息,便于PHP及时读取
   update(key, time) {
     key = key || 'reload';
@@ -74,5 +71,5 @@ var Cookie = new (class {
       this.set(key, window.location.href, { expires: '5s', path: window.location.pathname });
       window.location.reload();
     }
-  }
-})();
+  },
+};

@@ -9,6 +9,8 @@ require_once FCPATH . '/include/class.main.php';
 //加载配置文件
 require_once FCPATH . '/save/config.php';
 
+require_once FCPATH . '/include/hotCache.inc.php';
+
 define("ROOT_PATH", $CONFIG["ROOT_PATH"] ? $CONFIG["ROOT_PATH"] : GlobalBase::is_root());
 
 //输出json格式文件
@@ -22,7 +24,7 @@ foreach ($_REQUEST as $k => $v) {
 $cb = isset($cb) && $cb ? $cb : '';
 $tp = isset($tp) && $tp ? $tp : '';
 $url = isset($url) && $url ? $url : '';
-$wd = isset($wd) && $wd ? $wd : '';
+$wd = isset($wd) && $wd ? strip_tags($wd) : '';
 $line = isset($line) && $line ? $line : '0';
 $id = isset($id) ? $id : '';
 $flag = isset($flag) ? $flag : '';
@@ -167,7 +169,7 @@ class server
     //调用解析
     public static function parse()
     {
-        global $cache, $tp, $url, $wd, $id, $flag, $info;
+        global $cache, $tp, $url, $wd, $id, $flag, $info, $hotCache;
 
         //标题播放视频
         if ('wd' == $tp) {
@@ -175,10 +177,12 @@ class server
                 $word = $cache->get('wd.wd' . $wd);
                 if ("" != $word) {
                     $info = json_decode($word);
+                    $info['hot'] = $hotCache->updateHotCache($wd);
                 } else {
                     $info = YUN::parse(['wd' => urlencode($wd), 'flag' => $flag], 2);
                     if ($info['success']) {
                         $cache->set('wd.wd' . $wd, json_encode($info));
+                        $info['hot'] = $hotCache->updateHotCache($wd);
                     } else {
                         $info['m'] = "404";
                     }
@@ -186,6 +190,7 @@ class server
             } else {
                 $info['m'] = "wd input error";
             }
+
             return;
         }
 
@@ -205,25 +210,24 @@ class server
             }
             return;
 
-            //标题搜索视频
+            // 标题关键字搜索视频
         } elseif ('' != $wd) {
             $word = $cache->get('wd' . $wd);
             if ("" != $word) {
-                $info = json_decode($word);
+                $info = json_decode($word, true);
+                $info['hot'] = $hotCache->updateHotCache($wd);
             } else {
-
                 $info = YUN::parse(['wd' => urlencode($wd), 'flag' => $flag], 4);
 
                 if ($info['success']) {
                     $cache->set('wd' . $wd, json_encode($info));
+                    $info['hot'] = $hotCache->updateHotCache($wd);
                 } else {
                     $info['m'] = "404";
                 }
             }
-
             //URL播放视频
         } elseif ('' != $url) {
-
             $word = $cache->get('url' . $url);
             if ("" != $word) {
                 $info = json_decode($word);
@@ -311,10 +315,12 @@ class server
     public static function out($jsoncallback, &$data)
     {
         $json = json_encode($data);
-        if ($jsoncallback)
+        if ($jsoncallback) {
             exit($jsoncallback . '(' . $json . ');');
-        else
+        } else {
             exit($json);
+        }
+
     }
 
     public static function curl($url, $referer = "")

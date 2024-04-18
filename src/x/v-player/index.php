@@ -18,7 +18,8 @@ if (file_exists(FCPATH . '/save/config.php')) {
     //加载配置文件
     require_once FCPATH . '/save/config.php';
 } else {
-    die('您是第一次安装，请登录后台进行“初始化”即可使用！');
+    header('content-type:application/json;charset=utf8');
+    die(json_encode(array("code" => 1, "msg" => "您是第一次安装，请登录后台进行“初始化”即可使用！")));
 }
 
 define("ROOT_PATH", $CONFIG["ROOT_PATH"] ? $CONFIG["ROOT_PATH"] : GlobalBase::is_root());

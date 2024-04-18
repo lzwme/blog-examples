@@ -134,11 +134,12 @@ function video_line() {
 }
 
 function getcip() {
-  $.get('https://data.video.iqiyi.com/v.f4v', function (cdnip) {
-    sip = String(cdnip.t || cdnip).match(/\d+\.\d+\.\d+\.\d+/);
-    cip = sip[0];
-    player();
-  });
+  // $.get('https://data.video.iqiyi.com/v.f4v', function (cdnip) {
+  //   sip = String(cdnip.t || cdnip).match(/\d+\.\d+\.\d+\.\d+/);
+  //   cip = sip[0];
+  //   player();
+  // });
+  player();
 }
 
 if (url.search(/\.(ogg|mp4|webm|m3u8)$/i) !== -1) {

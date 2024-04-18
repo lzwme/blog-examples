@@ -1,9 +1,9 @@
 <?php
+ini_set("error_reporting", "E_ALL & ~E_NOTICE");
+
+include_once 'MainCache.class.php';
 
 header('Content-Type:text/html;charset=utf-8');
-
-//不显示读取错误
-ini_set("error_reporting", "E_ALL & ~E_NOTICE");
 
 // 检测PHP环境
 GlobalBase::check();
@@ -21,15 +21,17 @@ class GlobalBase
     public static function curl($url, $params = array(), &$Headers = null)
     {
 
-        $ip     = empty($params["ip"]) ? self::rand_ip() : $params["ip"];
+        $ip = empty($params["ip"]) ? self::rand_ip() : $params["ip"];
         $header = array('X-FORWARDED-FOR:' . $ip, 'CLIENT-IP:' . $ip);
         if (isset($params["httpheader"])) {
             $header = array_merge($header, $params["httpheader"]);
         }
-        $referer    = empty($params["ref"]) ? $url : $params["ref"];
+        $referer = empty($params["ref"]) ? $url : $params["ref"];
         $user_agent = empty($params["ua"]) ? $_SERVER['HTTP_USER_AGENT'] : $params["ua"];
 
-        if (!$user_agent) $user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
+        if (!$user_agent) {
+            $user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
+        }
 
         $ch = curl_init(); //初始化 curl
         curl_setopt($ch, CURLOPT_URL, $url); //要访问网页 URL 地址
@@ -63,7 +65,7 @@ class GlobalBase
             }
         }
 
-        $data    = curl_exec($ch);
+        $data = curl_exec($ch);
         $Headers = curl_getinfo($ch);
 
         //运行 curl，请求网页并返回结果
@@ -101,7 +103,7 @@ class GlobalBase
             array('-569376768', '-564133889'), //222.16.0.0-222.95.255.255
         );
         $rand_key = mt_rand(0, 9);
-        $ip       = long2ip(mt_rand($ip_long[$rand_key][0], $ip_long[$rand_key][1]));
+        $ip = long2ip(mt_rand($ip_long[$rand_key][0], $ip_long[$rand_key][1]));
         return $ip;
     }
 
@@ -125,7 +127,7 @@ class GlobalBase
     public static function is_dir()
     {
         $root = str_replace("\\", "/", filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'));
-        $dir  = str_replace("\\", "/", str_replace("include", "", dirname(__FILE__)));
+        $dir = str_replace("\\", "/", str_replace("include", "", dirname(__FILE__)));
         return str_replace($root, "", $dir);
     }
     public static function is_root()
@@ -169,7 +171,7 @@ class GlobalBase
 
         if (is_dir($dir) && is_readable($dir)) {
             $handle = opendir($dir);
-            $f_dir  = array();
+            $f_dir = array();
             while (($f_name = readdir($handle)) != false) {
                 if (is_dir($dir . '/' . $f_name) && "." != $f_name && ".." != $f_name) {$f_dir[] = $f_name;}
             }
@@ -210,8 +212,8 @@ function escape($string, $in_encoding = 'UTF-8', $out_encoding = 'UCS-2')
 function strencode($string, $key = 'xyplay')
 {
     $string = base64_encode($string);
-    $len    = strlen($key);
-    $code   = '';
+    $len = strlen($key);
+    $code = '';
     for ($i = 0; $i < strlen($string); $i++) {
         $k = $i % $len;
         $code .= $string[$i] ^ $key[$k];
@@ -235,7 +237,7 @@ class AdBlack
 {
     public static function parse($list, $path)
     {
-        $url   = filter_input(INPUT_GET, $list["name"]);if (empty($url)) {return "";}
+        $url = filter_input(INPUT_GET, $list["name"]);if (empty($url)) {return "";}
         $match = $list["match"];if (!sizeof($match) > 0) {return self::curl($url);}foreach ($match as $key => $row) {$num[$key] = $row['num'];}array_multisort($num, SORT_DESC, $match); //规则按优先级降序排列
         foreach ($match as $m) {
             if ("1" === $m["off"] && preg_match("{" . $m["target"] . "}", $url)) {
@@ -256,7 +258,7 @@ class AdBlack
 
     public static function frame_replace($word, $url, $jx, $path = '')
     {
-        $key    = array();
+        $key = array();
         $matchs = array();
         $path .= "/?$jx=";
         $path .= preg_match("#^((http://|https://).*)/#", $url, $key) ? $key[1] : "";
@@ -280,7 +282,7 @@ class AdBlack
 
     public static function curl($url, $ref = '')
     {
-        $params["ua"]  = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
+        $params["ua"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
         $params['ref'] = $ref;
         return GlobalBase::curl($url, $params);
     }
@@ -305,7 +307,8 @@ class Blacklist
             //来源域名
             case '0':
 
-                $val  = filter_input(INPUT_SERVER, "HTTP_REFERER");if ($val) {$val = parse_url($val, PHP_URL_HOST);} //取出来源域名
+                $val = filter_input(INPUT_SERVER, "HTTP_REFERER");
+                if ($val) {$val = parse_url($val, PHP_URL_HOST);} //取出来源域名
                 $host = filter_input(INPUT_SERVER, "HTTP_HOST");
                 //排除解析域名
                 if ($host !== $val) {
@@ -339,8 +342,11 @@ class Blacklist
                 $action = $list['black'][$match['black']]['action'];
                 //if($type=='0'){ if(!$all){echo $shell;}if($action=='1'){exit;}}else{eval($shell);if($action=='1'){exit;}}
                 if ('0' == $type) {
-                    if ('0' == $action) {session_start();
-                        $_SESSION['FOOTER_CODE'] = $shell;} else {exit($shell);}} else {eval($shell);if ('1' == $action) {exit;}}
+                    if ('0' == $action) {
+                        session_start();
+                        $_SESSION['FOOTER_CODE'] = $shell;
+                    } else {exit($shell);}
+                } else {eval($shell);if ('1' == $action) {exit;}}
                 break;
 
         }
@@ -375,7 +381,7 @@ function findstrs($str, $find, $strcmp = false, $separator = "|")
 function geturl($url, $timeout = 10)
 {
     $user_agent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36";
-    $curl       = curl_init(); //初始化 curl
+    $curl = curl_init(); //初始化 curl
     curl_setopt($curl, CURLOPT_URL, $url); //要访问网页 URL 地址
     curl_setopt($curl, CURLOPT_USERAGENT, $user_agent); //模拟用户浏览器信息
     curl_setopt($curl, CURLOPT_REFERER, $url); //伪装网页来源 URL
@@ -408,166 +414,4 @@ function utf8($title)
         $title = iconv($encode, 'UTF-8', $title);
     }
     return $title;
-}
-
-//缓存操作类
-class Main_Cache
-{
-    private $__cachetype = 1; //默认缓存类型,1为文件，2为Redis服务
-    private $__cacheprot = 6379; //缓存服务端口，默认为Redis服务端口
-    private $__cacheTime = 3600; //默认缓存时间,单位微秒。
-    private $__cacheDir  = './cache'; //缓存绝对路径
-    private $__md5       = true; //是否对键进行加密
-    private $__suffix    = ""; //设置文件后缀
-    private $__cache;
-    public function __construct($config)
-    {
-
-        if (0 == $this->cachetype) {
-            return;
-        }
-
-        if (is_array($config)) {
-            foreach ($config as $key => $val) {
-                $this->$key = $val;
-            }
-        }
-
-        if (2 == $this->cachetype) {
-
-            $this->cache = new Redis();
-            $this->cache->connect('127.0.0.1', $this->cacheprot);
-
-        }
-
-    }
-    //设置缓存
-    public function set($key, $val, $leftTime = null)
-    {
-
-        if (0 == $this->cachetype) {
-
-            return false;
-
-        } elseif (1 == $this->cachetype) {
-            $key = $this->md5 ? md5($key) : $key;
-            $val = $this->md5 ? base64_encode($val) : $val;
-            if (function_exists("gzcompress")) {$val = @gzcompress($val);}
-            !file_exists($this->cacheDir) && mkdir($this->cacheDir, 0777);
-            $file     = $this->cacheDir . '/' . $key . $this->suffix;
-            $leftTime = empty($leftTime) ? $this->cacheTime / 1000 : $leftTime;
-            $ret      = file_put_contents($file, $val) or $this->error(__line__, "文件写入失败");
-            $ret      = touch($file, time() + $leftTime) or $this->error(__line__, "更改文件时间失败");
-
-        } elseif (2 == $this->cachetype) {
-            $key_md5    = $this->md5 ? md5($key) : $key;
-            $val_base64 = $this->md5 ? base64_encode($val) : $val;
-            $val_base64 = @gzcompress($val_base64);
-            $ret        = $this->cache->set($key_md5, $val_base64);
-            if (0 != $leftTime) {$this->cache->EXPIRE($key_md5, $leftTime);}
-            // $this->cache->del($val_base64);
-        }
-        return $ret;
-    }
-
-    //得到缓存
-    public function get($key)
-    {
-
-        if (0 == $this->cachetype) {
-            return;
-
-        } elseif (1 == $this->cachetype) {
-            //$this->clear();
-
-            if ($this->_isset($key)) {
-
-                $key_md5 = $this->md5 ? md5($key) : $key;
-                $file    = $this->cacheDir . '/' . $key_md5 . $this->suffix;
-                $val     = file_get_contents($file);
-                $val     = @gzuncompress($val);
-                $val     = $this->md5 ? base64_decode($val) : $val;
-                return $val;
-            }
-            return null;
-        }if (2 == $this->cachetype) {
-            $key_md5 = $this->md5 ? md5($key) : $key;
-            $val     = $this->cache->get($key_md5);
-            if (function_exists("gzuncompress")) {$val = @gzuncompress($val);}
-            $val_base64 = $this->md5 ? base64_decode($val) : $val;
-            return $val_base64;
-
-        }
-
-    }
-
-    //判断文件是否有效
-    public function isset($key)
-    {
-        $key  = $this->md5 ? md5($key) : $key;
-        $file = $this->cacheDir . '/' . $key . $this->suffix;
-        if (file_exists($file)) {
-            if (0 == $this->cacheTime || filemtime($file) >= time()) {
-                return true;
-            } else {
-                @unlink($file);
-                return false;
-            }
-        }
-        return false;
-    }
-
-    //删除指定缓存
-    public function unset($key)
-    {
-        if (0 == $this->cachetype) {
-            return;
-        } elseif (1 == $this->cachetype) {
-            if ($this->_isset($key)) {
-                $key_md5 = $this->md5 ? md5($key) : $key;
-                $file    = $this->cacheDir . '/' . $key_md5 . $this->suffix;
-                return @unlink($file);
-            }
-        } elseif (2 == $this->cachetype) {
-            $key_md5 = $this->md5 ? md5($key) : $key;
-            return $this->cache->del($key_md5);
-        }
-    }
-    //清除过期缓存文件
-    public function clear()
-    {
-        $files     = scandir($this->cacheDir);
-        $cacheTime = $this->cacheTime;
-
-        foreach ($files as $val) {
-            if (0 != $cacheTime && filemtime($this->cacheDir . "/" . $val) < time()) {
-                $ret = @unlink($this->cacheDir . "/" . $val);
-            }
-        }
-        return $ret;
-    }
-
-    //清除所有缓存文件
-    public function clear_all()
-    {
-        $ret = true;
-        if (0 == $this->cachetype) {
-            return $ret;
-
-        } elseif (1 == $this->cachetype) {
-            if (!is_writable($this->cacheDir)) {return false;}
-            $files = scandir($this->cacheDir);
-            foreach ($files as $val) {
-                @unlink($this->cacheDir . "/" . $val);
-            }
-        } elseif (2 == $this->cachetype) {
-            $ret = $this->cache->flushAll();
-        }
-        return $ret;
-    }
-    private function __error($line, $msg)
-    {
-
-        die("出错文件：" . __file__ . "/n出错行：$line/n错误信息：$msg");
-    }
 }

@@ -129,7 +129,10 @@ if (empty($url)) {
             var player = new ckplayer(videoObject);
         }
 
-        function getcip() { $.get("https://data.video.iqiyi.com/v.f4v", function (cdnip) { sip = cdnip.match(/\d+\.\d+\.\d+\.\d+/); cip = sip[0]; player(); }); }
+        function getcip() {
+          // $.get("https://data.video.iqiyi.com/v.f4v", function (cdnip) { sip = cdnip.match(/\d+\.\d+\.\d+\.\d+/); cip = sip[0]; player(); });
+          player();
+        }
 
         if (url.search(/\.(ogg|mp4|webm|m3u8)$/i) !== -1) { ckplay(url); } else { getcip(); }
 

@@ -1,6 +1,6 @@
 <?php
 //加载库
-require_once("include/main.class.php");
+require_once("include/class.main.php");
 
 //-------------------------------请修改以下配置------------------------------------
 
@@ -51,7 +51,7 @@ $url_match = array(
 );
 
 
-//缓存设置,启用此设置时请确保cache目录有完全控制权限(777)； 
+//缓存设置,启用此设置时请确保cache目录有完全控制权限(777)；
 $chche_config = array(
   //缓存类型,0为关闭,1为文件缓存,2为使用Redis缓存服务；
   'type' => 1,

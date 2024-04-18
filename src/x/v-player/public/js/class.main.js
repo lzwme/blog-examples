@@ -9,6 +9,7 @@ var result = Base64.encode('125中文');  //--> "MTI15Lit5paH"
 var result2 = Base64.decode(result); //--> '125中文'
 */
 
+// Base64
 ~(function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory);
@@ -136,6 +137,8 @@ var result2 = Base64.decode(result); //--> '125中文'
 
   return Base64;
 });
+
+const isDebug = location.search.includes('debug');
 
 /*   代码加密        */
 function encode(code) {
@@ -339,7 +342,7 @@ function copy_errinfo() {
 
 // 反调试函数,参数：开关，执行代码
 function endebug(off, code) {
-  return;
+  if (isDebug) return;
   if (off === '0') {
     !(function (e) {
       function n(e) {
@@ -409,14 +412,15 @@ function endebug(off, code) {
 //复制内容到剪切板
 function txtCopy(msg) {
   function copy(e) {
-      msg = typeof msg === 'string' ? msg : JSON.stringify(msg);
+    msg = typeof msg === 'string' ? msg : JSON.stringify(msg);
     e.clipboardData.setData('text/plain', msg);
     e.preventDefault();
   }
 
   document.addEventListener('copy', copy);
-  document.execCommand('copy');
+  var ok = document.execCommand('copy');
   document.removeEventListener('copy', copy);
+  return ok;
 }
 
 //复制内容到剪切板2
@@ -425,8 +429,9 @@ function txtCopy2(msg) {
   oInput.value = typeof msg === 'string' ? msg : JSON.stringify(msg);
   document.body.appendChild(oInput);
   oInput.select(); // 选择对象
-  document.execCommand('copy'); // 执行浏览器复制命令
+  var ok = document.execCommand('copy'); // 执行浏览器复制命令
   oInput.className = 'oInput';
   oInput.style.display = 'none';
   oInput.remove();
+  return ok;
 }

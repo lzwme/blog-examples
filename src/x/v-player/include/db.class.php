@@ -8,7 +8,9 @@ class Main_db
     public static function word($name)
     {
         global $$name;
-        $key = var_export($$name, true);return "$$name=$key;\r\n";}
+        $key = var_export($$name, true);
+        return "$$name=$key;\r\n";
+    }
     //保存配置
     public static function save($file = "../save/config.php")
     {
@@ -16,11 +18,22 @@ class Main_db
         $data = preg_replace('!\/\/.*?[\r\n]|\/\*[\S\s]*?\*\/!', '', preg_replace('/(?:\<\?php|\?\>)/', '', file_get_contents($file)));
         //按php语句分组
         $lines = preg_split('/[;]+/s', $data, -1, PREG_SPLIT_NO_EMPTY);
-        if ("../save/config.php" == $file) {$word = '<?php require_once dirname(__FILE__)."/../include/main.class.php";include "data.php"; header("Content-type: text/html; charset=utf-8");' . "\r\n";} else { $word = "<?php\r\n";}
+
+        if ("../save/config.php" == $file) {
+            $word = '<?php require_once dirname(__FILE__)."/../include/class.main.php";include "data.php"; header("Content-type: text/html; charset=utf-8");' . "\r\n";
+        } else {
+            $word = "<?php\r\n";
+        }
+
         foreach ($lines as $value) {
-            $value = trim($value);if ('' !== $value && substr($value, 0, 1) === '$') {$line = explode('=', $value, 2);
-                $name                            = str_replace('$', '', trim($line[0]));
-                $word .= self::word($name);}}
+            $value = trim($value);
+            if ('' !== $value && substr($value, 0, 1) === '$') {
+                $line = explode('=', $value, 2);
+                $name = str_replace('$', '', trim($line[0]));
+                $word .= self::word($name);
+            }
+        }
+
         return file_put_contents($file, $word);
     }
 }
