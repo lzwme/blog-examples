@@ -13,8 +13,15 @@
 ### [EXAMPLES](./examples/)
 
 - [PC微信dat图片扫描与转换](./examples/weixin-dat)
-- [ffmpeg 批量转换](./examples/ffmpeg-convert/README.md)
 - [adesk 壁纸批量下载](./examples/adesk-download/README.md)
+- [复制 Cookie 的 chrome 插件](./examples/chrome-extension-copy-cookies/README.md)
+- [cookie-cloud Node.js 中使用示例](./examples/cookie-cloud)
+- [zgyey 幼儿园班级相册批量下载工具](./examples/dl-zgyey/README.md)
+- [ffmpeg 批量转换](./examples/ffmpeg-convert/README.md)
+- [对照片目录按日期分类](./examples/files-cate/README.md)
+- [JS 解密工具](./examples/js-decrypt/README.md)
+- [网易云音乐NCM格式转换MP3格式工具](./examples/ncmtomp3/README.md)
+- [基于人脸识别的图片查找工具](./examples/photo-find-by-face/)
 - [photoplus 活动图片批量下载](./examples/photoplus-download/README.md)
 - more...
 
