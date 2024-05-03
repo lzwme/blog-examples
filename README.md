@@ -47,6 +47,7 @@
 
 - [bing每日一图](https://lzw.me/x/iapi/bing/)
 - [网易云音乐简易API](https://lzw.me/x/iapi/163music/)
+- [60s 看世界（PHP 版）](./src/x/iapi/60s/README.md)
 - more...
 
 ## 文档
