@@ -27,34 +27,35 @@
 
 ### [工具类](./src/x/)
 
-- [网易云音乐热评墙](https://lzw.me/x/163musichot)
-- [Mikutap（初音未来版）](https://lzw.me/x/mikutap)
-- [今天吃啥呀？](https://lzw.me/x/jtcs)
-- [电子木鱼网页版](https://lzw.me/x/dzmy)
-- [白噪音促眠](https://lzw.me/x/relax)
-- [VIP视频解析免费看](https://lzw.me/x/vip)
-- [M3U8在线播放器](https://lzw.me/x/m3u8-player)
-- [m3u8视频在线下载](https://lzw.me/x/m3u8-downloader)
-- [音频文件在线转换工具](https://lzw.me/x/audio-converter)
-- [随机密码生成器](https://lzw.me/x/random-password)
-- [在线屏幕测试](https://lzw.me/x/screentest)
-- [福利短视频](https://lzw.me/v)
-- [毒鸡汤](https://lzw.me/pages/djt)
-- [H5小游戏集合](https://lzw.me/pages/games)
+- `./src/x/`
+  - [网易云音乐热评墙](https://lzw.me/x/163musichot)
+  - [音频文件在线转换工具](https://lzw.me/x/audio-converter)
+  - [电子木鱼网页版](https://lzw.me/x/dzmy)
+  - [今天吃啥呀？](https://lzw.me/x/jtcs)
+  - [m3u8视频在线下载](https://lzw.me/x/m3u8-downloader)
+  - [M3U8在线播放器](https://lzw.me/x/m3u8-player)
+  - [Mikutap（初音未来版）](https://lzw.me/x/mikutap)
+  - [随机密码生成器](https://lzw.me/x/random-password)
+  - [VIP视频解析免费看](https://lzw.me/x/vip)
+- lzw.me(不在本仓库)
+  - [毒鸡汤](https://lzw.me/pages/djt)
+  - [H5小游戏集合](https://lzw.me/pages/games)
+  - [白噪音促眠](https://lzw.me/x/relax)
+  - [在线屏幕测试](https://lzw.me/x/screentest)
+  - [福利短视频](https://lzw.me/v)
 - more...
 
-### [API 类]('./src/x/iapi')
+### [API 类]('./src/x/iapi/')
 
-- [bing每日一图](https://lzw.me/x/iapi/bing/)
-- [网易云音乐简易API](https://lzw.me/x/iapi/163music/)
 - [60s 看世界（PHP 版）](./src/x/iapi/60s/README.md)
+- [网易云音乐简易API](https://lzw.me/x/iapi/163music/)
+- [bing每日一图](https://lzw.me/x/iapi/bing/)
 - more...
 
 ## 文档
 
 - [awesome-tools 个人常用工具列表](./src/docs/tools.md)
 - [Awesome ChatGPT 学习资料搜集](./src/docs/AIGC/ChatGPT/READEME.md)
-
 - more...
 
 ## 其他

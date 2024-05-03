@@ -74,6 +74,31 @@
 
 - [https://lzw.me/x/iapi/60s/?type=history](https://lzw.me/x/iapi/60s/?type=history)
 
+## 安装部署
+
+### 直接部署
+
+首先，下载 60s 目录至本地：
+
+```bash
+wget https://mirror.ghproxy.com/github.com/lzwme/blog-examples/archive/refs/heads/main.zip
+unzip main.zip
+mv blog-examples-main/src/x/iapi/60s ./
+/bin/rm -rf mv blog-examples-main
+```
+
+然后基于 PHP 部署一个基本的 Web 服务，将 Web 服务根目录指向 `60s` 目录即可。nginx 配置请参考：[./nginx-60s.conf](nginx-60s.conf)
+
+### Docker 部署
+
+首先拉取镜像：
+
+首先下载 `60s` 目录至本地目录，如 `/home/www/60s`。然后基于 `docker-compose` 部署，进入 `60s` 目录，然后执行如下命令即可：
+
+```bash
+docker-compose up -d
+```
+
 ## 相关
 
 - [「60s」免费快速的 API 集合 【deno 版本】](https://github.com/vikiboss/60s)
