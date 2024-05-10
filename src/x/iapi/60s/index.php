@@ -1,5 +1,4 @@
 <?php
-
 // 分类
 $cate = $_GET['t'] ?? $_GET['type'] ?? $_GET['cate'] ?? '60s';
 // 格式
@@ -40,12 +39,12 @@ switch ($cate) {
     case 'ex-rates':
     case 'rate':
         require 'include/ext-rates.php';
-        $result = fetchRatesByCurrency($encode, $_GET['c'] ?? 'CNY', $encode);
+        $result = fetchRatesByCurrency($encode, $_GET['c'] ?? 'CNY');
         break;
     case '60s':
     default:
         require 'include/60s.php';
-        $result = fetch60s($encode, isset($_GET['v1']));
+        $result = fetch60s($encode, $_GET['offset'] ?? 0, isset($_GET['v1']));
         break;
 }
 

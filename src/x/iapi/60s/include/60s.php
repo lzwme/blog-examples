@@ -2,39 +2,58 @@
 
 require_once 'utils.php';
 
-function fetch60s($encode = 'json', $isV1 = false)
+function fetch60s($encode = 'json', $offset = 0, $isV1 = false)
 {
-    $api = 'https://www.zhihu.com/api/v4/columns/c_1715391799055720448/items?limit=2';
+    $api = 'https://www.zhihu.com/api/v4/columns/c_1715391799055720448/items?limit=5';
     $reg = '/<p\s+data-pid=[^<>]+>([^<>]+)<\/p>/';
-    $today = date('Y-m-d', time() + 8 * 3600);
+    $today = date('Y-m-d', time() + 8 * 3600 - (int) $offset * 24 * 3600);
     $cachefile = '60s_' . $today . '.json';
 
     $finalData = cacheGet($cachefile);
+    $newData = '';
 
     if (!$finalData) {
         $response = file_get_contents($api);
         $data = json_decode($response, true);
 
-        $content = $data['data'][0]['content'] ?? '';
-        $url = $data['data'][0]['url'] ?? '';
-        $title_image = $data['data'][0]['title_image'] ?? '';
-        $updated = $data['data'][0]['updated'] ?? 0;
 
-        $contents = preg_match_all($reg, $content, $matches);
-        $result = array_map(function ($e) {
-            return preg_replace('/<[^<>]+>/', '', $e);
-        }, $matches[1]);
+        if ($data && is_array($data['data'])) {
+            foreach ($data['data'] as $item) {
+                $content = $item['content'] ?? '';
+                $url = $item['url'] ?? '';
+                $title_image = $item['title_image'] ?? '';
+                $updated = $item['updated'] ?? 0;
 
-        if (!empty($result)) {
-            $finalData = [
-                'url' => $url,
-                'result' => $result,
-                'title_image' => $title_image,
-                'updated' => $updated * 1000,
-            ];
+                $contents = preg_match_all($reg, $content, $matches);
+                $result = array_map(function ($e) {
+                    return preg_replace('/<[^<>]+>/', '', $e);
+                }, $matches[1]);
 
-            cacheSet($cachefile, $finalData);
+                if (!empty($result)) {
+                    $fData = [
+                        'url' => $url,
+                        'result' => $result,
+                        'title_image' => $title_image,
+                        'updated' => $updated * 1000,
+                    ];
+
+                    $day = date('Y-m-d', (int) $updated + 8 * 3600);
+                    $cachefile = '60s_' . $day . '.json';
+                    cacheSet($cachefile, $fData);
+
+                    if ($today === $day) {
+                        $finalData = $fData;
+                    }
+                    if (!$newData) {
+                        $newData = $fData;
+                    }
+                }
+            }
         }
+    }
+
+    if (!$finalData) {
+        $finalData = $newData ?? [];
     }
 
     if ($isV1) {

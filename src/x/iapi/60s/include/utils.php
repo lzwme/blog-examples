@@ -66,7 +66,7 @@ function cacheSet($key, $data, $maxAge = 0)
 {
     global $CACHE_DIR;
     if (!file_exists($CACHE_DIR)) {
-        mkdir($CACHE_DIR, 755, true);
+        mkdir($CACHE_DIR);
     }
 
     $filepath = $CACHE_DIR . (substr(strrchr($key, '.'), 1) == 'json' ? $key : md5($key));

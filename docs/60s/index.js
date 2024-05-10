@@ -13,6 +13,17 @@ const config = {
 
 get_day_news(offset);
 
+function failNotify(msg, onOk) {
+  h5Utils
+    .alert({
+      text: msg,
+      icon: 'error',
+    })
+    .then(r => {
+      if (r.isConfirmed && typeof onOk === 'function') onOk();
+    });
+}
+
 //获取新闻
 function get_day_news(offset) {
   NProgress.start();
@@ -23,7 +34,7 @@ function get_day_news(offset) {
       document.getElementById('bing').src = response.data.data.image_url;
     })
     .catch(function (error) {
-      Notiflix.Notify.failure(`获取壁纸数据失败\uD83D\uDE1E，请点击跳转至问题反馈`, function () {
+      failNotify(`获取壁纸数据失败\uD83D\uDE1E，请点击跳转至问题反馈`, function () {
         window.open('https://github.com/lzwme/blog-examples/issues/new');
       });
       NProgress.done();
@@ -42,7 +53,7 @@ function get_day_news(offset) {
       }
     })
     .catch(function (error) {
-      Notiflix.Notify.failure(`获取壁纸数据失败\uD83D\uDE1E，请点击跳转至问题反馈`, function () {
+      failNotify(`获取壁纸数据失败\uD83D\uDE1E，请点击跳转至问题反馈`, function () {
         window.open('https://github.com/lzwme/blog-examples/issues/new');
       });
       NProgress.done();
@@ -58,7 +69,8 @@ function load_day_news(data) {
     NProgress.done();
     if (data.data) {
       data = data.data;
-      document.getElementById('date').innerHTML = data.topic || '60s读世界！';
+      
+      document.getElementById('date').innerHTML = data.topic || `60s读世界 [ ${new Date(data.updated).toLocaleString()} ]`;
 
       if (String(data.tip).includes('【微语】')) {
         document.getElementById('weiyu').innerHTML = data.tip.replace('【微语】', '');
@@ -82,16 +94,14 @@ function load_day_news(data) {
         document.getElementById('news').appendChild(li);
       }
 
-      Notiflix.Notify.success(`更新成功`, {
-        showOnlyTheLastOne: false,
-      });
+      h5Utils.toast('更新成功');
     } else {
       console.log(data);
-      Notiflix.Notify.failure(`[data]加载新闻失败 \uD83D\uDE1E`);
+      h5Utils.toast(`[data]加载新闻失败 \uD83D\uDE1E`, { icon: 'error' });
     }
   } catch (error) {
     console.error(error);
-    Notiflix.Notify.failure(`[error]加载新闻失败 \uD83D\uDE1E`);
+    h5Utils.toast(`[error]加载新闻失败 \uD83D\uDE1E`, { icon: 'error' });
   }
 }
 
@@ -103,7 +113,7 @@ function bing_click() {
 //后一天
 function after() {
   if (offset === 0) {
-    Notiflix.Notify.success('当前已经是最新的了');
+    h5Utils.toast('当前已经是最新的了');
   } else {
     offset -= 1;
     direction = 'before';
@@ -113,8 +123,8 @@ function after() {
 
 //前一天
 function before() {
-  if (offset === 4) {
-    Notiflix.Notify.warning('之后没有了');
+  if (offset === 5) {
+    h5Utils.toast('之后没有了', { icon: 'warning' });
   } else {
     offset += 1;
     direction = 'after';
@@ -148,7 +158,7 @@ function change_origin() {
         load_day_news(data);
       })
       .catch(function (error) {
-        Notiflix.Notify.failure(`微博热搜获取失败\uD83D\uDE1E，请点击跳转至问题反馈`, function () {
+        failNotify(`微博热搜获取失败\uD83D\uDE1E，请点击跳转至问题反馈`, function () {
           window.open('https://github.com/lzwme/blog-examples/issues/new');
         });
         NProgress.done();
@@ -174,7 +184,7 @@ function change_origin() {
         load_day_news(data);
       })
       .catch(function (error) {
-        Notiflix.Notify.failure(`B站热搜获取失败\uD83D\uDE1E，请点击跳转至问题反馈`, function () {
+        failNotify(`B站热搜获取失败\uD83D\uDE1E，请点击跳转至问题反馈`, function () {
           window.open('https://github.com/lzwme/blog-examples/issues/new');
         });
         NProgress.done();
@@ -197,7 +207,7 @@ function load_yiyan() {
       document.getElementById('weiyu').innerHTML = response.data['hitokoto'];
     })
     .catch(function (error) {
-      Notiflix.Notify.failure(`获取一言失败 \uD83D\uDE1E`);
+      h5Utils.toast(`获取一言失败 \uD83D\uDE1E`, { icon: 'warning' });
       console.log(error);
     });
 }
