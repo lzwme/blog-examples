@@ -10,17 +10,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@8.6.0",
+  "packageManager": "pnpm@9.1.1",
   "devDependencies": {
-    "@lzwme/fe-utils": "^1.7.2",
+    "@lzwme/fe-utils": "^1.7.3",
     "@types/jsdom": "^21.1.6",
-    "@types/node": "^20.11.28",
+    "@types/node": "^20.12.12",
     "@types/yargs-parser": "^21.0.3",
     "commander": "^12.0.0",
     "fast-glob": "^3.3.2",
     "minimist": "^1.2.8",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.5",
     "yargs-parser": "^21.1.1"
   },
   "dependencies": {
