@@ -13,7 +13,7 @@ $br = tryGetReqParam('br', 320000); // 128000、192000、32000
 if (!$id) {
     $url = isset($_REQUEST['url']) ? urldecode($_REQUEST['url']) : 'https://music.163.com/#/song?id=2013097125';
     $temp = explode('=', $url);
-    $id = $temp[1] ?: $url;
+    $id = count($temp) == 2 ? $temp[1] : $url;
 }
 
 $result = '';

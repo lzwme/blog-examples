@@ -24,8 +24,8 @@
     <title>网易云音乐热评墙 - 志文工作室</title>
     <meta name="description" content="网易云热评墙，热评音乐在线随心听! " />
     <meta name="keywords" content="云音乐,网易云音乐评论" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="../lib/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css?v=001" />
+    <script crossorigin="anonymous" src="https://npm.elemecdn.com/jquery/dist/jquery.min.js"></script>
 </head>
 
 <body>
@@ -37,16 +37,19 @@
             <div class="content">
                 <div class="inner">
                     <h1 id="title"></h1>
+                    <div id="lrcUpdate"></div>
                     <p id="yh"></p>
                     <p id="pl"></p>
+                    <div id="copyComment" onClick="copyComment()">复制</div>
+                    <div id="nextComment">下一条</div>
                 </div>
             </div>
             <nav>
                 <ul>
-                    <li><a href="javascript:;" onClick="bf()" id="bf">播放</a></li>
+                    <li><a href="javascript:;" onClick="bf()" id="bfBtn">播放</a></li>
                     <li><a href="javascript:;" onClick="Nextone()">下一首</a></li>
-                    <li><a href="javascript:;" onClick="copyUrl2()">复制热评</a></li>
-                    <li><a href="javascript:;" onClick="getHotList()">热歌榜</a></li>
+                    <li><a href="javascript:;" id="lrcBtn">看歌词</a></li>
+                    <li><a href="javascript:;" onClick="getHotList()" id="hotBtn">热歌榜</a></li>
                 </ul>
             </nav>
         </header>
@@ -55,10 +58,11 @@
                 您的浏览器不支持 audio 元素。
             </audio>
         </section>
+        <pre id="lrc"></pre>
         <footer id="footer">
             <p class="copyright ">
                 <a target="_blank" href="https://lzw.me/links">
-                    <span class="cp">Copyright © 志文工作室; 2008-<span id="currentYear"></span>, All Rights Reserved.</span>
+                    <span class="cp">Copyright © 志文工作室; 2001-<span id="currentYear"></span>, All Rights Reserved.</span>
                 </a>
             </p>
         </footer>
@@ -67,6 +71,6 @@
     <div id="bg"></div>
     <div id="toplistContain"></div>
 </body>
-<script src="../lib/utils/h5-common.js?v=20230425-2"></script>
-<script src="main.js"></script>
+<script src="https://lzw.me/x/lib/utils/h5-common.js?v=001"></script>
+<script src="main.js?v=001"></script>
 </html>

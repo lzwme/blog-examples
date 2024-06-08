@@ -1295,10 +1295,7 @@ body.is-loading #bg:before {
 /* Header */
 
 #header {
-    display: -moz-flex;
-    display: -webkit-flex;
-    display: -ms-flex;
-    display: flex;
+    display: none;
     -moz-flex-direction: column;
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
@@ -1378,11 +1375,27 @@ body.is-loading #bg:before {
     transition-delay: 0.25s;
     padding: 3rem 2rem;
     max-height: 40rem;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 #header .content .inner> :last-child {
     margin-bottom: 0;
+}
+
+#header .content .inner #copyComment,
+#header .content .inner #nextComment {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px #607d8b dashed;
+    padding: 1px 5px;
+    min-width: 55px;
+}
+
+#header .content .inner #copyComment {
+    right: 65px;
 }
 
 #header .content p {
@@ -1390,6 +1403,10 @@ body.is-loading #bg:before {
     letter-spacing: 0.2rem;
     font-size: 0.8rem;
     line-height: 2;
+}
+
+#header .content #pl {
+    margin-bottom: 10px;
 }
 
 #header nav ul {
@@ -1415,10 +1432,13 @@ body.is-loading #bg:before {
 
 #header nav ul li a {
     display: block;
-    min-width: 7.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+    width: 7.5rem;
     height: 2.75rem;
     line-height: 2.75rem;
-    padding: 0 1.25rem 0 1.45rem;
+    padding: 0 5px;
     text-transform: uppercase;
     letter-spacing: 0.2rem;
     font-size: 0.8rem;
@@ -1717,10 +1737,6 @@ body.is-loading #footer {
     opacity: 0;
 }
 
-#pl {
-    cursor: pointer;
-}
-
 #toplistContain {
     position: fixed;
     bottom: 0;
@@ -1737,74 +1753,74 @@ body.is-loading #footer {
 }
 
 #toplistContain .toplist-info {
-  max-height: 80vh;
-  overflow: auto;
-  padding: 0;
-  margin: 0;
+    max-height: 80vh;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
 }
 
 #toplistContain .toplist-info li {
-  font-size: 14px;
-  margin: 5px auto;
-  display: flex;
-  justify-content: space-between;
+    font-size: 14px;
+    margin: 5px auto;
+    display: flex;
+    justify-content: space-between;
 }
 
 #toplistContain span.idx {
-  padding-right: 5px;
-  color: #4caf50;
+    padding-right: 5px;
+    color: #4caf50;
 }
 
 #toplistContain .title {
-  min-width: 70%;
+    min-width: 70%;
 }
 
 #toplistContain .author {
-  font-size: 12px;
-  color: #aaa;
+    font-size: 12px;
+    color: #aaa;
 }
 
 #toplistContain .play {
-  margin-left: 5px;
-  margin-right: 8px;
-  padding: 2px 8px;
-  background: #607d8b;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 3px;
+    margin-left: 5px;
+    margin-right: 8px;
+    padding: 2px 8px;
+    background: #607d8b;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 3px;
 }
 
 #toplistContain .play:hover {
-  background: #3f9;
+    background: #3f9;
 }
 
 #toplistContain .expand {
-  cursor: pointer;
-  padding: 8px;
-  text-align: center;
-  background: #39f;
-  color: #fff;
-  border-radius: 18px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
+    cursor: pointer;
+    padding: 8px;
+    text-align: center;
+    background: #39f;
+    color: #fff;
+    border-radius: 18px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 4px;
+    width: 6px;
+    height: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0,0,0,.2);
-  border-radius: 6px;
+    background-color: rgba(0, 0, 0, .2);
+    border-radius: 6px;
 }
 
-::--webkit-scrollbar-track {
-  background-color: #eee;
-  border-radius: 6px;
-}
+/* ::--webkit-scrollbar-track {
+    background-color: #eee;
+    border-radius: 6px;
+} */
 
 .play-rotate {
     animation: rotate 6s linear infinite;
@@ -1822,4 +1838,27 @@ body.is-loading #footer {
     100% {
         transform: rotateZ(360deg);
     }
+}
+
+#lrc {
+    display: none;
+    background: #607d8b;
+    max-height: 300px;
+    width: 96vw;
+    max-width: 500px;
+    overflow: auto;
+    color: #fff;
+    border-radius: 5px;
+    padding: 1em;
+    margin: auto 15px;
+}
+
+#lrcUpdate {
+    margin-bottom: 15px;
+    color: #607d8b;
+}
+
+#lrcUpdate .current {
+    color: #3f9;
+    transform: scale(1.2);
 }

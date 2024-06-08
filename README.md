@@ -4,6 +4,22 @@
 
 - [博客地址：https://lzw.me](https://lzw.me)
 
+## 开发与预览
+
+```bash
+npm i -g @lzwme/sserver
+
+git clone https://github.com/lzwme/blog-examples.git
+cd blog-examples
+pnpm install
+
+# src 预览。注意，部分涉及 PHP 的模块，需要全局安装 PHP 环境
+cd src
+ss -a
+
+# examples 下具体参见各示例目录下的 README.md 文件说明
+```
+
 ## 资源列表
 
 ### [工具包（发布至NPM）](./packages)

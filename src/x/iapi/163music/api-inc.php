@@ -49,7 +49,7 @@ function get_toplist_from_html($id = 3778678, $toJson = true, $cacheInterval = 0
     if ($cacheInterval && is_file($cacheFile) && time() - filemtime($cacheFile) < $cacheInterval) {
         $rel = file_get_contents($cacheFile);
     } else {
-        $hothtml = file_get_contents('https://music.163.com/discover/toplist?id=' . $id);
+        $hothtml = file_get_contents('https://music.163.com/playlist?id=' . $id);
         preg_match('/<textarea id="song-list-pre-data" style="display:none;">(.*)<\/textarea/i', $hothtml, $match);
 
         if ($match && $match[1]) {
