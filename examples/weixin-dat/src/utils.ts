@@ -1,15 +1,27 @@
 import { ALL_FILE_TYPE } from './constants.js';
 
+export function getExt(filename: string) {
+  const [, ext] = String(filename).match(/\.([^.]+)$/) || [];
+  return ext;
+}
+
 export function getDatType(content: Buffer, filepath = '') {
   const [c1, c2, c3] = content;
   const v: number[] = [0, 0, 0];
 
-  for (const [head, ext] of Object.entries(ALL_FILE_TYPE)) {
+  for (let [head, ext] of Object.entries(ALL_FILE_TYPE)) {
     v[0] = c1 ^ parseInt(head.slice(0, 2), 16);
     v[1] = c2 ^ parseInt(head.slice(2, 4), 16);
     v[2] = c3 ^ parseInt(head.slice(4, 6), 16);
 
-    if (v[0] === v[1] && v[1] === v[2]) return { ext, v };
+    if (v[0] === v[1] && v[1] === v[2]) {
+      const fext = getExt(filepath);
+      if (fext && ['zip', 'mp4', 'doc'].includes(ext)) {
+        ext = fext as any;
+      }
+
+      return { ext, v };
+    }
   }
 
   const errmsg = `不支持的文件类型：${filepath}`;
@@ -17,10 +29,13 @@ export function getDatType(content: Buffer, filepath = '') {
 }
 
 export function datConvert(content: Buffer, filepath = '') {
-  const { ext, v, errmsg } = getDatType(content, filepath);
+  let { ext, v, errmsg } = getDatType(content, filepath);
+  const fext = getExt(filepath);
+
+  if (!ext) ext = fext;
   if (!ext && errmsg) return { ext, converted: null, errmsg };
 
-  const converted = filepath.endsWith(ext) ? content : content.map(d => d ^ v[0]);
+  const converted = fext === ext ? content : content.map(d => d ^ v[0]);
   return { converted, ext };
 }
 
@@ -44,4 +59,13 @@ export function formatByteSize(byteSize: number | string, decimal = 2, toFixed =
   }
 
   return neg + (decimal > 0 ? (toFixed ? formated.toFixed(decimal) : +formated.toFixed(decimal)) : formated) + units[idx];
+}
+
+export async function sha256(message: string | ArrayBuffer) {
+  if (!crypto.subtle) {
+    return '';
+  }
+  if (typeof message === 'string') message = new TextEncoder().encode(message);
+  const hash = await crypto.subtle.digest('SHA-256', message);
+  return Array.prototype.map.call(new Uint8Array(hash), x => ('00' + x.toString(16)).slice(-2)).join('');
 }

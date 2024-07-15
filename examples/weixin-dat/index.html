@@ -24,216 +24,10 @@
   <meta name="description" content="微信电脑版 dat 格式文件图片在线解密工具">
   <meta name="keywords" content="微信,dat,解码,解密,在线工具">
   <meta name="author" content="https://lzw.me">
-  <link rel="stylesheet" href="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.3/css/all.min.css"
-    crossorigin="anonymous">
-  <link crossorigin="anonymous"
-    integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+  <link rel="stylesheet" href="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.3/css/all.min.css" crossorigin="anonymous">
+  <link crossorigin="anonymous" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
     href="https://lib.baomitu.com/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body,
-    div,
-    /* ul,
-    ol,
-    li, */
-    dl,
-    dt,
-    dd,
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-      padding: 0;
-      font-style: normal;
-      font: 14px/22px Microsoft Yahei, Arial, tahoma, Helvetica, sans-serif
-    }
-
-    img {
-      border: 0
-    }
-
-    body {
-      color: #333333;
-      text-align: center
-    }
-
-    *:focus {
-      outline: none
-    }
-
-    a {
-      color: #252525;
-      text-decoration: none
-    }
-
-    a:hover {
-      color: #BA2636;
-      text-decoration: underline
-    }
-
-    .a {
-      margin: 0 auto;
-      width: 100%;
-      overflow: hidden
-    }
-
-    .h30 {
-      height: 30px
-    }
-
-    .lf {
-      float: left
-    }
-
-    .rt {
-      float: right
-    }
-
-    .red {
-      color: #F00
-    }
-
-    h1.title {
-      text-align: center;
-      font-weight: bold;
-      font-size: 32px;
-      height: 61px;
-      line-height: 60px;
-      font-family: "SimHei"
-    }
-
-    #header,
-    #footer {
-      height: 142px;
-      margin: 0 auto;
-      width: 782px;
-      overflow: hidden
-    }
-
-    .t1 {
-      line-height: 30px
-    }
-
-    #menu {
-      height: 50px;
-      line-height: 50px;
-      text-align: left;
-      font-size: 18px;
-      color: #FFF
-    }
-
-    #menu a {
-      padding: 0 10px;
-      color: #FFF
-    }
-
-    h2 {
-      text-align: left;
-      font-size: 20px;
-      text-indent: 10px;
-      line-height: 40px;
-      font-weight: bold;
-      border: 1px solid #CCC
-    }
-
-    ul.daxielist {
-      border: 1px solid #CCC;
-      border-top: 0;
-      padding: 20px 0;
-      padding-bottom: 0;
-      display: flex;
-      flex-wrap: wrap;
-      overflow: hidden
-    }
-
-    ul.daxielist li {
-      float: left;
-      width: 19.8%;
-      min-width: 120px;
-      font-size: 18px;
-      padding-bottom: 10px;
-    }
-
-    .main.Instructions {
-      padding-top: 30px;
-      text-align: center;
-      position: relative;
-    }
-
-    .stats {
-      min-width: 100px;
-      position: absolute;
-      right: 18px;
-      bottom: 10px;
-    }
-
-    .Instructions,
-    .Instructionst {
-      border: 1px solid #CCC;
-      padding: 10px;
-      border-top: 0;
-      text-align: left;
-      font-size: 16px;
-      line-height: 24px
-    }
-
-    .Instructionst {
-      padding-top: 0
-    }
-
-    #footer {
-      height: auto;
-      padding: 10px 0;
-      border-top: 2px solid #2E73D6
-    }
-
-    #footer a {
-      color: #F00
-    }
-
-    .w110 {
-      padding-left: 20px;
-      line-height: 24px;
-      background: url(w110.png) no-repeat 0 center
-    }
-
-    p {
-      height: 20px;
-    }
-
-    .result-list {
-      width: 100%;
-      max-height: 1000px;
-      overflow: auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 20px;
-      border: 1px #ccc solid;
-      border-top-width: 0;
-    }
-
-    .result-list a.r-item {
-      width: 220px;
-      height: 300px;
-      margin: 5px;
-      word-break: break-all;
-      word-wrap: break-word;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px rgba(200,200,200,.8) dashed;
-    }
-
-    .result-list a.r-item > * {
-      width: 100%;
-      max-height: 100%;
-    }
-
-    .footer {
-      margin-top: 80px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css?v=002">
 </head>
 
 <body class="landing-page">
@@ -247,7 +41,7 @@
                 <use xlink:href="#bootstrap"></use>
               </svg>
               <i class="fa fa-home bi me-2" width="40" height="32" role="img"></i>
-              微信DAT文件解密转换器
+              微信DAT文件解码转换器
             </a>
 
             <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -286,15 +80,16 @@
         <div class="list">
 
           <div class="nav-container">
-            <h2 style="margin-top: 30px;">微信DAT文件解密转换器</h2>
+            <h2 style="margin-top: 30px;">微信DAT文件解码转换器</h2>
 
             <div class="Instructions main">
-
               <div class="mb-3 row">
-                <label for="datfiles" class="col-sm-4 col-form-label">选择 .dat 格式文件（可多选、拖动文件夹到此处）</label>
-                <div class="col-sm-8">
-                  <input class="form-control" id="datfiles" placeholder="选择 .dat 格式文件" type="file" name="datfiles"
-                    id="datfiles" accept=".dat" multiple>
+                <div id="convert-button-container">
+                  <span class="btn btn-primary fileinput-button">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="fileinput-btn-span">选择 .dat 格式文件 (支持多选、拖动文件夹到此处)</span>
+                    <input id="datfiles" type="file" name="datfiles" accept=".dat" multiple>
+                  </span>
                 </div>
               </div>
 
@@ -310,15 +105,16 @@
 
             <div class="Instructionst">
               <div class="a">
-                <strong>微信DAT文件解密转换器使用说明：</strong><br>
+                <strong>微信DAT文件解码转换器使用说明：</strong><br>
                 <ol>
                   <li>微信电脑版中聊天发送和接收的照片等文件，可以在 <code>WeChat Files\[微信号]\data\</code> 和
                     <code>WeChat Files\[微信号]\FileStorage\MsgAttach</code> 等目录下找到。但是里面的文件全是以 <code>.dat</code>
-                    格式为后缀，这是微信编码加密后的文件，无法直接查看。</li>
-                  <li>解密：利用本页面提供的工具，可以对这类文件进行解密并展示，你也可以下载它们。</li>
+                    格式为后缀，这是微信编码加密后的文件，无法直接查看。
+                  </li>
+                  <li>解码：利用本页面提供的工具，可以对这类文件进行解密并展示，你也可以下载它们。</li>
                   <li>便捷：你可以点击文件选择框选择多个 dat 文件，也可以直接从文件夹拖动 dat 文件至该处。解密后的结果显示在下方。</li>
                   <li>安全：所有的操作都是在浏览器中完成的，不会上传到远程服务器。</li>
-                  <li>下载：点击图片可直接下载至浏览器默认文件下载保存的路径。</li>
+                  <li>下载：点击图片下载按钮，可直接下载至浏览器默认文件下载保存的路径。</li>
                   </ul>
               </div>
             </div>
@@ -329,6 +125,35 @@
       </div><!--//container-->
     </section><!--//cards-section-->
   </div><!--//page-wrapper-->
+  <div id="preview" class="preview hide ">
+    <div class="preview-main"></div>
+
+    <div class="preview-close">
+      <i class="fa fa-close"></i>
+    </div>
+
+    <div class="preview-pre">
+      <i class="fa-solid fa-chevron-left"></i>
+    </div>
+    <div class="preview-next">
+      <i class="fa-solid fa-chevron-right"></i>
+    </div>
+
+    <div class="preview-footer">
+      <div class="preview-line">
+        <label for="">名称：</label>
+        <span class="item-name"></span>
+      </div>
+      <div class="preview-line">
+        <label for="">大小：</label>
+        <span class="item-size"></span>
+      </div>
+      <div class="preview-line">
+        <label for="">路径：</label>
+        <span class="item-path"></span>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer text-center">
     <div class="container">
@@ -341,14 +166,13 @@
   </footer><!--//footer-->
 
   <!-- <script crossorigin="anonymous" src="https://npm.elemecdn.com/jquery@3/dist/jquery.min.js"></script> -->
-  <script src="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.3/js/all.min.js"
-    crossorigin="anonymous"></script>
+  <script src="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.3/js/all.min.js" crossorigin="anonymous"></script>
   <script crossorigin="anonymous"
     integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
     src="https://lib.baomitu.com/twitter-bootstrap/5.2.3/js/bootstrap.min.js"></script>
   <script src="https://lzw.me/x/lib/utils/h5-common.js"></script>
 
-  <script type="module" src="dist/web.main.js?v=230804-1"></script>
+  <script type="module" src="dist/web.main.js?v=002"></script>
 </body>
 
 </html>

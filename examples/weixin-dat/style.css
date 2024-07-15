@@ -1,0 +1,347 @@
+body,
+div,
+/* ul,
+ol,
+li, */
+dl,
+dt,
+dd,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+  font: 14px/22px Microsoft Yahei, Arial, tahoma, Helvetica, sans-serif;
+}
+
+img {
+  border: 0;
+}
+
+body {
+  color: #333333;
+  text-align: center;
+}
+
+*:focus {
+  outline: none;
+}
+
+a {
+  color: #252525;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ba2636;
+  text-decoration: underline;
+}
+
+.a {
+  margin: 0 auto;
+  width: 100%;
+  overflow: hidden;
+}
+
+.h30 {
+  height: 30px;
+}
+
+.lf {
+  float: left;
+}
+
+.rt {
+  float: right;
+}
+
+.red {
+  color: #f00;
+}
+
+h1.title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 32px;
+  height: 61px;
+  line-height: 60px;
+  font-family: 'SimHei';
+}
+
+.hide {
+  display: none !important;
+}
+
+#header,
+#footer {
+  height: 142px;
+  margin: 0 auto;
+  width: 782px;
+  overflow: hidden;
+}
+
+.t1 {
+  line-height: 30px;
+}
+
+#menu {
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  font-size: 18px;
+  color: #fff;
+}
+
+#menu a {
+  padding: 0 10px;
+  color: #fff;
+}
+
+h2 {
+  text-align: left;
+  font-size: 20px;
+  text-indent: 10px;
+  line-height: 40px;
+  font-weight: bold;
+  border: 1px solid #ccc;
+}
+
+ul.daxielist {
+  border: 1px solid #ccc;
+  border-top: 0;
+  padding: 20px 0;
+  padding-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+ul.daxielist li {
+  float: left;
+  width: 19.8%;
+  min-width: 120px;
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+
+.main.Instructions {
+  padding-top: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.stats {
+  min-width: 100px;
+  position: absolute;
+  right: 18px;
+  bottom: 10px;
+}
+
+.Instructions,
+.Instructionst {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-top: 0;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.Instructionst {
+  padding-top: 0;
+}
+
+#footer {
+  height: auto;
+  padding: 10px 0;
+  border-top: 2px solid #2e73d6;
+}
+
+#footer a {
+  color: #f00;
+}
+
+.w110 {
+  padding-left: 20px;
+  line-height: 24px;
+  background: url(w110.png) no-repeat 0 center;
+}
+
+p {
+  height: 20px;
+}
+
+.result-list {
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  border: 1px #ccc solid;
+  border-top-width: 0;
+}
+
+.result-list a.r-item {
+  width: 220px;
+  height: 300px;
+  margin: 5px;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px rgba(200, 200, 200, 0.8) dashed;
+  position: relative;
+}
+
+.result-list a.r-item:hover {
+  border-color: #198754;
+}
+
+.result-list a.r-item > * {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.result-list a.r-item .download {
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #39f;
+  padding: 3px 15px;
+  color: #fff;
+  border-radius: 18px;
+}
+
+.result-list a.r-item:hover .download {
+  display: block;
+}
+
+.footer {
+  margin-top: 80px;
+}
+
+/* upload input */
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+.fileinput-button span {
+  font-size: 24px;
+}
+
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  opacity: 0;
+  font-size: 200px !important;
+  direction: ltr;
+  cursor: pointer;
+}
+
+.preview {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  user-select: none;
+}
+
+.preview-main {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.preview-main > * {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.preview-main > span {
+  margin-top: 46vh;
+  font-size: 32px;
+  display: inline-block;
+}
+
+.preview-pre,
+.preview-next {
+  position: absolute;
+  width: 20vw;
+  height: 100%;
+  cursor: pointer;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+.preview-next {
+  right: 0;
+}
+
+.preview-pre:hover,
+.preview-next:hover {
+  background: rgba(200, 200, 200, 0.5);
+}
+
+.preview-footer {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  background: rgba(150, 150, 150, 0.8);
+  width: 100%;
+  text-align: left;
+  padding: 10px 10vw;
+}
+
+.preview:hover .preview-footer {
+  display: block;
+}
+
+.preview-line {
+  font-size: 28px;
+  line-height: 1.5;
+}
+
+.preview-line label {
+  font-weight: bold;
+  margin-right: 15px;
+  color: #fff;
+}
+
+.preview-line span {
+  color: #9f3;
+}
+
+.preview-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: 1px #333 solid;
+  border-radius: 16px;
+  z-index: 1;
+  cursor: pointer;
+  line-height: 30px;
+  font-size: 18px;
+}
+
+.preview-close:hover {
+  border: 1px #39f solid;
+}
