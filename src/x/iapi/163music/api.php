@@ -1,4 +1,21 @@
 <?php
+/**
+ * USEAGE:
+ * 获取随机热榜歌曲与热评（默认）：https://lzw.me/x/iapi/163music/api.php?type=hot
+ * 获取随机热榜歌曲与热评（包含多条热评）： https://lzw.me/x/iapi/163music/api.php?hotcomments=1
+ * 获取榜单分类列表： https://lzw.me/x/iapi/163music/api.php?type=toplist
+ * 获取指定榜单/歌单的音乐列表： https://lzw.me/x/iapi/163music/api.php?type=playlist&id=榜单id
+ * 获取热榜列表： https://lzw.me/x/iapi/163music/api.php?type=playlist&id=3778678
+ * 获取指定歌曲播放信息： https://lzw.me/x/iapi/163music/api.php?type=song&br=320000&id=歌曲id
+ * 获取指定歌曲的歌词： https://lzw.me/x/iapi/163music/api.php?type=lrc&id=歌曲id
+ * 获取指定歌曲的详情： https://lzw.me/x/iapi/163music/api.php?type=detail&id=歌曲id
+ * 获取指定歌曲的热评： https://lzw.me/x/iapi/163music/api.php?type=comment&id=歌曲id
+ * 获取指定歌曲的详情、歌词、热评： https://lzw.me/x/iapi/163music/api.php?type=all&br=320000&q=歌曲id
+ * 获取指定 MV 信息： https://lzw.me/x/iapi/163music/api.php?type=mv&id=MV的id
+ * 歌曲搜索： https://lzw.me/x/iapi/163music/api.php?type=search&q=歌曲关键字&offset=0
+ *
+ */
+
 // error_reporting(0);
 // error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
@@ -18,12 +35,22 @@ if (!$id) {
 
 $result = '';
 
+// 热播榜处理
+if ($type === 'hotlist') {
+    $type = 'playlist';
+    if (!id) {
+        $id = 3778678;
+    }
+}
+
 switch ($type) {
-    case 'hotlist':
-        $result = json_encode(get_hot_playlist(), true);
-        break;
     case 'toplist':
-        $result = get_toplist_from_html($id, false, tryGetReqParam('interval', 3600));
+        // 排行榜列表 https://music.163.com/discover/toplist
+        $result = get_toplist_cate();
+        break;
+    case 'playlist':
+        // 按 id 获取播放列表
+        $result = get_playlist($id, tryGetReqParam('interval', 3600));
         break;
     case 'mp3':
     case 'song':
@@ -79,7 +106,9 @@ switch ($type) {
             $result['detail'] = $info['songs'][0];
         }
 
-        $result = json_encode($result);
+        $info = get_music_comments($id);
+        $result['comment'] = $info ?? [];
+
         break;
 
     default:
@@ -88,4 +117,4 @@ switch ($type) {
 }
 
 header('Content-Type:application/json; charset=utf-8');
-echo $result;
+echo is_array($result) ? json_encode($result) : $result;

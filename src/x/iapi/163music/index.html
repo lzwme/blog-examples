@@ -50,6 +50,20 @@
     <pre>
   // ---- 歌曲 mp3 地址、歌词信息接口 USEAGE ----
 
+  // 获取随机热榜歌曲与热评（默认）
+  https://lzw.me/x/iapi/163music/api.php?type=hot
+
+  // 获取随机热榜歌曲与热评（包含多条热评）
+  https://lzw.me/x/iapi/163music/api.php?hotcomments=1
+
+  // `type=toplist`: 获取榜单分类列表
+  https://lzw.me/x/iapi/163music/api.php?type=toplist
+
+  // 获取任意 id 榜单/歌单的音乐列表
+  https://lzw.me/x/iapi/163music/api.php?type=playlist&id=榜单id&&interval=3600
+  // 获取热榜列表
+  https://lzw.me/x/iapi/163music/api.php?type=playlist&id=3778678
+
   // `type=mp3`：传入网易云音乐 id，返回包含高清 mp3 的 json 信息
   https://lzw.me/x/iapi/163music/api.php?type=mp3&id=2013097125
 
@@ -57,25 +71,22 @@
   https://lzw.me/x/iapi/163music/api.php?type=mp3&id=2013097125&br=128000
 
   // `type=all`: 返回其 mp3、lyric、detail 信息
-  https://lzw.me/x/iapi/163music/api.php?type=all&id=2013097125
+  https://lzw.me/x/iapi/163music/api.php?type=all&br=320000&q=2013097125
 
-  // `type=lyric`: 返回歌词信息
-  https://lzw.me/x/iapi/163music/api.php?type=all&id=2013097125
+  // `type=lyc`: 获取指定歌曲的歌词
+  https://lzw.me/x/iapi/163music/api.php?type=lrc&id=2013097125
 
   // `type=detail`: 返回歌曲详情
   https://lzw.me/x/iapi/163music/api.php?type=all&id=2013097125
 
-  // `type=mv`：返回歌曲 mv 信息
+  // `type=mv`：获取指定 MV 信息
   https://lzw.me/x/iapi/163music/api.php?type=mv&id=14480854
 
   // `type=comment`：获取指定歌曲评论
   https://lzw.me/x/iapi/163music/api.php?type=comment&id=123456
 
-  // `type=toplist`：获取指定 id 的榜单
-  https://lzw.me/x/iapi/163music/api.php?type=toplist&id=19723756[&interval=3600]
-
   // `type=search`：按关键字搜索歌曲
-  https://lzw.me/x/iapi/163music/api.php?type=search&q=孤勇者
+  https://lzw.me/x/iapi/163music/api.php?type=search&q=孤勇者&offset=0
 
 
   // ---- 热歌榜单接口 USEAGE ----
@@ -88,10 +99,6 @@
 
   // 获取热榜列表：
   https://lzw.me/x/iapi/163music/hot.php?type=playlist
-
-  // 获取任意 id 的榜单：
-  https://lzw.me/x/iapi/163music/api.php?type=toplist&id=19723756[&interval=3600]
-  https://lzw.me/x/iapi/163music/hot.php?type=toplist&id=19723756[&interval=3600]
 </pre>
 
   </div>
@@ -140,7 +147,7 @@
         return alert('请输入云音乐播放地址或id');
       }
 
-      fetch(`./hot.php?type=toplist&id=${id}`).then(d => d.json()).then(d => {
+      fetch(`./hot.php?type=playlist&id=${id}`).then(d => d.json()).then(d => {
         console.log('榜单信息', d);
         if (d.code !== 200) return alert(d.errmsg || '获取失败！');
 

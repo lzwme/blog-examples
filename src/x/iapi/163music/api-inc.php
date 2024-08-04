@@ -1,4 +1,9 @@
 <?php
+
+require_once 'FileCache.class.php';
+
+$CACHE = new FileCache(['md5' => false, 'suffix' => '.json']);
+
 /** 允许 CROS */
 function allow_cros($origin = '')
 {
@@ -22,98 +27,125 @@ function allow_cros($origin = '')
     header('Content-Type:application/json; charset=utf-8');
 }
 
-function tryGetReqParam($keys, $default = null) {
+function tryGetReqParam($keys, $default = null)
+{
     $keysList = is_string($keys) ? array($keys) : $keys;
     foreach ($keysList as $key => $value) {
-        if ($value && isset($_REQUEST[(string)$value])) return $_REQUEST[$value];
+        if ($value && isset($_REQUEST[(string) $value])) {
+            return $_REQUEST[$value];
+        }
     }
 
     return $default;
 }
 
-/**
- * 从 html 页面正则提取榜单列表数据（接口获取失败的降级方案）
- */
-function get_toplist_from_html($id = 3778678, $toJson = true, $cacheInterval = 0)
+/** 获取排行榜分类列表 */
+function get_toplist_cate($maxAge = 6 * 3600)
 {
-    $rel = array('code' => -1, 'errmsg' => "获取榜单信息失败", 'id' => $id);
-    $cacheFile = "./#cache/$id.json";
+    global $CACHE;
+    $cacheKey = 'music_toplist';
+    $rel = ['code' => 100, 'data' => []];
 
-    if ($cacheInterval) {
-        $cacheInterval = (int) $cacheInterval;
-        if ($cacheInterval < 60) {
-            $cacheInterval = 3600;
-        }
-    }
+    if ($maxAge) {
+        $cacheInfo = $CACHE->getCacheInfo($cacheKey);
 
-    if ($cacheInterval && is_file($cacheFile) && time() - filemtime($cacheFile) < $cacheInterval) {
-        $rel = file_get_contents($cacheFile);
-    } else {
-        $hothtml = file_get_contents('https://music.163.com/playlist?id=' . $id);
-        preg_match('/<textarea id="song-list-pre-data" style="display:none;">(.*)<\/textarea/i', $hothtml, $match);
+        if ($cacheInfo) {
+            $rel = $cacheInfo['data'];
 
-        if ($match && $match[1]) {
-            preg_match('/<h2 class="f-ff2">(.*)</', $hothtml, $titleMatch);
-
-            $rel = array(
-                'code' => 200,
-                'result' => array(
-                    'tracks' => json_decode($match[1], true),
-                    'creator' => array(),
-                    'name' => $titleMatch[1] ?: '',
-                    'id' => $id,
-                ),
-            );
-
-            if ($cacheInterval) {
-                if (!is_dir(dirname($cacheFile))) {
-                    mkdir(dirname($cacheFile), 755, true);
-                }
-
-                file_put_contents($cacheFile, json_encode($rel));
+            if ($cacheInfo['valid']) {
+                return $rel;
             }
-
         }
     }
 
-    if ($toJson) {
-        if (is_string($rel)) {
-            $rel = json_decode($rel, true);
+    $html = file_get_contents('https://music.163.com/discover/toplist');
+    preg_match_all('/<p class="name"><a href="\/discover\/toplist\?id=(\d+)" class="s-fc0">([^<]+)</im', $html, $match);
+
+    if ($match && $match[1]) {
+        $list = [];
+        foreach ($match[1] as $idx => $id) {
+            $list[$idx] = ['id' => $id, 'name' => $match[2][$idx]];
         }
-    } else if (!is_string($rel)) {
-        $rel = json_encode($rel);
+
+        $rel = array('code' => 200, 'data' => $list);
+        $CACHE->set($cacheKey, $rel, $maxAge);
     }
 
     return $rel;
 }
 
-/** 获取热歌榜（热歌榜每日更新） */
-function get_hot_playlist($times = 0)
+/** 获取播放列表（支持缓存） */
+function get_playlist($id, $maxAge = 3600)
 {
-    $id = 3778678;
-    $cacheFile = "./#cache/$id.json";
-    $interval = 12 * 3600;
+    $rel = array('code' => -1, 'errmsg' => "获取榜单信息失败", 'id' => $id);
 
-    if (is_file($cacheFile) && time() - filemtime($cacheFile) < $interval) {
-        return json_decode(file_get_contents($cacheFile), true);
+    global $CACHE;
+    $cacheKey = "playlist_$id";
+
+    if ($maxAge) {
+        $maxAge = (int) $maxAge;
+        if ($maxAge < 60) {
+            $maxAge = 3600;
+        }
+
+        $cacheInfo = $CACHE->getCacheInfo($cacheKey);
+
+        if ($cacheInfo) {
+            $rel = $cacheInfo['data'];
+
+            if ($cacheInfo['valid']) {
+                return $rel;
+            }
+        }
     }
 
+    $rel = get_playlist_byid($id) ?? $rel;
+
+    if ($maxAge && ($rel['code'] == 200 || !$rel['code'])) {
+        $CACHE->set($cacheKey, $rel, $maxAge);
+    }
+
+    return $rel;
+}
+
+/**
+ * 从 html 页面正则提取榜单播放列表数据（接口获取失败的降级方案）
+ */
+function get_playlist_from_html($id = 3778678)
+{
+    $hothtml = file_get_contents('https://music.163.com/playlist?id=' . $id);
+    preg_match('/<textarea id="song-list-pre-data" style="display:none;">(.*)<\/textarea/i', $hothtml, $match);
+
+    if ($match && $match[1]) {
+        preg_match('/<h2 class="f-ff2">(.*)</', $hothtml, $titleMatch);
+
+        $rel = array(
+            'code' => 200,
+            'result' => array(
+                'tracks' => json_decode($match[1], true),
+                'creator' => array(),
+                'name' => $titleMatch[1] ?: '',
+                'id' => $id,
+            ),
+        );
+
+        return $rel;
+    }
+}
+
+/** 获取播放列表数据（热歌榜每1小时更新一次） */
+function get_playlist_byid($id = 3778678, $times = 0)
+{
     $str = file_get_contents("https://music.163.com/api/playlist/detail?id=$id");
     $rel = json_decode($str, true);
 
     if ($rel['code'] != 200) {
         if ($times < 3) {
             usleep(200);
-            return get_hot_playlist($times + 1);
+            return get_playlist_byid($id, $times + 1);
         }
 
-        $rel = get_toplist_from_html($id);
-
-        if (!$rel && is_file($cacheFile)) {
-            $rel = json_decode(file_get_contents($cacheFile), true);
-        }
-    } else {
-        file_put_contents($cacheFile, $str);
+        $rel = get_playlist_from_html($id);
     }
 
     return $rel;
@@ -163,4 +195,32 @@ function music_search($keyword, $offset = 0, $toJson = false)
     $url = "https://music.163.com/api/search/get/web?csrf_token=hlpretag=&hlposttag=&s={$keyword}&type=1&offset={$offset}&total=true&limit=2";
     $rel = file_get_contents($url);
     return $toJson ? json_decode($rel, true) : $rel;
+}
+
+/** 获取热歌榜随机歌曲 */
+function get_hot_rand($includeComments = true)
+{
+    $rel = get_playlist(3778678);
+    $arr = $rel['result']['tracks'];
+    $music = $arr[array_rand($arr, 1)];
+
+    $hotComments = get_music_comments($music['id'])['hotComments'];
+    $comments = $hotComments[array_rand($hotComments, 1)];
+    $data = array(
+        'code' => 200,
+        'name' => $music['name'],
+        'id' => $music['id'],
+        'url' => 'https://music.163.com/song/media/outer/url?id=' . $music['id'] . '.mp3',
+        'picurl' => str_replace('http:', 'https:', $music['album']['picUrl']),
+        'artistsname' => $music['artists'][0]['name'],
+        'avatarurl' => str_replace('http:', 'https:', $comments['user']['avatarUrl']),
+        'nickname' => $comments['user']['nickname'],
+        'content' => $comments['content'],
+    );
+
+    if ($includeComments) {
+        $data['hotComments'] = $hotComments;
+    }
+
+    return $data;
 }

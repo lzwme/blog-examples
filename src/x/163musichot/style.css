@@ -1063,7 +1063,6 @@ table.alt tfoot {
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
-button,
 .button {
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -1096,7 +1095,6 @@ button,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover,
-button:hover,
 .button:hover {
     background-color: rgba(255, 255, 255, 0.075);
 }
@@ -1104,7 +1102,6 @@ button:hover,
 input[type="submit"]:active,
 input[type="reset"]:active,
 input[type="button"]:active,
-button:active,
 .button:active {
     background-color: rgba(255, 255, 255, 0.175);
 }
@@ -1112,7 +1109,6 @@ button:active,
 input[type="submit"].icon:before,
 input[type="reset"].icon:before,
 input[type="button"].icon:before,
-button.icon:before,
 .button.icon:before {
     margin-right: 0.5em;
 }
@@ -1120,7 +1116,6 @@ button.icon:before,
 input[type="submit"].fit,
 input[type="reset"].fit,
 input[type="button"].fit,
-button.fit,
 .button.fit {
     display: block;
     margin: 0 0 1rem 0;
@@ -1130,7 +1125,6 @@ button.fit,
 input[type="submit"].special,
 input[type="reset"].special,
 input[type="button"].special,
-button.special,
 .button.special {
     background-color: #ffffff;
     color: #1b1f22 !important;
@@ -1157,8 +1151,7 @@ button:disabled,
 
 input[type="submit"],
 input[type="reset"],
-input[type="button"],
-button {
+input[type="button"] {
     line-height: calc(2.75rem - 2px);
 }
 
@@ -1392,6 +1385,7 @@ body.is-loading #bg:before {
     border: 1px #607d8b dashed;
     padding: 1px 5px;
     min-width: 55px;
+    font-size: 16px;
 }
 
 #header .content .inner #copyComment {
@@ -1737,7 +1731,7 @@ body.is-loading #footer {
     opacity: 0;
 }
 
-#toplistContain {
+#playlistContain {
     position: fixed;
     bottom: 0;
     left: 2vw;
@@ -1752,35 +1746,39 @@ body.is-loading #footer {
     padding-top: 50px;
 }
 
-#toplistContain .toplist-info {
+#playlistContain .playlist-info {
     max-height: 80vh;
     overflow: auto;
     padding: 0;
     margin: 0;
 }
 
-#toplistContain .toplist-info li {
+#playlistContain .playlist-info li {
     font-size: 14px;
     margin: 5px auto;
     display: flex;
     justify-content: space-between;
 }
 
-#toplistContain span.idx {
+#playlistContain .playlist-info li.current {
+  background-color: #0e4329;
+}
+
+#playlistContain span.idx {
     padding-right: 5px;
     color: #4caf50;
 }
 
-#toplistContain .title {
+#playlistContain .title {
     min-width: 70%;
 }
 
-#toplistContain .author {
+#playlistContain .author {
     font-size: 12px;
     color: #aaa;
 }
 
-#toplistContain .play {
+#playlistContain .play {
     margin-left: 5px;
     margin-right: 8px;
     padding: 2px 8px;
@@ -1790,11 +1788,11 @@ body.is-loading #footer {
     border-radius: 3px;
 }
 
-#toplistContain .play:hover {
+#playlistContain .play:hover {
     background: #3f9;
 }
 
-#toplistContain .expand {
+#playlistContain .expand {
     cursor: pointer;
     padding: 8px;
     text-align: center;
@@ -1861,4 +1859,33 @@ body.is-loading #footer {
 #lrcUpdate .current {
     color: #3f9;
     transform: scale(1.2);
+}
+
+.toplist-cate {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.toplist-cate li {
+  display: inline-block;
+  padding: 2px 5px;
+  margin: 3px;
+  border: 1px #ccc dashed;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.toplist-cate li:hover,
+.toplist-cate li.current {
+  background: #39c324;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.toplist-cate li:hover {
+  background: #39f;
 }
