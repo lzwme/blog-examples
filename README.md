@@ -78,46 +78,69 @@ ss -a
 
 ### CDN 资源
 
-- [360 前端静态资源库](https://cdn.baomitu.com) 由奇舞团支持并维护的开源项目免费 CDN 服务，支持 HTTPS 和 HTTP/2，囊括上千个前端资源库和 Google 字体库。
-- [staticfile:](http://www.staticfile.org) 七牛云提供 CDN，掘金提供技术支持，同步 [cdnjs](https://github.com/cdnjs/cdnjs) 服务资源
-- [bootcdn:](https://www.bootcdn.cn) 极兔云联合 Bootstrap中文网共同支持并维护的前端开源项目免费 CDN 服务
-- [字节跳动静态资源公共库](https://cdn.bytedance.com)
-- [jsdelivr](https://www.jsdelivr.com) 支持 npm 包、github 仓库
-  - 官方CDN地址：https://cdn.jsdelivr.net
-    - [unpkg]格式：https://cdn.jsdelivr.net/npm/package@version/file
-    - [github]格式：https://cdn.jsdelivr.net/gh/user/repo@branch/file
-    - [wordpress plugin]格式：https://cdn.jsdelivr.net/wp/plugins/project/tags/version/file
-  - 示例：
-    - https://cdn.jsdelivr.net/npm/console-log-colors@latest/package.json
-    - https://cdn.jsdelivr.net/gh/lzwme/console-log-colors@main/package.json
-    - [wordpress plugin]格式：https://cdn.jsdelivr.net/wp/plugins/wp-slimstat/tags/4.6.5/wp-slimstat.js
-- `zhimg(知乎)`
-  - [unpkg]示例：https://unpkg.zhimg.com/jquery@3.3.1/dist/jquery.min.js
-- `elemecdn(饿了么)`
-  - [unpkg]示例：https://npm.elemecdn.com/jquery@3/dist/jquery.min.js
-  - [github]示例：https://github.elemecdn.com/jquery/
+- [Zstatic CDN](https://www.zstatic.net) 由又拍云赞助。`支持 SRI！`
+- [staticfile:](http://www.staticfile.org) 七牛云提供 CDN，掘金提供技术支持，同步 [cdnjs](https://github.com/cdnjs/cdnjs) 服务资源。`支持 SRI！`
+- [知乎npm: https://unpkg.zhimg.com](https://unpkg.zhimg.com) 未公开。企业级服务，内外网均可访问。支持的包不太多。
+- [360 前端静态资源库](https://cdn.baomitu.com) **不支持外网。**`支持 SRI！`由奇舞团支持并维护的开源项目免费 CDN 服务，支持 HTTPS 和 HTTP/2，囊括上千个前端资源库和 Google 字体库。
+- [饿了么npm: https://npm.elemecdn.com](https://npm.elemecdn.com) 未公开。企业级服务，**不支持外网。**
+- [字节跳动静态资源公共库](https://cdn.bytedance.com) 同步 cdnjs 资源。缓存过期时间最长设置一年。**自 2022 年 3 月起，静态资源已不再更新**。
+- [bootcdn: https://www.bootcdn.cn](https://www.bootcdn.cn) 极兔云联合 Bootstrap 中文网共同支持并维护的前端开源项目免费 CDN 服务。**常出现不稳定的现象**
+- [jsdelivr: https://cdn.jsdelivr.net](https://www.jsdelivr.com) 支持 npm 包、github 仓库。**国内不稳定**
 - [cdnjs](https://cdnjs.com)[(github)](https://github.com/cdnjs/cdnjs) 上面许多 CDN 资源均是基于 cdnjs 同步的
-- https://statically.io
+- [beecdn.com](https://www.beecdn.com/all.html) 基于 CDNJS.COM 的前端开源库文件快速浏览搜索平台
+- https://statically.io **国内不稳定**
 - https://www.sourcegcdn.com
+
+`unpkg / gh / wp`:
+
+- `gh(github)`
+  - 格式：https://cdn.jsdelivr.net/gh/user/repo@branch/file
+    - 示例：https://cdn.jsdelivr.net/gh/lzwme/console-log-colors@main/package.json
+  - 饿了么 github。示例：https://github.elemecdn.com/jquery/
+  - statically（国内不稳定）：https://cdn.statically.io/gh/:user/:repo/:tag/:file
+- `unpkg`
+  - unpkg 官方
+    - 示例：https://unpkg.com/jquery@3.7.1/dist/jquery.min.js
+  - npmmirror 镜像，大厂稳定资源，但**外网不可访问**
+    - 示例：https://registry.npmmirror.com/jquery/3.7.1/files/dist/jquery.min.js
+  - jsdelivr 服务，由于不在国内，时常存在不可访问的问题
+    - [unpkg]格式：https://cdn.jsdelivr.net/npm/package@version/file
+    - 示例：https://cdn.jsdelivr.net/npm/console-log-colors@latest/package.json
+  - [知乎unpkg]示例：https://unpkg.zhimg.com/jquery@3.7.1/dist/jquery.min.js
+  - [饿了么unpkg]示例：https://npm.elemecdn.com/jquery@3/dist/jquery.min.js
+- `wordpress`
+    - 格式：https://cdn.jsdelivr.net/wp/plugins/project/tags/version/file
+      - 示例：https://cdn.jsdelivr.net/wp/plugins/wp-slimstat/tags/4.6.5/wp-slimstat.js
 
 **CDN 引用示例：**
 
+建议加上 `integrity` 属性，以防止供应链被攻击导致受到影响。可以从以下地址查询具体资源文件的 `integrity` 值。
+
+- [https://lzw.me/x/srihash/](https://lzw.me/x/srihash/)
+- [https://www.srihash.org](https://www.srihash.org)
+- [https://cdn.jsdelivr.net](https://cdn.jsdelivr.net)
+
 ```html
+<!-- jsdelivr -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=" crossorigin="anonymous">
+
 <!-- bootcdn -->
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
-<!-- jsdelivr -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha256-wLz3iY/cO4e6vKZ4zRmo4+9XDpMcgKOvv/zEU3OMlRo=" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha256-m81NDyncZVbr7v9E6qCWXwx/cwjuWDlHCMzi9pjMobA=" crossorigin="anonymous"></script>
 ```
 
 常用参考：
+
 <details>
   <summary>jQuery</summary>
 
 ```html
 <!-- jquery3 -->
-<script crossorigin="anonymous" src="https://npm.elemecdn.com/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.zhimg.com/jquery@3.7.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+
+<script src="https://npm.elemecdn.com/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+
+<script src="https://cdn.bootcss.com/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
 
 <script crossorigin="anonymous" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" src="https://lib.baomitu.com/jquery/3.6.3/jquery.min.js"></script>
 
@@ -142,6 +165,13 @@ https://unpkg.zhimg.com/jquery/
   <summary>Bootstrap</summary>
 
 ```html
+<!-- bootstrap 5 -->
+<link crossorigin="anonymous" href="https://unpkg.zhimg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script crossorigin="anonymous" src="https://unpkg.zhimg.com/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+<link crossorigin="anonymous" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA==" href="https://lib.baomitu.com/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+<script crossorigin="anonymous" integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g==" src="https://lib.baomitu.com/twitter-bootstrap/5.2.3/js/bootstrap.min.js"></script>
+
 <!-- bootstrap 3 -->
 <link crossorigin="anonymous" href="https://lib.baomitu.com/bootstrap@3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script crossorigin="anonymous" src="https://npm.elemecdn.com/bootstrap@3/dist/js/bootstrap.min.js"></script>
@@ -152,10 +182,6 @@ https://unpkg.zhimg.com/jquery/
 <!-- bootstrap 4 -->
 <link crossorigin="anonymous" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet">
 <script crossorigin="anonymous" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
-
-<!-- bootstrap 5 -->
-<link crossorigin="anonymous" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA==" href="https://lib.baomitu.com/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
-<script crossorigin="anonymous" integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g==" src="https://lib.baomitu.com/twitter-bootstrap/5.2.3/js/bootstrap.min.js"></script>
 
 <!-- 其他
 https://cdn.jsdelivr.net/npm/twitter-bootstrap/
@@ -170,26 +196,31 @@ https://unpkg.zhimg.com/bootstrap/
   <summary>font-awesome</summary>
 
 ```html
-<!-- font-awesome 4.7 -->
-<link crossorigin="anonymous" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-<link rel="stylesheet" href="https://npm.elemecdn.com/font-awesome@4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
-
-<!-- font-awesome 6.2 -->
-<link crossorigin="anonymous" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" href="https://lib.baomitu.com/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
-
-<link rel="stylesheet" href="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" crossorigin="anonymous">
-
 <!-- font-awesome latest all -->
-<link crossorigin="anonymous" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" href="https://lib.baomitu.com/font-awesome/latest/css/all.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="https://jsdelivr.ioiox.cn/npm/@fortawesome/fontawesome-free/css/all.min.css">
+<!-- css 方式引入：会渲染为 font 字体格式 -->
+ <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+<link href="https://cdn.staticfile.net/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<!-- js 方式引入：会渲染为 svg 格式 -->
+<script src="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.3/js/all.min.js" crossorigin="anonymous"></script>
+
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
+
+<link href="https://lib.baomitu.com/font-awesome/latest/css/all.min.css" rel="stylesheet" crossorigin="anonymous" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="> <!-- font-awesome 5.8.1 -->
+<link href="https://lib.baomitu.com/font-awesome/6.2.1/css/all.min.css" rel="stylesheet" crossorigin="anonymous" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==">
+<script src="https://lib.baomitu.com/font-awesome/6.2.1/js/all.min.js" crossorigin="anonymous"></script>
+
 
 <!-- fontawesome-free latest https://npm.elemecdn.com/fontawesome-free/ -->
-<link rel="stylesheet" href="https://npm.elemecdn.com/@fortawesome/fontawesome-free/css/fontawesome.min.css" crossorigin="anonymous">
+<link href="https://npm.elemecdn.com/@fortawesome/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://npm.elemecdn.com/@fortawesome/fontawesome-free/js/fontawesome.min.js" crossorigin="anonymous"></script>
+
+<!-- font-awesome 4.7 -->
+<link href="https://lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN">
+
+<link href="https://npm.elemecdn.com/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
 
 <!-- 其他
 https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/

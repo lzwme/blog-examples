@@ -347,3 +347,13 @@ footer {
     position: absolute;
     bottom: 0;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    margin: 0 auto;
+    position: relative;
+    transform: none;
+    left: 0;
+    top: 0;
+  }
+}

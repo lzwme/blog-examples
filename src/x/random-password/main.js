@@ -102,16 +102,12 @@ window.addEventListener('resize', e => {
 
 // Copy Password in clipboard
 copyBtn.addEventListener('click', () => {
-  const textarea = document.createElement('textarea');
   const password = resultEl.innerText;
   if (!password || password == 'CLICK GENERATE') {
     return;
   }
-  textarea.value = password;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand('copy');
-  textarea.remove();
+
+  h5Utils.copy(password);
 
   copyInfo.style.transform = 'translateY(200%)';
   copyInfo.style.opacity = '0';

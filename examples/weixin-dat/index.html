@@ -24,9 +24,12 @@
   <meta name="description" content="微信电脑版 dat 格式文件图片在线解密工具">
   <meta name="keywords" content="微信,dat,解码,解密,在线工具">
   <meta name="author" content="https://lzw.me">
-  <link rel="stylesheet" href="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.3/css/all.min.css" crossorigin="anonymous">
-  <link crossorigin="anonymous" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+  <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link crossorigin="anonymous"
+    integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
     href="https://lib.baomitu.com/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://lzw.me/x/lib/utils/theme-bs.css?v=010">
   <link rel="stylesheet" href="style.css?v=002">
 </head>
 
@@ -36,10 +39,8 @@
       <div class="px-3 py-2 text-bg-dark">
         <div class="container">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="./" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                <use xlink:href="#bootstrap"></use>
-              </svg>
+            <a href="./"
+              class="site-title d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
               <i class="fa fa-home bi me-2" width="40" height="32" role="img"></i>
               微信DAT文件解码转换器
             </a>
@@ -78,7 +79,6 @@
     <section class="cards-section text-center">
       <div class="container">
         <div class="list">
-
           <div class="nav-container">
             <h2 style="margin-top: 30px;">微信DAT文件解码转换器</h2>
 
@@ -93,33 +93,36 @@
                 </div>
               </div>
 
-              <button type="button" class="btn btn-success copy" id="btn">转换</button>
-              <button type="button" class="btn btn-primary reset" id="reset">清空</button>
+              <div class="btns text-center">
+                <button type="button" class="btn btn-success copy" id="btn">转换</button>
+                <button type="button" class="btn btn-primary reset" id="reset">清空</button>
+              </div>
 
               <div class="stats" id="stats">
                 <span class="badge">1</span>
               </div>
             </div>
 
-            <div class="result-list" id="result"></div>
+            <div class="result-list Instructions" id="result"></div>
 
-            <div class="Instructionst">
-              <div class="a">
-                <strong>微信DAT文件解码转换器使用说明：</strong><br>
-                <ol>
-                  <li>微信电脑版中聊天发送和接收的照片等文件，可以在 <code>WeChat Files\[微信号]\data\</code> 和
-                    <code>WeChat Files\[微信号]\FileStorage\MsgAttach</code> 等目录下找到。但是里面的文件全是以 <code>.dat</code>
-                    格式为后缀，这是微信编码加密后的文件，无法直接查看。
-                  </li>
-                  <li>解码：利用本页面提供的工具，可以对这类文件进行解密并展示，你也可以下载它们。</li>
-                  <li>便捷：你可以点击文件选择框选择多个 dat 文件，也可以直接从文件夹拖动 dat 文件至该处。解密后的结果显示在下方。</li>
-                  <li>安全：所有的操作都是在浏览器中完成的，不会上传到远程服务器。</li>
-                  <li>下载：点击图片下载按钮，可直接下载至浏览器默认文件下载保存的路径。</li>
-                  </ul>
-              </div>
+            <h2>使用说明</h2>
+            <div class="Instructions">
+              <ol>
+                <li>微信电脑版中聊天发送和接收的照片等文件，可以在 <code>WeChat Files\[微信号]\data\</code> 和
+                  <code>WeChat Files\[微信号]\FileStorage\MsgAttach</code> 等目录下找到。但是里面的文件全是以 <code>.dat</code>
+                  格式为后缀，这是微信编码加密后的文件，无法直接查看。
+                </li>
+                <li><b>解码：</b>利用本页面提供的工具，可以对这类文件进行解密并展示，你也可以下载它们。</li>
+                <li><b>便捷：</b>你可以点击文件选择框选择多个 dat 文件，也可以直接从文件夹拖动 dat 文件至该处。解密后的结果显示在下方。</li>
+                <li><b>安全：</b>所有的操作都是在浏览器中完成的，不会上传到远程服务器。</li>
+                <li><b>下载：</b>点击图片下载按钮，可直接下载至浏览器默认文件下载保存的路径。</li>
+              </ol>
             </div>
-
           </div>
+        </div>
+
+        <div class="mt-3 text-left">
+          <div id="twikooComment"></div>
         </div>
 
       </div><!--//container-->
@@ -166,7 +169,6 @@
   </footer><!--//footer-->
 
   <!-- <script crossorigin="anonymous" src="https://npm.elemecdn.com/jquery@3/dist/jquery.min.js"></script> -->
-  <script src="https://npm.elemecdn.com/@fortawesome/fontawesome-free@6.3/js/all.min.js" crossorigin="anonymous"></script>
   <script crossorigin="anonymous"
     integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
     src="https://lib.baomitu.com/twitter-bootstrap/5.2.3/js/bootstrap.min.js"></script>
