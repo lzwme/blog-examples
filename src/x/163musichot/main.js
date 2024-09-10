@@ -241,6 +241,9 @@ $(async function () {
       $(document).on('keydown', (ev) => {
         console.log(ev.key, ev.code);
         switch(ev.key) {
+          case 'ArrowDown':
+            el.nextComment.click();
+            break;
           case 'c':
             play.copyComment();
             break;
@@ -248,6 +251,7 @@ $(async function () {
             play.nextTone();
             break;
           case 'p':
+          case ' ':
             el.bfBtn.click();
             break;
           case 'l':

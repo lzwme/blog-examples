@@ -256,7 +256,7 @@ i {
 }
 
 p {
-    margin: 0 0 2rem 0;
+    margin: 0 0 .8rem 0;
 }
 
 h1,
@@ -1305,7 +1305,7 @@ body.is-loading #bg:before {
     background-image: -webkit-radial-gradient(rgba(0, 0, 0, 0.25) 25%, transparent 55%);
     background-image: -ms-radial-gradient(rgba(0, 0, 0, 0.25) 25%, transparent 55%);
     background-image: radial-gradient(rgba(0, 0, 0, 0.25) 25%, transparent 55%);
-    max-width: 100%;
+    max-width: 900px;
     text-align: center;
 }
 
@@ -1389,7 +1389,7 @@ body.is-loading #bg:before {
 }
 
 #header .content .inner #copyComment {
-    right: 65px;
+    right: 96px;
 }
 
 #header .content p {
@@ -1397,6 +1397,10 @@ body.is-loading #bg:before {
     letter-spacing: 0.2rem;
     font-size: 0.8rem;
     line-height: 2;
+}
+
+#header .content #yh {
+  color: #ff0;
 }
 
 #header .content #pl {

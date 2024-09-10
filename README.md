@@ -70,7 +70,7 @@ ss -a
 
 ## 文档
 
-- [awesome-tools 个人常用工具列表](./src/docs/tools.md)
+- [awesome-tools 个人常用工具列表](./src/docs/awesome-tools.md)
 - [Awesome ChatGPT 学习资料搜集](./src/docs/AIGC/ChatGPT/READEME.md)
 - more...
 
