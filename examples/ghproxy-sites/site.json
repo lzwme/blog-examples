@@ -1,8 +1,9 @@
 {
   "siteInfo": {
-    "https://mirror.ghproxy.com": {
+    "https://ghp.ci": {
       "title": "GitHub Proxy",
       "desc": "基于 hunshcn/gh-proxy 搭建",
+      "star": 3,
       "errmsg": "",
       "update": 1725864292363
     },

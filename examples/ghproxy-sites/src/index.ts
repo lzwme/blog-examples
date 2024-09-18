@@ -2,7 +2,7 @@
  * @Author: renxia
  * @Date: 2023-04-06 13:25:28
  * @LastEditors: renxia
- * @LastEditTime: 2024-09-09 14:57:06
+ * @LastEditTime: 2024-09-18 17:21:31
  * @Description:
  */
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -30,23 +30,25 @@ function formatSiteList() {
 
       if (a[1].star !== b[1].star) return (b[1].star || 1) - (a[1].star || 1);
 
-      return a[0] > b[0] ? 1 : -1;
+      return a[0] > b[0] ? -1 : 1;
     });
 
-  const mdContent = list
-    .map(([url, info]) => {
-      return [
-        '',
-        info.invalid ? '❌' : (Number(info.needVerify) > 0 ? '⚠️' : '✅'),
-        url, info.title,
-        info.errmsg ? `\`${info.errmsg}\`` : info.desc,
-        dateFormat('yyyy-MM-dd hh:mm:ss', info.update || Date.now()),
-        '',
-      ].join(' | ').trim();
-    });
-    mdContent.unshift(`| 状态 | 链接 | 标题 | 描述 | 更新时间 |\n|:-:| :-:|:-:|:-:|:-:|`);
+  const mdContent = list.map(([url, info]) => {
+    return [
+      '',
+      info.invalid ? '❌' : Number(info.needVerify) > 0 ? '⚠️' : '✅',
+      url,
+      info.title,
+      info.errmsg ? `\`${info.errmsg}\`` : info.desc,
+      dateFormat('yyyy-MM-dd hh:mm:ss', info.update || Date.now()),
+      '',
+    ]
+      .join(' | ')
+      .trim();
+  });
+  mdContent.unshift(`| 状态 | 链接 | 标题 | 描述 | 更新时间 |\n|:-:| :-:|:-:|:-:|:-:|`);
 
-    return { list, mdContent: mdContent.join('\n') };
+  return { list, mdContent: mdContent.join('\n') };
 }
 
 async function updateReadme() {

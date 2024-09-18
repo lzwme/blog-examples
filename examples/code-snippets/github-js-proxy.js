@@ -1,6 +1,6 @@
 /**
  * github 文件访问代理路径替换
- * {@link https://mirror.ghproxy.com/https://github.com/hunshcn/gh-proxy/blob/master/index.js}
+ * {@link https://ghp.ci/https://github.com/hunshcn/gh-proxy/blob/master/index.js}
  */
 function githubUrlToProxy(path = '') {
   const exp1 = /^(?:https?:\/\/)?github\.com\/.+?\/.+?\/(?:releases|archive)\/.*$/i;
@@ -20,7 +20,7 @@ function githubUrlToProxy(path = '') {
     path.search(exp3) === 0
     // path.search(exp4) === 0
   ) {
-    return `https://mirror.ghproxy.com/` + path;
+    return `https://ghp.ci/` + path;
   } else if (path.search(exp2) === 0) {
     path = path.replace('/blob/', '@').replace(/^(?:https?:\/\/)?github\.com/, 'https://cdn.jsdelivr.net/gh');
   } else if (path.search(exp4) === 0) {
