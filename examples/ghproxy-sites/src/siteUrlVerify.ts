@@ -103,20 +103,20 @@ export function siteUrlVerify() {
 }
 
 async function checkGHProxy(url: string, idx: number) {
-  url = `${url.replace(/\/$/, '')}/https://raw.githubusercontent.com/lzwme/blog-examples/blob/main/examples/ghproxy-sites/README.md`;
+  url = `${url.replace(/\/$/, '')}/https://raw.githubusercontent.com/lzwme/blog-examples/main/examples/ghproxy-sites/README.md`;
 
   const r = await httpLinkChecker(url, {
     reqOptions: { timeout: 10_000, rejectUnauthorized: false },
     verify: body => {
-      const t = body.includes('ChatGPT');
-      if (!t) console.log('代理测试失败！', color.red(url), body.slice(0, 100));
+      const t = body.includes('ghproxy 可用站点列表');
+      if (!t) console.log('代理测试失败！', color.red(url));
       return t;
     },
   });
   const valid = r.code == 0;
 
   if (!valid) {
-    logger.warn(`[GHProxy][${idx}] 检测失败！`, r.code, r.errmsg, r.statusCode, color.red(url));
+    logger.warn(`[GHProxy][${idx}] 检测失败！`, r.code, r.statusCode, color.red(url));
   } else {
     logger.debug(`[GHProxy][${idx}] 检测通过！`, color.green(url));
   }
