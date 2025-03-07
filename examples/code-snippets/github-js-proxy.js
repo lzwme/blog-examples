@@ -20,7 +20,7 @@ function githubUrlToProxy(path = '') {
     path.search(exp3) === 0
     // path.search(exp4) === 0
   ) {
-    return `https://ghp.ci/` + path;
+    return `https://ghfast.top/` + path;
   } else if (path.search(exp2) === 0) {
     path = path.replace('/blob/', '@').replace(/^(?:https?:\/\/)?github\.com/, 'https://cdn.jsdelivr.net/gh');
   } else if (path.search(exp4) === 0) {

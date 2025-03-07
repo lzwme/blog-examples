@@ -78,18 +78,19 @@ ss -a
 
 ### CDN 资源
 
-- [Zstatic CDN](https://www.zstatic.net) 由又拍云赞助。`支持 SRI！`
-- [staticfile:](http://www.staticfile.org) 七牛云提供 CDN，掘金提供技术支持，同步 [cdnjs](https://github.com/cdnjs/cdnjs) 服务资源。`支持 SRI！`
-- [知乎npm: https://unpkg.zhimg.com](https://unpkg.zhimg.com) 未公开。企业级服务，内外网均可访问。支持的包不太多。
-- [360 前端静态资源库](https://cdn.baomitu.com) **不支持外网。**`支持 SRI！`由奇舞团支持并维护的开源项目免费 CDN 服务，支持 HTTPS 和 HTTP/2，囊括上千个前端资源库和 Google 字体库。
-- [饿了么npm: https://npm.elemecdn.com](https://npm.elemecdn.com) 未公开。企业级服务，**不支持外网。**
-- [字节跳动静态资源公共库](https://cdn.bytedance.com) 同步 cdnjs 资源。缓存过期时间最长设置一年。**自 2022 年 3 月起，静态资源已不再更新**。
-- [bootcdn: https://www.bootcdn.cn](https://www.bootcdn.cn) 极兔云联合 Bootstrap 中文网共同支持并维护的前端开源项目免费 CDN 服务。**常出现不稳定的现象**
-- [jsdelivr: https://cdn.jsdelivr.net](https://www.jsdelivr.com) 支持 npm 包、github 仓库。**国内不稳定**
-- [cdnjs](https://cdnjs.com)[(github)](https://github.com/cdnjs/cdnjs) 上面许多 CDN 资源均是基于 cdnjs 同步的
-- [beecdn.com](https://www.beecdn.com/all.html) 基于 CDNJS.COM 的前端开源库文件快速浏览搜索平台
-- https://statically.io **国内不稳定**
-- https://www.sourcegcdn.com
+| 厂商                 | 网址                          | 说明  |
+|---------------------|------------------------—------|------|
+| Zstatic CDN         | https://www.zstatic.net       | 由又拍云赞助。`支持 SRI！` |
+| staticfile          | https://www.staticfile.org    | 七牛云提供 CDN，掘金提供技术支持，同步 [cdnjs](https://github.com/cdnjs/cdnjs) 服务资源。`支持 SRI！` |
+| 知乎npm             | https://unpkg.zhimg.com       | 未公开。`企业级服务`，内外网均可访问。支持的包不太多。 |
+| 360 前端静态资源库    | https://cdn.baomitu.com       | 不支持外网。`支持 SRI！`由奇舞团支持并维护的开源项目免费 CDN 服务，支持 HTTPS 和 HTTP/2，囊括上千个前端资源库和 Google 字体库。|
+| 饿了么npm           | https://npm.elemecdn.com      | 未公开。`企业级服务`，不支持外网。 |
+| 字节跳动静态资源公共库 | https://cdn.bytedance.com     | 同步 cdnjs 资源。缓存过期时间最长设置一年。`自 2022 年 3 月起，静态资源已不再更新。` |
+| bootcdn            | https://www.bootcdn.cn        | 极兔云联合 Bootstrap 中文网共同支持并维护的前端开源项目免费 CDN 服务。**出现过数次不稳定现象。** |
+| BeeCDN             | https://www.beecdn.com       | 基于 CDNJS.COM 的前端开源库文件快速浏览搜索平台。 |
+| cdnjs              | https://cdnjs.com             | CDNJS 官方。**境外服务，国内慢**，上面许多 CDN 资源均是基于 cdnjs 同步的。 |
+| jsdelivr           | https://cdn.jsdelivr.net     | 支持 npm 包、github 仓库。**境外厂商，国内不稳定**  |
+| statically.io      | https://statically.io        | **境外厂商，国内不稳定。** |
 
 `unpkg / gh / wp`:
 

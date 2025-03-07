@@ -58,7 +58,7 @@ fileContentReplace({
     if (!content.includes('h5-common.js')) {
       logger.log('Find File:', filepath);
       if (content.includes('</body>')) {
-        return content.replace(`</body>`, `</body><script src="https://lzw.me/x/lib/utils/h5-common.js?v=010"></script>`);
+        return content.replace(`</body>`, `</body><script src="https://lzw.me/x/lib/utils/h5-common.js?v=015"></script>`);
       } else {
         logger.log('Warning: 未发现 </body> 字符串', filepath);
       }
