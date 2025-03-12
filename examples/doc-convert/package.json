@@ -1,0 +1,17 @@
+{
+  "name": "doc-convert",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx main.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aspose/words": "^25.3.0",
+    "commander": "^13.1.0"
+  }
+}
