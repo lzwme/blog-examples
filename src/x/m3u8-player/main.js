@@ -120,10 +120,12 @@ h5CommInit();
         // player.onload = () => window.URL.revokeObjectURL(url);
       });
 
+      const dropzone = document.querySelector('.am-container');
+
       dropzone.addEventListener("dragover", function(event) {
         event.preventDefault();
       }, false);
-      document.body.querySelector('.am-container').addEventListener(
+      dropzone.addEventListener(
         'drop',
         e => {
           e.preventDefault();
