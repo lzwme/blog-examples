@@ -4,6 +4,13 @@ h5CommInit();
   const urlParams = h5Utils.getUrlParams();
   const uri = urlParams.url;
 
+  if (uri.startsWith('http:') && location.origin.startsWith('https://lzw.me')) {
+    document.querySelector('a.am-topbar-logo').href = location.href.replace('https:', 'http:');
+    if (!uri.startsWith('http://localhost')) {
+      h5Utils.alert('由于浏览器安全限制，您访问的 https 页面下无法播放 http 协议的资源，请手动修改访问 URL 改为 http:// 格式并重新访问');
+    }
+  }
+
   window.WEBTORRENT_ANNOUNCE = [
     // https://github.com/ngosang/trackerslist/
     // https://cdn.jsdelivr.net/gh/ngosang/trackerslist@master/trackers_all_ws.txt
@@ -120,10 +127,12 @@ h5CommInit();
         // player.onload = () => window.URL.revokeObjectURL(url);
       });
 
+      const dropzone = document.querySelector('.am-container');
+
       dropzone.addEventListener("dragover", function(event) {
         event.preventDefault();
       }, false);
-      document.body.querySelector('.am-container').addEventListener(
+      dropzone.addEventListener(
         'drop',
         e => {
           e.preventDefault();
