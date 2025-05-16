@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="full-screen" content="yes">
+  <meta name="browsermode" content="application">
+  <meta name="x5-fullscreen" content="true">
+  <meta name="x5-page-mode" content="app">
+
+  <meta property="og:image" content="favicon.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="favicon.png">
+  <link rel="shortcut icon" sizes="114x114" href="favicon.png">
+
+  <title>M3U8在线播放器 - 志文工作室</title>
+  <meta name="keywords" content="M3U8在线破解,M3U8在线播放,M3U8播放器,M3U8直播源在线播放,M3U8在线测试">
+  <meta name="description" content="M3U8在线播放器">
+  <meta name="referrer" content="never">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://lib.baomitu.com/dplayer/latest/DPlayer.min.css">
+  <style>
+    .tk-footer {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <!-- 顶部导航 -->
+  <nav class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow">
+    <div class="container mx-auto flex justify-between items-center py-3 px-4">
+      <a href="/" class="text-xl font-bold am-topbar-logo">M3U8 播放器</a>
+      <div class="space-x-4">
+        <a href="https://lzw.me/x/m3u8-downloader" target="_blank" rel="noopener" class="hover:underline">M3U8转MP4下载</a>
+        <a href="https://lzw.me/tools" target="_blank" rel="noopener" class="hover:underline">好玩</a>
+        <a href="https://tool.lzw.me" target="_blank" rel="noopener" class="hover:underline">工具箱</a>
+      </div>
+    </div>
+  </nav>
+  <main class="container mx-auto py-6 px-4 flex-1 w-full">
+    <!-- 输入卡片 -->
+    <div class="bg-white rounded-lg shadow p-4 mb-4" id="inputForm">
+      <form id="str-post" class="space-y-4">
+        <div class="flex flex-col md:flex-row gap-4">
+          <input type="text" name="url" placeholder="输入M3U8地址" autocomplete="off" id="urlInput"
+            class="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value="">
+          <button type="button" id="playBtn"
+            class="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
+            title="播放">
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6 4l12 6-12 6V4z" />
+            </svg>
+            播放
+          </button>
+          <button type="button" id="rotateBtn"
+            class="flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none"
+            title="旋转">
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M4 4v5h.582a7 7 0 1 1-2.09 4.243l1.414-1.414A5 5 0 1 0 6 9H4z" />
+            </svg>
+            旋转
+          </button>
+          <button type="button" id="downloadBtn"
+            class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 focus:outline-none"
+            title="下载">
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M3 16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1H3v1zm7-1V4a1 1 0 1 0-2 0v11H5l5 5 5-5h-4z" />
+            </svg>
+            下载
+          </button>
+        </div>
+        <textarea name="m3u8Content" id="m3u8Content" rows="3" id="m3u8Content"
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="或粘贴M3U8内容，基于该内容播放"></textarea>
+
+        <div class="flex flex-col md:flex-row">
+          <label class="flex text-lg items-center px-2 bg-blue-500 text-gray-100 rounded-" for="vedioSelect">选择本地文件播放</label>
+          <input
+          class="flex-1 border border-gray-300 px-3 py-2 focus:outline-none"
+           type="file" name="vedioSelect"
+            id="vedioSelect" title="选择本地文件播放">
+        </div>
+      </form>
+    </div>
+    <!-- 播放器卡片 -->
+    <div class="bg-white rounded-lg shadow mb-4 min-h-[300px] flex items-center justify-center">
+      <div id="dplayer" class="w-full"></div>
+    </div>
+    <!-- 历史记录与收藏夹卡片 -->
+    <div class="bg-gray-800 rounded-lg shadow p-4 mb-6 text-gray-100" id="history-fav-list">
+      <div class="flex border-b border-gray-700 mb-2">
+        <button id="tab-history" class="px-4 py-2 font-bold border-b-2 border-blue-400 text-blue-300 focus:outline-none">记录</button>
+        <button id="tab-fav" class="px-4 py-2 ml-2 font-bold border-b-2 border-transparent hover:text-blue-200 focus:outline-none">收藏夹</button>
+      </div>
+      <div id="history-list" class="space-y-2"></div>
+      <div id="fav-list" class="space-y-2 hidden"></div>
+      <div class="mt-4 flex justify-end space-x-2">
+        <button id="clear-history" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm">清空记录</button>
+      </div>
+    </div>
+    <!-- 说明卡片 -->
+    <div class="bg-white rounded-lg shadow p-6 mb-4" id="hls-desc">
+      <h2 class="text-xl font-bold mb-2">HLS/M3U8 说明</h2>
+      <p class="text-base mb-2">HLS（HTTP Live Streaming）是苹果提出的流媒体协议，M3U8 是其播放列表文件格式。支持加密、分片等特性，适合在线播放和直播。</p>
+
+      <p class="text-base mb-2">
+        M3U8 文件是一个记录索引的纯文本文件，打开它时播放软件并不是播放它，而是根据它的索引找到对应的音视频文件放在服务器上的网络地址进行在线播放。
+        视频网站可以根据用户的网络带宽情况，自动为客户端匹配一个合适的码率文件进行播放，从而保证视频的流畅度。
+      </p>
+      <p class="text-base mb-2"> M3U8 的设计初衷是为了播放音频文件，比如MP3，但是越来越多的软件现在用来播放视频文件列表，M3U8也可以指定在线流媒体音频源。很多播放器和软件都支持M3U8文件格式。
+      </p>
+      <p class="text-base mb-2">
+        M3U8 视频内容可以设置基于 AES 加密。本站播放器支持对常见加密方式的 M3U8 文件视频进行解密和播放。
+      </p>
+
+      <h2 class="text-xl font-bold mb-2">M3U8文件适用场景与加密</h2>
+      <p class="text-base mb-2">
+        HLS协议采用M3U8文件来告知客户端视频文件播放列表，客户端拿到M3U8文件以后就可以直接播放视频，为了避免源站的视频文件被非授权客户端访问，需要对HLS协议使用的TS视频文件做加密，对TS视频文件做了加密以后，还需要告知客户端解密方法，这里就可以通过配置M3U8标准加密改写功能，通过#EXT-X-KEY标签来告知客户端加密算法、密钥URI和鉴权key。
+      </p>
+
+      <div class="mb-2">
+        <div class="font-semibold p-2">嵌入网站：</div>
+        <pre
+          class="bg-gray-300 rounded p-2 text-sm overflow-x-auto">&lt;iframe src="https://lzw.me/x/m3u8-player/?url=https://****.com/****/index.m3u8"&gt;&lt;/iframe&gt;</pre>
+      </div>
+
+      <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1">
+        <li>支持常见加密方式的 M3U8 文件视频解密和播放</li>
+        <li>当前页面仅提供在线播放服务。如需下载视频，请使用 <a href="https://lzw.me/x/m3u8-downloader" target="_blank" rel="noopener"
+            class="text-blue-600 underline">M3U8视频在线下载工具</a></li>
+        <li>参考：<a href="https://help.aliyun.com/document_detail/179287.html" target="_blank" rel="noopener"
+            class="text-blue-600 underline">配置M3U8标准加密改写</a></li>
+      </ul>
+    </div>
+
+    <div class="p-2" id="twikooComment"></div>
+
+  </main>
+  <footer class="bg-gray-100 text-center py-4 text-sm text-gray-500">
+    资源来源于网络，如有侵权，请联系本人予以删除！<br>
+    <a href="https://lzw.me" target="_blank" rel="noopener" class="underline">Copyright © 志文工作室; 2008-<span
+        id="currentYear">2023</span>, All Rights Reserved.</a>
+  </footer>
+
+  <!-- <script src="https://unpkg.zhimg.com/jquery/dist/jquery.min.js"></script> -->
+  <script crossorigin="anonymous"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    src="https://lib.baomitu.com/jquery/3.6.3/jquery.min.js"></script>
+  <script crossorigin="anonymous" integrity="sha384-Kbu/V+OSM4tlnynmLUxMcmL8DX4RoR7BMhcyRgjyK6P4J/fei35Lz/k0VQBn44H/"
+    src="https://lib.baomitu.com/amazeui/latest/js/amazeui.min.js"></script>
+
+  <script crossorigin="anonymous" src="https://lib.baomitu.com/flv.js/latest/flv.min.js"></script>
+  <script crossorigin="anonymous"
+    integrity="sha512-yi//c0pOEPlBEqUMgK7Ia1VXQT9TwuMHJIRU+T2lyV7YxsMhbF35N/DGYkCFWfC9ebjdupP4xadFyFVTz/sgEg=="
+    src="https://lib.baomitu.com/hls.js/1.3.0/hls.min.js"></script>
+  <script crossorigin="anonymous" src="https://lib.baomitu.com/webtorrent/latest/webtorrent.min.js"></script>
+  <script crossorigin="anonymous" src="https://lib.baomitu.com/dplayer/latest/DPlayer.min.js"></script>
+  <script src="https://lzw.me/x/lib/utils/h5-common.js?v=018"></script>
+  <script src="main.js?v=0.1.1"></script>
+</body>
+
+</html>
