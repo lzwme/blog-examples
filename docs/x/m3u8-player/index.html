@@ -77,7 +77,7 @@
         </div>
         <textarea name="m3u8Content" id="m3u8Content" rows="3" id="m3u8Content"
           class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="或粘贴M3U8内容，基于该内容播放"></textarea>
+          placeholder="1. 支持粘贴M3U8内容，基于该内容播放&#10;2. 支持批量剧集，一行一个，格式：URL|标题 或 标题$URL"></textarea>
 
         <div class="flex flex-col md:flex-row">
           <label class="flex text-lg items-center px-2 bg-blue-500 text-gray-100 rounded-" for="vedioSelect">选择本地文件播放</label>
@@ -89,8 +89,9 @@
       </form>
     </div>
     <!-- 播放器卡片 -->
-    <div class="bg-white rounded-lg shadow mb-4 min-h-[300px] flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow mb-4 min-h-[300px] flex flex-col items-center justify-center">
       <div id="dplayer" class="w-full"></div>
+      <div id="playList" class="w-full p-2 hidden flex flex-row flex-wrap"></div>
     </div>
     <!-- 历史记录与收藏夹卡片 -->
     <div class="bg-gray-800 rounded-lg shadow p-4 mb-6 text-gray-100" id="history-fav-list">
@@ -152,9 +153,6 @@
   <script crossorigin="anonymous"
     integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
     src="https://lib.baomitu.com/jquery/3.6.3/jquery.min.js"></script>
-  <script crossorigin="anonymous" integrity="sha384-Kbu/V+OSM4tlnynmLUxMcmL8DX4RoR7BMhcyRgjyK6P4J/fei35Lz/k0VQBn44H/"
-    src="https://lib.baomitu.com/amazeui/latest/js/amazeui.min.js"></script>
-
   <script crossorigin="anonymous" src="https://lib.baomitu.com/flv.js/latest/flv.min.js"></script>
   <script crossorigin="anonymous"
     integrity="sha512-yi//c0pOEPlBEqUMgK7Ia1VXQT9TwuMHJIRU+T2lyV7YxsMhbF35N/DGYkCFWfC9ebjdupP4xadFyFVTz/sgEg=="

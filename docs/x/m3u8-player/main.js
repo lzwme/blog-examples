@@ -1,7 +1,7 @@
 (function () {
   h5CommInit();
   const urlParams = h5Utils.getUrlParams();
-  const uri = urlParams.url;
+  const uri = decodeURIComponent(urlParams.url || '');
 
   if (uri && uri.startsWith('http:') && location.origin.startsWith('https://lzw.me')) {
     if (!uri.startsWith('http://localhost')) {
@@ -26,6 +26,9 @@
       flvPlayer: null,
       wtClient: null,
     },
+    data: {
+      playList: getFromStorage('playlist') || [],
+    },
     el: {
       urlInput: $('#urlInput'),
       m3u8Content: $('#m3u8Content'),
@@ -36,12 +39,16 @@
       inputForm: $('#inputForm'),
       dplayer: $('#dplayer'),
       historyFavList: $('#history-fav-list'),
+      playList: document.querySelector('#playList'),
     },
     init() {
       MP.el.urlInput.attr('placeholder', MP.defaultUrl);
       MP.renderList('history');
       MP.renderList('fav');
       MP.initEvent();
+      if ((MP.data.playList.length && !uri) || MP.data.playList.find(d => d.url === uri)) {
+        MP.renderPlayList();
+      }
 
       if (uri) {
         MP.el.urlInput.val(uri);
@@ -65,16 +72,52 @@
             $('html,body').animate({ scrollTop: MP.el.dplayer.offset().top - 20 }, 200);
           }, 3000);
         }
-      } else if (urlParams.autoplay) MP.play(MP.defaultUrl);
+      } else if (!MP.data.playList.length && urlParams.autoplay) MP.play(MP.defaultUrl);
     },
 
     initEvent() {
-      MP.el.playBtn.on('click', function (ev) {
-        MP.play();
+      MP.el.playBtn.on('click', ev => {
+        let url = MP.el.urlInput.val() || MP.defaultUrl;
+        let m3u8Str = MP.el.m3u8Content.val();
+        let type = '';
+
+        if (m3u8Str) {
+          if (m3u8Str.includes('.ts')) {
+            const m = /EXT-X-KEY: *METHOD=AES-\d+,URI=['"]*\//.exec(m3u8Str);
+            if (m) {
+              if (url.startsWith('http')) {
+                m3u8Str = m3u8Str.replace(m[0], `EXT-X-KEY:METHOD=AES-128,URI="${new URL(url).origin}/`);
+              } else {
+                return h5Utils.alert('您输入的 M3U8 内容为加密资源，若播放失败，请同时输入来源页面 URL 地址尝试获取解密信息');
+              }
+            }
+
+            type = 'customHls';
+            url = URL.createObjectURL(new Blob([m3u8Str], { type: 'text/plain;charset=utf-8' }));
+          } else if (m3u8Str.includes('.m3u8')) {
+            // 支持内容为 m3u8 剧集列表
+            const list = m3u8Str
+              .split('\n')
+              .filter(d => d.includes('.m3u8'))
+              .map((d, i) => {
+                const [url, name = `第${i + 1}集`] = d.split(/[$\s]+/);
+                if (name.startsWith('http')) [url, name] = [name, url];
+                return { url, name };
+              });
+
+            if (list.length) {
+              this.data.playList = list;
+              saveToStorage('playlist', list);
+              this.renderPlayList();
+              url = list[0].url;
+            }
+          }
+        }
+        MP.play(url, type);
       });
 
       let vedioRotate = 0;
-      MP.el.rotateBtn.on('click', function (ev) {
+      MP.el.rotateBtn.on('click', ev => {
         ev.preventDefault();
         vedioRotate += 90;
         if (vedioRotate === 360) vedioRotate = 0;
@@ -143,7 +186,7 @@
         document.getElementById('history-list').classList.add('hidden');
       };
       // 复制、收藏、删除、清空
-      MP.el.historyFavList[0].addEventListener('click', function (e) {
+      document.addEventListener('click', function (e) {
         if (e.target.classList.contains('copy-btn')) {
           h5Utils.copy(e.target.dataset.url).then(d => console.log(d));
           e.target.textContent = '已复制';
@@ -173,7 +216,24 @@
           MP.el.playBtn.click();
         }
       });
-    }, // 渲染列表
+    },
+    renderPlayList(list) {
+      if (!list) list = this.data.playList;
+      const container = MP.el.playList;
+      if (!list?.length) return container.classList.add('hidden');
+
+      container.classList.remove('hidden');
+
+      let html = [];
+
+      list.forEach((item, idx) => {
+        html.push(
+          `<button class="play-btn text-xs text-gray-100 p-1 m-1 bg-blue-600 hover:bg-blue-700 rounded" data-idx="${idx}" data-url="${item.url}">${item.name}</button>`
+        );
+      });
+      container.innerHTML = html.join('');
+    },
+    // 渲染列表
     renderList(type) {
       const list = getFromStorage(type === 'history' ? 'm3u8_history' : 'm3u8_fav');
       const container = document.getElementById(type === 'history' ? 'history-list' : 'fav-list');
@@ -214,29 +274,8 @@
     },
     // see https://dplayer.diygod.dev/zh/guide.html
     play(url, type) {
-      if (url) {
-        url = decodeURIComponent(url);
-      } else {
-        url = MP.el.urlInput.val() || MP.defaultUrl;
-        let m3u8Str = MP.el.m3u8Content.val();
-
-        if (m3u8Str) {
-          const m = /EXT-X-KEY: *METHOD=AES-\d+,URI=['"]*\//.exec(m3u8Str);
-          if (m) {
-            if (url.startsWith('http')) {
-              m3u8Str = m3u8Str.replace(m[0], `EXT-X-KEY:METHOD=AES-128,URI="${new URL(url).origin}/`);
-            } else {
-              return h5Utils.alert('您输入的 M3U8 内容为加密资源，若播放失败，请同时输入来源页面 URL 地址尝试获取解密信息');
-            }
-          }
-
-          url = URL.createObjectURL(new Blob([m3u8Str], { type: 'text/plain;charset=utf-8' }));
-
-          if (m3u8Str.includes('.ts')) type = 'hls';
-        }
-      }
-
-      if (!url) return h5Utils.alert('请输入 m3u8 的 URL 或者内容');
+      if (url) url = decodeURIComponent(url);
+      else return h5Utils.alert('请输入 m3u8 的 URL 或者内容');
       $('html,body').animate({ scrollTop: MP.el.dplayer.offset().top - 20 }, 200);
 
       if (!type) {
@@ -250,7 +289,30 @@
         else type = 'auto';
       }
 
-      if (!url.startsWith('blob:')) MP.addHistory(url);
+      if (!url.startsWith('blob:')) {
+        MP.addHistory(url);
+        // 设置为 url 参数
+        if (url !== uri) {
+          const params = new URLSearchParams(location.search);
+          params.set('url', encodeURIComponent(url));
+          history.replaceState({}, '', location.pathname + '?' + params.toString());
+        }
+
+        if (MP.data.playList.length) {
+          const idx = MP.data.playList.findIndex(i => i.url === url);
+          if (idx > -1) {
+            MP.el.playList.querySelectorAll(`button`).forEach((el, i) => {
+              if (i === idx) {
+                el.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                el.classList.add('bg-green-500', 'hover:bg-green-600');
+              } else if (el.classList.contains('bg-green-500')) {
+                el.classList.remove('bg-green-500', 'hover:bg-green-600');
+                el.classList.add('bg-blue-600','hover:bg-blue-700');
+              }
+            });
+          }
+        }
+      }
 
       if (MP.inc.dp) MP.inc.dp.destroy();
       MP.el.dplayer.show();
@@ -341,43 +403,7 @@
                   },
                 },
               });
-              MP.inc.wtClient.add(video.src, {
-
-                  // @see https://github.com/webtorrent/bittorrent-tracker#client
-                  announce: [
-                    // https://github.com/ngosang/trackerslist/
-                    // https://cdn.jsdelivr.net/gh/ngosang/trackerslist@master/trackers_all_ws.txt
-                    'udp://tracker.coppersurfer.tk:6969',
-                    'udp://tracker.empire-js.us:1337',
-                    'udp://tracker.leechers-paradise.org:6969',
-                    'udp://tracker.opentrackr.org:1337',
-                    'udp://explodie.org:6969',
-                    'wss://tracker.btorrent.xyz:443',
-                    'wss://tracker.webtorrent.dev:443',
-                    'wss://tracker.ghostchu-services.top:443/announce',
-                    'wss://tracker.files.fm:7073/announce',
-                    'wss://tracker.webtorrent.io',
-                    'wss://tracker.openwebtorrent.com',
-                    'wss://tracker.fastcast.nz',
-                    'ws://tracker.ghostchu-services.top:80/announce',
-                    'ws://tracker.files.fm:7072/announce',
-                    'https://tr.zukizuki.org:443/announce',
-                    'https://tracker.yemekyedim.com:443/announce',
-                    'https://tracker.moeblog.cn:443/announce',
-                    'https://tracker.bt4g.com:443/announce',
-                    'https://tracker.zhuqiy.top:443/announce',
-                    'https://tracker.leechshield.link:443/announce',
-                    'https://tracker.itscraftsoftware.my.id:443/announce',
-                    'https://tracker.ghostchu-services.top:443/announce',
-                    'https://tracker.gcrenwp.top:443/announce',
-                    'https://tracker.expli.top:443/announce',
-                    'https://tr.zukizuki.org:443/announce',
-                    'https://tr.nyacat.pw:443/announce',
-                    'https://sparkle.ghostchu-services.top:443/announce',
-                  ],
-                  urlList: [],
-                  maxWebConns: 6,
-              }, torrent => {
+              MP.inc.wtClient.add(video.src, torrent => {
                 console.log('Torrent name:', torrent.name, torrent.files);
                 const file = torrent.files.find(file => file.name.endsWith('.mp4'));
                 file.renderTo(video, { autoplay: player.options.autoplay }, () => player.container.classList.remove('dplayer-loading'));
@@ -411,6 +437,19 @@
       MP.inc.dp.on('error', e => {
         if (e && e.message) h5Utils.alert(`播放失败：${e.message || '请检查 URL 是否正确'}`, { icon: 'error' });
       });
+
+      // 当播放完毕时，查找 playlist 中下一个视频播放
+      MP.inc.dp.on('ended', () => {
+        console.log('播放完毕', url);
+
+        if (MP.data.playList.length) {
+          const idx = MP.data.playList.findIndex(i => i.url === url);
+          if (idx > -1) {
+            const item = MP.data.playList[idx + 1];
+            if (item) MP.play(item.url, item.type);
+          }
+        }
+      })
     },
     formatTime(ts) {
       const d = new Date(ts);
