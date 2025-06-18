@@ -2,16 +2,16 @@
  * @Author: renxia
  * @Date: 2023-04-06 13:25:28
  * @LastEditors: renxia
- * @LastEditTime: 2024-09-18 17:21:31
+ * @LastEditTime: 2025-06-17 15:00:29
  * @Description:
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import parser from 'yargs-parser';
 import { gitCommit, logger } from './utils.js';
 import { siteUrlVerify } from './siteUrlVerify.js';
 import { config, initConfig, saveConfig, type SiteInfo } from './config.js';
 import { dateFormat } from '@lzwme/fe-utils';
+import { program } from 'commander';
 
 function formatSiteList() {
   const list = Object.entries(config.siteInfo)
@@ -63,8 +63,7 @@ async function updateReadme() {
   return list.length;
 }
 
-export async function start() {
-  const argv = parser(process.argv.slice(2));
+export async function start(argv) {
   logger.debug('argv', argv);
   initConfig(argv);
 
@@ -79,7 +78,18 @@ export async function start() {
   return total;
 }
 
-start().then(total => {
-  logger.info(`done! Total: ${total} / ${Object.keys(config.siteInfo).length}`);
-  process.nextTick(() => process.exit());
-});
+program
+  .description('github proxy sites 有效性检测')
+  .option('--debug', '调试模式')
+  .option(`--url`, '检测 url 有效性')
+  .option(`--ci`, '模拟 CI 环境')
+  .option(`--commit`, '执行结束后是否自动执行 git commit 提交变更')
+  .action(opts => {
+    if (opts.debug) logger.updateOptions({ levelType: 'debug' });
+
+    start(opts).then(total => {
+      logger.info(`done! Total: ${total} / ${Object.keys(config.siteInfo).length}`);
+      process.nextTick(() => process.exit());
+    });
+  })
+  .parse();

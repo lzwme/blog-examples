@@ -359,6 +359,7 @@ $(async function () {
         if (typeof d[1] === 'string') currentInfo[d[0]] = d[1].replace(/^http:/, 'https:');
       });
 
+      document.title = `${currentInfo.name} (${currentInfo.artistsname}) - 网易云音乐热评墙 - 志文工作室`;
       $('#title').html(currentInfo.name + '(' + currentInfo.artistsname + ')');
       el.mp3.attr('src', currentInfo.url);
       el.mp3.attr('controls', 'controls');
