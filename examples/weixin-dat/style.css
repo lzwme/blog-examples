@@ -60,29 +60,7 @@ p {
   margin-top: 80px;
 }
 
-/* upload input */
-.fileinput-button {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-.fileinput-button span {
-  font-size: 24px;
-}
-
-.fileinput-button input {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  opacity: 0;
-  font-size: 200px !important;
-  direction: ltr;
-  cursor: pointer;
-}
+/* preview */
 
 .preview {
   position: fixed;
@@ -174,8 +152,72 @@ p {
   cursor: pointer;
   line-height: 30px;
   font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .preview-close:hover {
   border: 1px #39f solid;
+  background: #39f;
+  color: #fff;
+}
+
+/* 文件选择大区块样式 */
+.file-drop-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 180px;
+  border: 2px dashed #0d6efd;
+  border-radius: 16px;
+  background: #f8fbff;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.file-drop-area:hover,
+.file-drop-area.dragover {
+  border-color: #198754;
+  background: #e6f7ff;
+}
+
+.fileinput-area-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.file-drop-area input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.fileinput-btn-span {
+  margin-top: 8px;
+  color: #333;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .file-drop-area {
+    min-height: 120px;
+    font-size: 0.95em;
+  }
+
+  .fileinput-area-content i {
+    font-size: 2em !important;
+  }
 }

@@ -30,7 +30,7 @@
     integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
     href="https://lib.baomitu.com/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://lzw.me/x/lib/utils/theme-bs.css?v=011">
-  <link rel="stylesheet" href="style.css?v=002">
+  <link rel="stylesheet" href="style.css?v=003">
 </head>
 
 <body class="landing-page">
@@ -85,11 +85,15 @@
             <div class="Instructions main">
               <div class="mb-3 row">
                 <div id="convert-button-container">
-                  <span class="btn btn-primary fileinput-button">
-                    <i class="fa-solid fa-plus"></i>
-                    <span class="fileinput-btn-span">选择 .dat 格式文件 (支持多选、拖动文件夹到此处)</span>
+                  <label class="file-drop-area fileinput-button">
+                    <div class="fileinput-area-content">
+                      <i class="fa-solid fa-cloud-arrow-up fa-3x" style="color:#0d6efd;"></i>
+                      <div class="fileinput-btn-span"
+                        style="font-size:1.2em;margin-top:10px;">点击或拖拽 .dat 文件到此区域<br><span
+                        style="font-size:0.9em;color:#888;">(支持多选、拖动文件夹)</span></div>
+                    </div>
                     <input id="datfiles" type="file" name="datfiles" accept=".dat" multiple>
-                  </span>
+                  </label>
                 </div>
               </div>
 
@@ -174,7 +178,7 @@
     src="https://lib.baomitu.com/twitter-bootstrap/5.2.3/js/bootstrap.min.js"></script>
   <script src="https://lzw.me/x/lib/utils/h5-common.js?v=018"></script>
 
-  <script type="module" src="dist/web.main.js?v=002"></script>
+  <script type="module" src="dist/web.main.js?v=003"></script>
 </body>
 
 </html>

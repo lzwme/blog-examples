@@ -178,6 +178,23 @@ async function scanFiles(entry: FileSystemEntry) {
 function init() {
   preview.initEvents();
 
+  // 文件选择区块拖拽高亮
+  const fileDropArea = document.querySelector('.file-drop-area');
+  if (fileDropArea && el.input) {
+    ['dragenter', 'dragover'].forEach(evt => {
+      fileDropArea.addEventListener(evt, e => {
+        e.preventDefault();
+        fileDropArea.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+      fileDropArea.addEventListener(evt, e => {
+        e.preventDefault();
+        fileDropArea.classList.remove('dragover');
+      });
+    });
+  }
+
   el.btn.addEventListener('click', async () => {
     const files = [...el.input!.files!].map(file => ({ file, fullPath: '' }));
     handlerFileList(files);
