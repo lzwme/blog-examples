@@ -72,7 +72,8 @@ switch ($type) {
     case 'search':
         $keyword = tryGetReqParam(array('q', 's', 'keyword'), '');
         $offset = tryGetReqParam('offset', 0);
-        music_search($keyword, $offset);
+        $limit = tryGetReqParam('limit', 5);
+        $result = music_search($keyword, $offset, $limit);
         break;
     case 'all':
         $result = array(

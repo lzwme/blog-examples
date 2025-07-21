@@ -102,6 +102,7 @@ $(async function () {
       h5CommInit();
       storage.init();
       this.initEvets();
+      this.initSearch();
 
       const urlParams = h5Utils.getUrlParams();
       const pid = +(urlParams.pid || urlParams.ca) || storage.data.pInfo.id || 3778678;
@@ -238,9 +239,9 @@ $(async function () {
         }
       });
 
-      $(document).on('keydown', (ev) => {
+      $(document).on('keydown', ev => {
         console.log(ev.key, ev.code);
-        switch(ev.key) {
+        switch (ev.key) {
           case 'ArrowDown':
             el.nextComment.click();
             break;
@@ -267,6 +268,87 @@ $(async function () {
             }
             break;
         }
+      });
+    },
+    initSearch() {
+      // 搜索弹窗功能
+      const searchBtn = document.getElementById('searchBtn');
+      const searchModal = document.getElementById('searchModal');
+      const searchInput = document.getElementById('searchInput');
+      const searchResultList = document.getElementById('searchResultList');
+      const closeSearchModal = document.getElementById('closeSearchModal');
+
+      function showSearchModal() {
+        searchModal.classList.remove('hidden');
+        setTimeout(() => searchInput.focus(), 100);
+        searchInput.value = '';
+        searchResultList.innerHTML = '';
+      }
+      function hideSearchModal() {
+        searchModal.classList.add('hidden');
+        searchInput.value = '';
+        searchResultList.innerHTML = '';
+      }
+      searchBtn.addEventListener('click', showSearchModal);
+      closeSearchModal.addEventListener('click', hideSearchModal);
+      searchModal.addEventListener('click', e => {
+        if (e.target === searchModal) hideSearchModal();
+      });
+
+      // ctrl+k 快捷键唤起搜索
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          if (searchModal.classList.contains('hidden')) showSearchModal();
+        }
+      });
+
+      // 搜索逻辑
+      let searchTimer = null;
+      searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimer);
+        const q = searchInput.value.trim();
+        if (!q) {
+          searchResultList.innerHTML = '';
+          return;
+        }
+        searchTimer = setTimeout(() => {
+          searchResultList.innerHTML = '<li class="text-gray-400 px-2 py-2">搜索中...</li>';
+          fetch(`/x/iapi/163music/api.php?type=search&q=${encodeURIComponent(q)}`)
+            .then(r => r.json())
+            .then(data => {
+              if (!data.data || !data.data.length) {
+                searchResultList.innerHTML = '<li class="text-gray-400 px-2 py-2">未找到相关歌曲</li>';
+                return;
+              }
+              searchResultList.innerHTML = data.data
+                .map(song => {
+                  return `<li class="flex items-center px-2 py-2 cursor-pointer hover:bg-gray-800 border-b-solid border-indigo-600" data-id="${song.id || song.songid}">
+            <img src="${song.cover || ''}" alt="" class="w-8 h-8 rounded mr-2" rel="noreferrer" onerror="this.style.display='none'" />
+            <div class="flex-1">
+              <div class="font-semibold">${song.name}</div>
+              <div class="text-xs text-gray-500">${song.artist || ''}</div>
+            </div>
+          </li>`;
+                })
+                .join('');
+            });
+        }, 400);
+      });
+
+      // 点击播放
+      searchResultList.addEventListener('click', (e) => {
+        let li = e.target;
+        while (li && li.tagName !== 'LI') li = li.parentElement;
+        if (li && li.dataset.id) {
+          this.playMp3(li.dataset.id);
+          hideSearchModal();
+        }
+      });
+
+      // esc 关闭
+      document.addEventListener('keydown', (e) => {
+        if (!searchModal.classList.contains('hidden') && e.key === 'Escape') hideSearchModal();
       });
     },
 
@@ -309,6 +391,8 @@ $(async function () {
     },
 
     async playMp3(id) {
+      if (!id) return false;
+
       let info = cache.data.get(id);
 
       if (!info) {
@@ -416,6 +500,7 @@ $(async function () {
     // 播放歌曲的函数
     updateLyric(time) {
       if (!cache.currentInfo || !cache.currentInfo.lrc) return;
+      if (!cache.currentInfo.lrc.list) return this.getLrc();
 
       const currentTime = time; // 获取当前歌曲播放时间
       let currentLyricIndex = -1;

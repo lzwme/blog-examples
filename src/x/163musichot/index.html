@@ -25,6 +25,9 @@
     <meta name="description" content="网易云热评墙，热评音乐在线随心听! " />
     <meta name="keywords" content="云音乐,网易云音乐评论" />
     <link rel="stylesheet" href="style.css?v=007" />
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+    integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script crossorigin="anonymous" src="https://npm.elemecdn.com/jquery/dist/jquery.min.js"></script>
 </head>
 
@@ -44,14 +47,15 @@
                     <div id="nextComment">下一条(↓)</div>
                 </div>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="javascript:;" id="bfBtn">播放(p)</a></li>
-                    <li><a href="javascript:;" id="nextTone">下一首(n)</a></li>
-                    <li><a href="javascript:;" id="lrcBtn">看歌词(L)</a></li>
-                    <li><a href="javascript:;" id="hotBtn">热歌榜(h)</a></li>
-                </ul>
-            </nav>
+    <nav>
+        <ul>
+            <li><a class="flex-center" href="javascript:;" id="bfBtn">播放(p)</a></li>
+            <li><a class="flex-center" href="javascript:;" id="nextTone">下一首(n)</a></li>
+            <li><a class="flex-center" href="javascript:;" id="lrcBtn">看歌词(L)</a></li>
+            <li><a class="flex-center" href="javascript:;" id="hotBtn">热歌榜(h)</a></li>
+            <li><a class="flex-center" href="javascript:;" id="searchBtn">搜索</a></li>
+        </ul>
+    </nav>
         </header>
         <section style="margin: 10px auto;">
             <audio src="" id="mp3" autoplay>
@@ -68,9 +72,23 @@
         </footer>
         <!--底部-->
     </div>
-    <div id="bg"></div>
-    <div id="playlistContain"></div>
+<div id="bg"></div>
+<div id="playlistContain"></div>
+
+<!-- 搜索弹窗 -->
+<div id="searchModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-80 text-black-500 flex flex-col items-center">
+  <div class="w-full flex flex-col items-center mt-24">
+    <div class="w-full max-w-xl p-6 bg-blue-800 rounded-lg shadow-lg flex flex-col">
+      <input id="searchInput" type="text" placeholder="[CTRL+K]输入歌曲名或歌手..." class="mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400" autofocus />
+      <ul id="searchResultList" class="overflow-y-auto max-h-96 divide-y bg-black rounded-lg divide-gray-500"></ul>
+      <button id="closeSearchModal" class="mt-4 px-4 py-2 bg-blue-500 text-black-800 rounded hover:bg-gray-300">关闭</button>
+    </div>
+  </div>
+</div>
 </body>
+
 <script src="https://lzw.me/x/lib/utils/h5-common.js?v=018"></script>
-<script src="main.js?v=007"></script>
+<script src="main.js"></script>
+<script>
+</script>
 </html>

@@ -190,11 +190,75 @@ function get_mv_detail($id, $toJson = false)
     return $toJson ? json_decode($rel, true) : $rel;
 }
 
-function music_search($keyword, $offset = 0, $toJson = false)
+function music_search($keyword, $offset = 0, $limit=5, $toJson = false, $from = '90svip')
 {
-    $url = "https://music.163.com/api/search/get/web?csrf_token=hlpretag=&hlposttag=&s={$keyword}&type=1&offset={$offset}&total=true&limit=2";
-    $rel = file_get_contents($url);
-    return $toJson ? json_decode($rel, true) : $rel;
+    if ((int)$limit > 10) {
+        $limit = 10;
+    }
+
+    $result = ['code' => 200, 'data' => [], 'msg' => ''];
+
+    switch($from) {
+        case '90svip':
+            $postData = http_build_query([
+                'input' => $keyword,
+                'filter' => 'name',
+                'type' => 'netease',
+                'page' => 1
+            ]);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://music.90svip.cn/');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'content-type: application/x-www-form-urlencoded; charset=UTF-8',
+                'x-requested-with: XMLHttpRequest',
+                'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0',
+            ]);
+            curl_setopt_array($ch, [
+                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_0,
+                CURLOPT_CONNECTTIMEOUT => 10, /* 在发起连接前等待的时间，如果设置为0，则无限等待 */
+                CURLOPT_TIMEOUT        => 7, /* 设置cURL允许执行的最长秒数 */
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => 1,
+                CURLOPT_MAXREDIRS      => 2, // 指定最多的HTTP重定向的数量，这个选项是和CURLOPT_FOLLOWLOCATION一起使用的
+                CURLINFO_HEADER_OUT    => true, // 发送给服务器的请求头，通过 curl_getinfo 返回信息可获取
+            ]);
+            $rel = curl_exec($ch);
+            curl_close($ch);
+
+            $rel = json_decode($rel, true);
+
+            if ($rel['data']) {
+              array_walk($rel['data'], function (&$item) {
+                $item['cover'] = 'https://music.90svip.cn/' . $item['cover'];
+              });
+              $result['data'] = $rel['data'];
+            }
+
+            return $toJson ? json_decode($rel, true) : $rel;
+            break;
+      default:
+        $url = "https://music.163.com/api/search/get/web?csrf_token=hlpretag=&hlposttag=&s={$keyword}&type=1&offset={$offset}&total=true&limit={$limit}";
+        $rel = file_get_contents($url);
+        if ($rel) $rel = @json_decode($rel, true);
+        if ($rel['result'] && $rel['result']['songs']) {
+          foreach ($rel['result']['songs'] as $key => $item) {
+            $result['data'][] = [
+                'name' => $item['name'],
+                'songid' => $item['id'],
+                'artist' => $item['artists'][0]['name'],
+                'cover' => str_replace('http:', 'https:', $item['album']['artist']['img1v1Url']),
+                'duration' => $item['duration'],
+                'link' => 'https://music.163.com/#/song?id=' . $item['id'],
+            ];
+          }
+        }
+        break;
+      }
+
+      return $toJson ? $result : json_encode($result);
 }
 
 /** 获取热歌榜随机歌曲 */
