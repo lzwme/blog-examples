@@ -48,7 +48,7 @@ ss -a
   - [音频文件在线转换工具](https://lzw.me/x/audio-converter)
   - [电子木鱼网页版](https://lzw.me/x/dzmy)
   - [今天吃啥呀？](https://lzw.me/x/jtcs)
-  - [m3u8视频在线下载](https://lzw.me/x/m3u8-downloader)
+  - [m3u8视频在线下载](https://m3u8-downloader.lzw.me)
   - [M3U8在线播放器](https://lzw.me/x/m3u8-player)
   - [Mikutap（初音未来版）](https://lzw.me/x/mikutap)
   - [随机密码生成器](https://lzw.me/x/random-password)
