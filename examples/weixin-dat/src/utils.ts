@@ -65,7 +65,33 @@ export async function sha256(message: string | ArrayBuffer) {
   if (!crypto.subtle) {
     return '';
   }
-  if (typeof message === 'string') message = new TextEncoder().encode(message);
+  if (typeof message === 'string') message = new TextEncoder().encode(message).buffer as ArrayBuffer;
   const hash = await crypto.subtle.digest('SHA-256', message);
   return Array.prototype.map.call(new Uint8Array(hash), x => ('00' + x.toString(16)).slice(-2)).join('');
+}
+
+export interface ITask<T> {
+  (): T;
+}
+
+export function concurrency<T, E = T | Error>(taskList: ITask<Promise<T>>[], maxDegreeOfParalellism = 5) {
+  const total = taskList.length;
+  let idx = 0;
+  const resut: { index: number; result: T; error: E }[] = [];
+  const onFinish = (index: number, result: T, error?: E) => {
+    resut.push({ index, result, error: error as never });
+    return next();
+  };
+  const next = (): Promise<void> => {
+    if (idx >= total) return Promise.resolve();
+    const index = idx++;
+    return taskList[index]()
+      .then(r => onFinish(index, r))
+      .catch(error => onFinish(index, null as never as T, error));
+  };
+  const size = Math.max(1, Math.min(maxDegreeOfParalellism, total));
+  const queue: Promise<void>[] = [];
+  for (let i = 0; i < size; i++) queue.push(next());
+
+  return Promise.allSettled(queue).then(() => resut.sort((a, b) => a.index - b.index));
 }

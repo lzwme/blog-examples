@@ -1,4 +1,8 @@
 import { datConvert, formatByteSize, getExt, sha256 } from './utils.js';
+// lazy/dynamic import to avoid bundler/type issues in simple tsconfig
+async function getJSZipFromWindow() {
+  return h5Utils.loadJsOrCss('https://s4.zstatic.net/ajax/libs/jszip/3.10.1/jszip.min.js').then(() => (window as any).JSZip);
+}
 
 type FileItem = { file: File; fullPath: string; blobUrl?: string };
 
@@ -11,6 +15,7 @@ const el = {
   stats: document.querySelector('#stats')!,
   reset: document.querySelector('#reset')!,
   preview: document.getElementById('preview')!,
+  downloadAll: document.querySelector<HTMLButtonElement>('#downloadAll')!,
 };
 const filesMap = new Map<string, FileItem>();
 const preview = {
@@ -83,13 +88,13 @@ async function handlerFileList(files: FileItem[]) {
 
   for (const item of files) {
     const rext = getExt(item.file.name);
-    if (rext && ['db', '.ini'].includes(rext)) continue;
+    if (rext && ['db', 'ini'].includes(rext)) continue;
 
     const buffer = await item.file.arrayBuffer();
     const key = (await sha256(buffer)) || `${item.file.name}.${item.file.size}`;
     const oFile = filesMap.get(key);
     if (oFile) {
-      // console.log('文件已存在', item.file, item.fullPath);
+      console.log(`文件已存在: ${oFile.file.name} => ${item.fullPath}`);
       h5Utils.toast(`文件已存在: ${item.fullPath || item.file.name}`);
       // document.querySelector(`a.r-item[data-name="${file.name}"]`)?.remove();
       continue;
@@ -105,7 +110,7 @@ async function handlerFileList(files: FileItem[]) {
     const isVideo = ['mp4', 'mp3', 'avi', 'wav', 'rmvb'].includes(ext);
     const filename = item.file.name.replace(/\.dat$/, '') + (item.file.name.endsWith(ext) ? '' : `.${ext}`);
     const type = isImg ? `image/${ext}` : isVideo ? `video/${ext}` : '';
-    const oUrl = URL.createObjectURL(new Blob([converted.buffer], { type }));
+    const oUrl = URL.createObjectURL(new Blob([converted.buffer as any], { type }));
     let html = '';
 
     if (isImg) {
@@ -132,6 +137,8 @@ async function handlerFileList(files: FileItem[]) {
       ].join('')
     );
   }
+
+  updateDownloadAllButton();
 }
 
 function reset() {
@@ -139,6 +146,7 @@ function reset() {
   el.result.innerHTML = '';
   el.input.value = '';
   filesMap.clear();
+  updateDownloadAllButton();
 }
 
 async function scanFiles(entry: FileSystemEntry) {
@@ -175,6 +183,56 @@ async function scanFiles(entry: FileSystemEntry) {
   return files;
 }
 
+function updateDownloadAllButton() {
+  el.downloadAll.disabled = filesMap.size === 0;
+}
+
+async function downloadAllFiles() {
+  if (filesMap.size === 0) {
+    h5Utils.toast('没有可下载的文件');
+    return;
+  }
+
+  if (filesMap.size > 100) {
+    const msg = `当前文件数量较多(${filesMap.size}个)，确定全部压缩后下载？`;
+    const res = await h5Utils.alert(msg, { showConfirmButton: true, showCancelButton: true });
+    if (!res.isConfirmed) return;
+  }
+
+  h5Utils.toast(`开始打包并下载 ${filesMap.size} 个文件`);
+
+  const JSZipCtor = await getJSZipFromWindow();
+  if (!JSZipCtor) {
+    h5Utils.alert('JSZip 未加载，请检查网络或稍后刷新页面重试。');
+    return;
+  }
+  const zip = new JSZipCtor();
+  const entries = Array.from(filesMap.entries());
+
+  // Add files to zip — process in sequence to avoid high memory pressure
+  for (const [, item] of entries) {
+    try {
+      // If converted blob URL exists, fetch it as arrayBuffer; otherwise read from File
+      let data: ArrayBuffer;
+      if (item.blobUrl) {
+        const resp = await fetch(item.blobUrl);
+        data = await resp.arrayBuffer();
+      } else {
+        data = await item.file.arrayBuffer();
+      }
+
+      const filename = item.file.name.replace(/\.dat$/, '') + (item.file.name.endsWith(getExt(item.file.name) || '') ? '' : `.${getExt(item.file.name) || ''}`);
+      zip.file(filename, data);
+    } catch (err) {
+      console.error('添加到 zip 失败', item.file.name, err);
+    }
+  }
+
+  const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+  await h5Utils.saveAs(blob, `weixin_dat_${Date.now()}.zip`, true);
+  h5Utils.toast('下载完成');
+}
+
 function init() {
   preview.initEvents();
 
@@ -201,6 +259,7 @@ function init() {
   });
 
   el.reset!.addEventListener('click', () => reset(), false);
+  el.downloadAll!.addEventListener('click', () => downloadAllFiles(), false);
 
   el.result.addEventListener(
     'click',
