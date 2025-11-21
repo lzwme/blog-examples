@@ -4,7 +4,7 @@ async function getJSZipFromWindow() {
   return h5Utils.loadJsOrCss('https://s4.zstatic.net/ajax/libs/jszip/3.10.1/jszip.min.js').then(() => (window as any).JSZip);
 }
 
-type FileItem = { file: File; fullPath: string; blobUrl?: string };
+type FileItem = { file: File; fullPath: string; blobUrl?: string; ext?: string };
 
 // @ts-expect-error
 const h5Utils = window.h5Utils;
@@ -121,6 +121,7 @@ async function handlerFileList(files: FileItem[]) {
       html = `<span>${filename}</span>`;
     }
 
+    item.ext = ext;
     item.blobUrl = oUrl;
     filesMap.set(key, item);
     el.stats.innerHTML = [`总数：${filesMap.size}`].join('');
@@ -210,7 +211,8 @@ async function downloadAllFiles() {
   const entries = Array.from(filesMap.entries());
 
   // Add files to zip — process in sequence to avoid high memory pressure
-  for (const [, item] of entries) {
+  let count = 0;
+  for (const [_key, item] of entries) {
     try {
       // If converted blob URL exists, fetch it as arrayBuffer; otherwise read from File
       let data: ArrayBuffer;
@@ -221,10 +223,12 @@ async function downloadAllFiles() {
         data = await item.file.arrayBuffer();
       }
 
-      const filename = item.file.name.replace(/\.dat$/, '') + (item.file.name.endsWith(getExt(item.file.name) || '') ? '' : `.${getExt(item.file.name) || ''}`);
+      const filename = item.file.name.replace(/\.dat$/, '') + item.ext;
       zip.file(filename, data);
+      h5Utils.toast(`文件[${filename}]已压缩。已压缩 ${++count} / ${entries.length} 个文件`);
     } catch (err) {
       console.error('添加到 zip 失败', item.file.name, err);
+      h5Utils.toast(`文件[${item.file.name}]处理失败！${(err as Error).message}`, { icon: 'error' });
     }
   }
 
